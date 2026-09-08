@@ -4,8 +4,7 @@ const Admin = require('../models/Admin');
 // Verify JWT token
 const authenticate = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '') ||
-                  req.cookies?.token;
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return res.status(401).json({
