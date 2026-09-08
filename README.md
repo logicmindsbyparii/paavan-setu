@@ -269,17 +269,6 @@ node scripts/admin.js reset-password you@example.com <newPassword>
 The API refuses to start without `JWT_SECRET`. Without `MONGODB_URI` it still
 serves; the public site falls back to bundled content.
 
-## 📝 TODO
-
-- [ ] Media upload endpoint (`/api/upload` is referenced but not implemented)
-- [ ] Book cover upload from the admin panel (covers are currently file paths)
-- [ ] Sales analytics charts on the dashboard
-- [ ] Email notifications for orders
-- [ ] SEO meta tag management
-- [ ] Pagination controls in the admin lists (the API paginates; the UI shows page 1)
-- [ ] Search box for the admin book/order lists (the API supports `?search=`)
-
----
 
 ## 📄 License
 
