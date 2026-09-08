@@ -111,7 +111,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Paavan SETU"
-            className="h-24 sm:h-28 lg:h-16 xl:h-20 w-auto scale-110 lg:scale-100 object-contain transition-all duration-300"
+            className="h-14 sm:h-16 lg:h-16 xl:h-20 w-auto object-contain transition-all duration-300"
           />
         </Link>
 

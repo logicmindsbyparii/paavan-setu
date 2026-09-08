@@ -1246,7 +1246,7 @@ function Feedback() {
           </div>
 
           {/* Dot rail — shows the auto-cycle position and lets readers jump. */}
-          <div className="mt-8 flex justify-center gap-2.5">
+          <div className="mt-8 flex justify-center gap-1">
             {QUOTES.map((quote, i) => (
               <button
                 key={quote.name}
@@ -1254,10 +1254,14 @@ function Feedback() {
                 onClick={() => setIndex(i)}
                 aria-label={`Show experience from ${quote.name}`}
                 aria-pressed={i === index}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === index ? 'w-9 bg-[#e9c85c]' : 'w-2 bg-white/25 hover:bg-white/60'
-                }`}
-              />
+                className="group flex h-11 items-center px-1.5"
+              >
+                <span
+                  className={`block h-2 rounded-full transition-all duration-300 ${
+                    i === index ? 'w-9 bg-[#e9c85c]' : 'w-2 bg-white/25 group-hover:bg-white/60'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

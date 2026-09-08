@@ -344,7 +344,7 @@ const BentoTestCard = React.forwardRef(({ test, index, onStart, onPreview }, ref
             e.stopPropagation();
             onPreview(test);
           }}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 transition-colors hover:text-[#e8b86d]"
+          className="inline-flex items-center gap-1.5 py-2 -my-2 text-xs font-semibold text-white/60 transition-colors hover:text-[#e8b86d]"
         >
           <VisibilityIcon sx={{ fontSize: 16 }} className="text-[#e8b86d]" />
           Quick Preview

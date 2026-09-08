@@ -483,7 +483,10 @@ Please provide dates and official quotation.`;
               step="25"
               value={studentCount}
               onChange={(e) => setStudentCount(Number(e.target.value))}
-              className="w-full h-2 rounded-lg bg-white/20 appearance-none cursor-pointer accent-[#e8b86d]"
+              className="w-full h-2 rounded-lg bg-white/20 appearance-none cursor-pointer accent-[#e8b86d]
+                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6
+                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#e8b86d] [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer
+                [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#e8b86d] [&::-moz-range-thumb]:cursor-pointer"
             />
             <div className="flex justify-between text-[0.68rem] text-white/40 mt-1">
               <span>50</span>
@@ -980,11 +983,16 @@ export default function SchoolsWorkshops() {
                   <button
                     key={idx}
                     onClick={() => setTestimonialIndex(idx)}
-                    className={`h-2 rounded-full transition-all ${
-                      idx === testimonialIndex ? 'w-8 bg-[#0a5c2c]' : 'w-2 bg-gray-300'
-                    }`}
+                    className="group flex h-11 items-center px-1.5"
                     aria-label={`Go to testimonial ${idx + 1}`}
-                  />
+                    aria-pressed={idx === testimonialIndex}
+                  >
+                    <span
+                      className={`block h-2 rounded-full transition-all ${
+                        idx === testimonialIndex ? 'w-8 bg-[#0a5c2c]' : 'w-2 bg-gray-300'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
               <button

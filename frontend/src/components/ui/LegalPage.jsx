@@ -113,7 +113,7 @@ export default function LegalPage({ title, sections }) {
           <span className="h-px w-12" style={{ background: 'rgba(168,128,31,0.35)' }} />
           <Link
             to="/"
-            className="text-sm font-semibold no-underline transition-colors duration-300"
+            className="px-3 py-2 text-sm font-semibold no-underline transition-colors duration-300"
             style={{ color: brand.green }}
             onMouseEnter={(e) => { e.currentTarget.style.color = brand.blue; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = brand.green; }}

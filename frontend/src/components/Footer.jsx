@@ -131,7 +131,7 @@ export default function Footer() {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="group flex items-center gap-4 text-[1.05rem] transition-colors duration-300"
+                    className="group flex items-center gap-4 py-1.5 text-[1.05rem] transition-colors duration-300"
                     style={{ color: 'rgba(253,250,243,0.7)' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = brand.ivoryLit;
@@ -213,13 +213,13 @@ export default function Footer() {
             {get('footer.copyright')}
           </p>
           <nav className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3" aria-label="Legal">
-            <Link to="/privacy" className="text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
+            <Link to="/privacy" className="py-1 text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
               Privacy Policy
             </Link>
-            <Link to="/terms" className="text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
+            <Link to="/terms" className="py-1 text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
               Terms of Service
             </Link>
-            <Link to="/contact" className="text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
+            <Link to="/contact" className="py-1 text-[0.85rem] tracking-wide transition-colors duration-300 hover:text-white" style={{ color: 'rgba(253,250,243,0.5)' }}>
               Contact
             </Link>
           </nav>
