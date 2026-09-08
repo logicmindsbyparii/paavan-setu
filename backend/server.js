@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -113,6 +114,20 @@ rateLimitSweep.unref?.(); // Never hold the process open for this timer.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
   maxAge: '7d',
 }));
+
+// ─── Database Availability Guard ──────────────────────────────────────────────
+// When Atlas is unreachable, Mongoose queues every query and each one rejects
+// only after bufferTimeoutMS (~10s). That turns a dead database into dozens of
+// 10-second hangs. Short-circuit with a fast 503 instead — except /api/health,
+// which must stay reachable for Render's health check.
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health') return next();
+  if (mongoose.connection.readyState === 1) return next();
+  return res.status(503).json({
+    success: false,
+    message: 'Database temporarily unavailable. Please try again shortly.',
+  });
+});
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
 app.use('/api/contact', require('./routes/contact'));
