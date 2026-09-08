@@ -1,0 +1,277 @@
+/* Hallmark · macrostructure: system-wide · tone: editorial · anchor hue: green
+ * Paavan Setu — Unified Design System Tokens
+ */
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
+:root {
+  /* Brand Greens */
+  --color-green: #0a4f22;
+  --color-green-light: #c8e8d2;
+  --color-green-mid: #96cead;
+
+  /* Brand Blues */
+  --color-blue: #174a72;
+  --color-blue-light: #c4d9ec;
+  --color-blue-mid: #90b8d8;
+
+  /* Brand Ambers */
+  --color-amber: #b06e10;
+  --color-amber-light: #f5d9a0;
+  --color-amber-mid: #e8b86d;
+
+  /* WhatsApp */
+  --color-wa: #16a34a;
+  --color-wa-light: #bbf7d0;
+
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-snow: #eef6f0;
+  --color-cream: #f5ede0;
+  --color-parchment: #ece5d6;
+
+  /* Text */
+  --color-ink: #111d11;
+  --color-slate: #2d4a38;
+  --color-ash: #4d6357;
+
+  /* Surfaces */
+  --color-paper: var(--color-snow);
+  --color-card: var(--color-white);
+  --color-card-hover: #f8faf9;
+
+  /* Typography — DM Sans is the one sans the design system styles with
+     (theme.js, tokens.js, inline fontFamily values); Outfit used to be the
+     CSS default here while DM Sans was never loaded, so parts of the page
+     rendered in the browser's fallback sans. Aligned on DM Sans. */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-ui: 'DM Sans', system-ui, sans-serif;
+
+  /* Type Scale (rem) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-display: 4.5rem;
+
+  /* Spacing (4pt scale) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Border Radii */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-pill: 50px;
+
+  /* Easings */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  /* Durations */
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-slow: 400ms;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(17, 29, 17, 0.05);
+  --shadow-md: 0 4px 12px rgba(17, 29, 17, 0.08);
+  --shadow-lg: 0 8px 24px rgba(17, 29, 17, 0.1);
+  --shadow-xl: 0 16px 48px rgba(17, 29, 17, 0.12);
+}
+
+@layer base {
+  /* Enforce smooth scrolling globally - managed by Lenis now */
+  html {
+    overflow-x: clip;
+  }
+  
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  /* Prevent horizontal scroll — use clip, never hidden (a11y) */
+  body {
+    overflow-x: clip;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography defaults */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    font-style: normal;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Focus-visible ring — instant, no animation, ≥3:1 contrast */
+  :focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Remove default outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Film-grain overlay — breaks digital flatness, pointer-transparent */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Reduced motion — collapse spatial motion to opacity crossfade */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* GSAP / Tailwind utils */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Animation delay helpers (used with animate-blob etc.) */
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}
+
+/* ─── Homepage hero keyframes ───────────────────────────────────────────────
+ * Declared here rather than in tailwind.config.js because the hero applies them
+ * through inline `animation` shorthand — Tailwind only emits a @keyframes block
+ * when a matching `animate-*` utility appears in the scanned source, so a
+ * config-only definition would never reach the stylesheet.
+ *
+ * Every one of these animates transform, opacity or stroke-dashoffset only, so
+ * none of them can trigger layout. The reduced-motion block above collapses
+ * them all to a single 0.01ms iteration.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes auroraA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(7%, -9%, 0) scale(1.18); }
+}
+
+@keyframes auroraB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.06); }
+  50%      { transform: translate3d(-8%, 7%, 0) scale(0.92); }
+}
+
+@keyframes auroraC {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+  50%      { transform: translate3d(5%, -6%, 0) scale(1.12); }
+}
+
+/* Short dash chasing its own offset — reads as a light crossing the bridge. */
+@keyframes cometDash {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -463; }
+}
+
+@keyframes scrollCue {
+  0%       { transform: translateY(-100%); opacity: 0; }
+  25%      { opacity: 1; }
+  75%      { opacity: 1; }
+  100%     { transform: translateY(300%); opacity: 0; }
+}
+
+/* Hero-scoped names (hh-): `floatY`, `pulseRing` and `spinSlow` already exist in
+ * tailwind.config.js, and a raw redefinition here would land after Tailwind's
+ * output and silently retune every other page that uses them. */
+@keyframes hhFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes hhPing {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50%      { transform: scale(2); opacity: 0; }
+}
+
+@keyframes hhSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* The homepage hero's sun. Separate from `hhSpin` so its 90s turn can be
+ * retimed without touching the orbit rings on the career/tests heroes. */
+@keyframes hhSunSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes hhSunPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.5; }
+  50%      { transform: scale(1.05); opacity: 0.62; }
+}

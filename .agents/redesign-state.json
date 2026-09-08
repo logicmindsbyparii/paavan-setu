@@ -1,0 +1,37 @@
+{
+  "projectUnderstanding": {
+    "framework": "React (CRA) + Tailwind + MUI + GSAP + Framer Motion",
+    "routing": "React Router DOM",
+    "theme": "Tailwind with custom colors (green, blue, amber), DM Serif Display, DM Sans"
+  },
+  "brandDNA": {
+    "personality": "Trustworthy, guiding, educational, professional yet approachable",
+    "audience": "Students, parents, educators, schools",
+    "visualLanguage": "Deep greens, educational blues, warm ambers, serif headers"
+  },
+  "designSystem": {
+    "typography": "DM Serif Display for headings, DM Sans for body",
+    "colors": "Primary Green (#0a4f22), Accent Amber (#b06e10), Secondary Blue (#174a72)",
+    "spacing": "Tailwind default scale",
+    "radius": "Mixed (some pill, some default)"
+  },
+  "pages": {
+    "Home": "src/pages/Home.jsx",
+    "CareerCounselling": "src/pages/CareerCounselling.jsx",
+    "Books": "src/pages/Books.jsx",
+    "SchoolsWorkshops": "src/pages/SchoolsWorkshops.jsx",
+    "About": "src/pages/About.jsx",
+    "Contact": "src/pages/Contact.jsx",
+    "PsychometricTests": "src/pages/PsychometricTests.jsx"
+  },
+  "issues": [],
+  "improvements": [],
+  "completed": [],
+  "inProgress": [],
+  "visualChecks": [],
+  "performanceChecks": [],
+  "lastModifiedFiles": [],
+  "currentIteration": 0,
+  "nextPriority": "Audit Home Hero and establish Design North Star",
+  "knownRisks": ["MUI and Tailwind mixing can cause style conflicts"]
+}

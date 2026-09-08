@@ -1,0 +1,237 @@
+import { colors as T } from './tokens';
+import { mediaUrlOptimized } from '../lib/api';
+
+import setuToSuccessImg   from '../assets/Myfriendganesha2.jpeg';
+import valuesInActionImg  from '../assets/krishna_classroom.jpeg';
+import purposeCompassImg  from '../assets/Hanuman_chalisa2.jpeg';
+import parentAsGuideImg   from '../assets/Krishna_leela2.jpeg';
+import moralCompassImg    from '../assets/Ramayan2.jpeg';
+import mfg from '../assets/myfriendganesha2.webp';
+import krishnapathsala from '../assets/krishna_pathsala2.webp';
+import hanumanchalisa from '../assets/hanumanchalisa2.webp';
+import kleela from '../assets/kleela.webp';
+import Ramayan from '../assets/Ramayan2.webp';
+
+export var BOOKS = [
+  {
+    title:    'My Friend Ganesha',
+    subtitle: 'Early Learners / Primary',
+    desc:     'My Friend Ganesha helps children learn good values and simple life skills through gentle stories and playful moments with their favourite friend, Ganesha.',
+    audience: 'Class 9-12',
+    pages:    220,
+    image:    setuToSuccessImg,
+    tag:      'Bestseller',
+    tagBg:    T.amberLight,
+    tagCol:   T.amber,
+    tagBorder:T.amberMid,
+    rating:   4.9,
+    reviews:  128,
+    price:    200,
+    accentBg: T.amberLight,
+    accentBorder: T.amberMid,
+    accentCol:T.amber,
+    imageStyle: { width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 60%', display:'block' }
+  },
+  {
+    title:    "Krishnaa's Classroom",
+    subtitle: 'Primary / Upper Primary',
+    desc:     'This is the Bhagavad Gita retold for children in a way that is simple, engaging, and alive. Each chapter becomes a short, colorful story where the reader steps into Arjun\'s place, makes decisions, and discovers the lesson for themselves.',
+    audience: 'Age 6+',
+    pages:    180,
+    image:    valuesInActionImg,
+    tag:      'New',
+    tagBg:    T.waLight,
+    tagCol:   T.wa,
+    tagBorder:T.waMid,
+    rating:   4.8,
+    reviews:  87,
+    price:    250,
+    accentBg: T.greenLight,
+    accentBorder: T.greenMid,
+    accentCol:T.green,
+    imageStyle: { width:'100%', height:'115%', objectFit:'cover', objectPosition:'top 30%', display:'block' }
+  },
+  {
+    title:    'Hanuman Chalisa',
+    subtitle: 'Primary / Middle School',
+    desc:     'This book gently answers those questions. Through simple meanings, inspiring stories from Hanuman\'s life, relatable value-based tales, and thoughtful activities, children don\'t just chant—they understand.',
+    audience: 'Class 7-10',
+    pages:    160,
+    image:    purposeCompassImg,
+    tag:      'Workbook',
+    tagBg:    T.blueLight,
+    tagCol:   T.blue,
+    tagBorder:T.blueMid,
+    rating:   4.7,
+    reviews:  63,
+    price:    250,
+    accentBg: T.blueLight,
+    accentBorder: T.blueMid,
+    accentCol:T.blue,
+    imageStyle: { width:'100%', height:'130%', objectFit:'cover', objectPosition:'center', display:'block' }
+  },
+  {
+    title:    'Krishna Leela',
+    subtitle: 'Primary',
+    desc:     'Krishna Leela is a gentle collection of childhood stories told in simple, lyrical language; these stories follow a playful little boy and the people around him—his family, friends, and village—through moments of joy, mischief, courage, and care.',
+    audience: 'Parents',
+    pages:    200,
+    image:    parentAsGuideImg,
+    tag:      'For Parents',
+    tagBg:    T.roseLight,
+    tagCol:   T.rose,
+    tagBorder:T.roseMid,
+    rating:   4.9,
+    reviews:  54,
+    price:    200,
+    accentBg: T.roseLight,
+    accentBorder:T.roseMid,
+    accentCol:T.rose,
+    imageStyle: { width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 40%', display:'block' }
+  },
+  {
+    title:    'Kids Ramayana',
+    subtitle: 'Primary / Upper Primary',
+    desc:     'This book presents a carefully adapted retelling of the Ramayan, based on the Valmiki tradition, for young readers. The narrative has been structured to support clarity of thought, emotional balance, and ethical understanding.',
+    audience: 'Teachers & Schools',
+    pages:    280,
+    image:    moralCompassImg,
+    tag:      'Curriculum',
+    tagBg:    T.greenLight,
+    tagCol:   T.green,
+    tagBorder:T.greenMid,
+    rating:   4.8,
+    reviews:  41,
+    price:    250,
+    accentBg: T.greenLight,
+    accentBorder: T.greenMid,
+    accentCol:T.green,
+    imageStyle: { width:'100%', height:'125%', objectFit:'cover', objectPosition:'center 5%', display:'block' }
+  },
+  {
+    title:    'માય ફ્રેન્ડ ગણેશ ',
+    subtitle: 'પ્રારંભિક શીખનારા / પ્રાથમિક',
+    desc:     'બાળકોને તેમના પ્રિય મિત્ર ગણેશ સાથેની કોમળ વાર્તાઓ અને રમતિયાળ ક્ષણો દ્વારા સારા મૂલ્યો અને સરળ જીવન કૌશલ્યો શીખવામાં મદદ કરે છે.દબાણ કે ઉપદેશ આપ્યા વિના,આ પુસ્તક બાળકોને શાંતિથી વિચારવા,અન્યની આદર કરવા અને આત્મવિશ્વાસ સાથે દરેક દિવસની શરૂઆત કરવા માર્ગદર્શન આપે છે.',
+    audience: 'Class 9-12',
+    pages:    220,
+    image:    mfg,
+    tag:      'Bestseller',
+    tagBg:    T.amberLight,
+    tagCol:   T.amber,
+    tagBorder:T.amberMid,
+    rating:   4.9,
+    reviews:  128,
+    price:    180,
+    accentBg: T.amberLight,
+    accentBorder: T.amberMid,
+    accentCol:T.amber,
+    imageStyle: { width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 60%', display:'block' }
+  },
+  {
+    title:    "કૃષ્ણની પાઠશાળા",
+    subtitle: 'પ્રાથમિક / ઉચ્ચ પ્રાથમિક',
+    desc:     `આ ભગવદ ગીતા બાળકોને સરળ, આકર્ષક અને જીવંત રીતે ફરીથી કહેવામાં આવી છે.\n    દરેક પ્રકરણ એક ટૂંકી, રંગીન વાર્તા બની જાય છે જ્યાં વાચક અર્જુનના સ્થાને પણ મૂકે છે, નિર્ણય લે છે અને પોતાને માટે પાઠ શોધે છે.`,
+    audience: 'Age 6+',
+    pages:    180,
+    image:    krishnapathsala,
+    tag:      'New',
+    tagBg:    T.waLight,
+    tagCol:   T.wa,
+    tagBorder:T.waMid,
+    rating:   4.8,
+    reviews:  87,
+    price:    220,
+    accentBg: T.greenLight,
+    accentBorder: T.greenMid,
+    accentCol:T.green,
+    imageStyle: { width:'100%', height:'115%', objectFit:'cover', objectPosition:'top 40%', display:'block' }
+  },
+  {
+    title:    'હનુમાન ચાલીસા',
+    subtitle: 'પ્રાથમિક / માધ્યમિક શાળા',
+    desc:     `આ પુસ્તક આ પ્રશ્નોના જવાબો હળવાશથી આપે છે. સરળ અર્થો, હૃદયસ્પર્શી જીવનની પ્રેરણાદાયી વાર્તાઓ, સંબંધિત મૂલ્ય-આધારિત વાર્તાઓ અને વિચારશીલ પ્રવૃત્તિઓ દ્વારા, બાળકો ફક્ત જપ નથી — તેઓ સમજવા લાગે છે.`,
+    audience: 'Class 7-10',
+    pages:    160,
+    image:    hanumanchalisa,
+    tag:      'Workbook',
+    tagBg:    T.blueLight,
+    tagCol:   T.blue,
+    tagBorder:T.blueMid,
+    rating:   4.7,
+    reviews:  63,
+    price:    210,
+    accentBg: T.blueLight,
+    accentBorder: T.blueMid,
+    accentCol:T.blue,
+    imageStyle: { width:'100%', height:'130%', objectFit:'cover', objectPosition:'center', display:'block' }
+  },
+  {
+    title:    'ક્રિષ્ણા લીલા ',
+    subtitle: 'પ્રાથમિક',
+    desc:     `કૃષ્ણલીલા આ બાળપણની વાર્તાઓનો એક સૌમ્ય સંગ્રહ છે જે સરળ, ગીતાત્મક ભાષામાં કહેવામાં આવ્યા છે; આ વાર્તાઓ એક રમતિયાળ નાના છોકરા અને તેની આસપાસના લોકો – તેના પરિવાર, મિત્રો અને ગામ – ને આનંદ, તોફાન, હિંમત અને સંભાળની ક્ષણો દ્વારા અનુસરે છે.`,
+    audience: 'Parents',
+    pages:    200,
+    image:    kleela,
+    tag:      'For Parents',
+    tagBg:    T.roseLight,
+    tagCol:   T.rose,
+    tagBorder:T.roseMid,
+    rating:   4.9,
+    reviews:  54,
+    price:    180,
+    accentBg: T.roseLight,
+    accentBorder:T.roseMid,
+    accentCol:T.rose,
+    imageStyle: { width:'100%', height:'120%', objectFit:'cover', objectPosition:'center 60%', display:'block' }
+  },
+  {
+    title:    'રામાયણ ',
+    subtitle: 'પ્રાથમિક / ઉચ્ચ પ્રાથમિક',
+    desc:     `આ પુસ્તક વાલ્મીકિ પરંપરા પર આધારિત રામાયણનું કાળજીપૂર્વક રૂપાંતરિત પુનઃકથન, યુવા વાચકો માટે રજૂ કરે છે. આ કથા વિચારની સ્પષ્ટતા, ભાવનાત્મક સંતુલન અને નૈતિક સમજણને સમર્થન આપવા માટે રચાયેલ છે.`,
+    audience: 'Teachers & Schools',
+    pages:    280,
+    image:    Ramayan,
+    tag:      'Curriculum',
+    tagBg:    T.greenLight,
+    tagCol:   T.green,
+    tagBorder:T.greenMid,
+    rating:   4.8,
+    reviews:  41,
+    price:    200,
+    accentBg: T.greenLight,
+    accentBorder: T.greenMid,
+    accentCol:T.green,
+    imageStyle: { width:'100%', height:'125%', objectFit:'cover', objectPosition:'top', display:'block' }
+  }
+];
+
+export function normalizeBook(book, index) {
+  var fromApi = Boolean(book._id);
+  return {
+    id: book._id || null,
+    key: book._id || 'local-' + index,
+    purchasable: fromApi && book.stock !== 0,
+    title: book.title,
+    subtitle: book.subtitle || '',
+    description: book.description || book.desc || '',
+    image: fromApi ? mediaUrlOptimized(book.coverImage) : book.image,
+    price: book.salePrice || book.price,
+    listPrice: book.salePrice ? book.price : null,
+    tag: book.tag || '',
+    tagBg: book.tagBg || book.accent?.bg || T.greenLight,
+    tagCol: book.tagCol || book.accent?.col || T.green,
+    tagBorder: book.tagBorder || book.accent?.border || T.greenMid,
+    accentBg: book.accent?.bg || book.accentBg || T.greenLight,
+    accentBorder: book.accent?.border || book.accentBorder || T.greenMid,
+    accentCol: book.accent?.col || book.accentCol || T.green,
+    imageStyle: fromApi
+      ? {
+          width: '100%',
+          height: book.imageStyle?.height || '100%',
+          objectFit: 'cover',
+          objectPosition: book.imageStyle?.objectPosition || 'center',
+          display: 'block',
+        }
+      : book.imageStyle,
+  };
+}

@@ -1,0 +1,112 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        green: '#0a4f22',
+        'green-light': '#c8e8d2',
+        'green-mid': '#96cead',
+        'green-dark': '#073a18',
+        blue: '#174a72',
+        'blue-light': '#c4d9ec',
+        'blue-mid': '#90b8d8',
+        'blue-dark': '#0e3454',
+        amber: '#b06e10',
+        'amber-light': '#f5d9a0',
+        'amber-mid': '#e8b86d',
+        wa: '#16a34a',
+        snow: '#eef6f0',
+        cream: '#f5ede0',
+        parchment: '#ece5d6',
+        ink: '#111d11',
+        slate: '#2d4a38',
+        ash: '#4d6357',
+        brand: {
+          green: '#0a4f22',
+          'green-light': '#c8e8d2',
+          'green-mid': '#96cead',
+          blue: '#174a72',
+          'blue-light': '#c4d9ec',
+          'blue-mid': '#90b8d8',
+          amber: '#b06e10',
+          'amber-light': '#f5d9a0',
+          'amber-mid': '#e8b86d',
+          wa: '#16a34a',
+          'wa-light': '#bbf7d0',
+          snow: '#eef6f0',
+          cream: '#f5ede0',
+          parchment: '#ece5d6',
+          ink: '#111d11',
+          slate: '#2d4a38',
+          ash: '#4d6357',
+        },
+      },
+      fontFamily: {
+        heading: ['"DM Serif Display"', 'Georgia', 'serif'],
+        body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        ui: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+      },
+      borderRadius: {
+        'pill': '50px',
+      },
+      animation: {
+        'float-a': 'floatA 8s ease-in-out infinite',
+        'float-b': 'floatB 10s ease-in-out infinite',
+        'float-c': 'floatC 7s ease-in-out infinite',
+        'spin-slow': 'spinSlow 20s linear infinite',
+        'pulse-ring': 'pulseRing 3.5s ease-in-out infinite',
+        'marquee': 'marquee var(--duration) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+        'blob': 'blob 8s ease-in-out infinite',
+        'float': 'floatY 5s ease-in-out infinite',
+      },
+      keyframes: {
+        floatA: {
+          '0%,100%': { transform: 'translate(0,0) rotate(0deg)' },
+          '33%': { transform: 'translate(12px,-18px) rotate(3deg)' },
+          '66%': { transform: 'translate(-8px,10px) rotate(-2deg)' },
+        },
+        floatB: {
+          '0%,100%': { transform: 'translate(0,0) rotate(0deg)' },
+          '33%': { transform: 'translate(-14px,10px) rotate(-4deg)' },
+          '66%': { transform: 'translate(10px,-12px) rotate(2deg)' },
+        },
+        floatC: {
+          '0%,100%': { transform: 'translate(0,0)' },
+          '50%': { transform: 'translate(8px,-14px)' },
+        },
+        floatY: {
+          '0%,100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        blob: {
+          '0%,100%': { transform: 'translate(0,0) scale(1)' },
+          '33%': { transform: 'translate(24px,-32px) scale(1.06)' },
+          '66%': { transform: 'translate(-16px,20px) scale(0.96)' },
+        },
+        spinSlow: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+        pulseRing: {
+          '0%,100%': { transform: 'scale(1)', opacity: '0.45' },
+          '50%': { transform: 'scale(1.08)', opacity: '0.2' },
+        },
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+        },
+      },
+    },
+  },
+  plugins: [],
+}
