@@ -70,7 +70,9 @@ const getApiBase = () => {
 
   return envUrl || 'http://localhost:5000';
 };
-const API_BASE = getApiBase();
+// Strip any trailing slashes so `${API_BASE}/api/...` never produces a double
+// slash (e.g. REACT_APP_API_URL set to "https://host.onrender.com/").
+const API_BASE = getApiBase().replace(/\/+$/, '');
 
 export const API = {
   base: API_BASE,
