@@ -29,14 +29,20 @@ const allowedOrigins = [
   'http://localhost:5173',
   'https://www.paavansetu.com',
   'https://paavansetu.com',
+  'https://paavan-setu.vercel.app',
   'https://paavansetu-frontend.vercel.app',
 ];
+
+// Vercel preview deployments get a per-commit subdomain
+// (paavan-setu-<hash>-<scope>.vercel.app), so match the project's previews too.
+const isVercelPreview = (origin) =>
+  /^https:\/\/paavan-setu-[a-z0-9-]+\.vercel\.app$/.test(origin);
 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.indexOf(origin) !== -1 || isVercelPreview(origin)) {
       callback(null, true);
     } else if (process.env.NODE_ENV !== 'production') {
       // In development, allow any origin for local tooling
