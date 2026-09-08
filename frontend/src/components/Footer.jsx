@@ -166,7 +166,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]" style={{ color: 'rgba(253,250,243,0.6)' }}>Phone</p>
-                  <a href={`tel:${String(get('contact.phone')).replace(/[^+\d]/g, '')}`} className="text-[1.05rem] font-medium transition-colors hover:text-white" style={{ color: brand.ivoryLit }}>
+                  <a href={`tel:${String(get('contact.phone')).replace(/[^+\d]/g, '')}`} className="inline-block py-1 text-[1.05rem] font-medium transition-colors hover:text-white" style={{ color: brand.ivoryLit }}>
                     {get('contact.phone')}
                   </a>
                 </div>
@@ -177,7 +177,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-[0.15em]" style={{ color: 'rgba(253,250,243,0.6)' }}>Email</p>
-                  <a href={`mailto:${get('contact.email')}`} className="break-all text-[1.05rem] font-medium transition-colors hover:text-white" style={{ color: brand.ivoryLit }}>
+                  <a href={`mailto:${get('contact.email')}`} className="inline-block break-all py-1 text-[1.05rem] font-medium transition-colors hover:text-white" style={{ color: brand.ivoryLit }}>
                     {get('contact.email')}
                   </a>
                 </div>

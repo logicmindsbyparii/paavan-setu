@@ -229,7 +229,7 @@ export default function HomeBooks() {
         >
           <Link
             to="/books"
-            className="group inline-flex items-center gap-2.5 text-[1.05rem] font-semibold no-underline transition-colors duration-300"
+            className="group inline-flex items-center gap-2.5 px-3 py-2 text-[1.05rem] font-semibold no-underline transition-colors duration-300"
             style={{ color: brand.green }}
           >
             View the complete collection

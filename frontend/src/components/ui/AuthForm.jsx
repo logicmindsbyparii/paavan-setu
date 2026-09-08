@@ -222,7 +222,7 @@ export default function AuthForm({
           {footerText}{' '}
           <Link
             to={footerTo}
-            className="font-semibold transition-colors duration-200"
+            className="inline-block py-1 font-semibold transition-colors duration-200"
             style={{ color: colors.green }}
             onMouseEnter={(e) => { e.currentTarget.style.color = colors.blue; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = colors.green; }}

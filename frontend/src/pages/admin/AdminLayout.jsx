@@ -240,7 +240,7 @@ export default function AdminLayout({ children }) {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#04140a', color: colors.white }}>
+    <Box sx={{ display: 'flex', minHeight: '100dvh', bgcolor: '#04140a', color: colors.white }}>
       {/* Sidebar Drawer */}
       {isMobile ? (
         <Drawer
@@ -273,7 +273,7 @@ export default function AdminLayout({ children }) {
         ml: isMobile ? 0 : `${DRAWER_WIDTH}px`,
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         background: '#06160d',
       }}>
         {/* Top Header */}

@@ -854,8 +854,8 @@ function RadarChart({ scores, labels, color }) {
   const polyPoints = getCoordinates(scores).map((p) => `${p.x},${p.y}`).join(' ');
 
   return (
-    <div className="relative w-[300px] h-[300px] select-none">
-      <svg width={size} height={size} className="overflow-visible">
+    <div className="relative aspect-square w-full max-w-[300px] select-none">
+      <svg viewBox={`0 0 ${size} ${size}`} className="h-full w-full overflow-visible">
         {[0.25, 0.5, 0.75, 1].map((scale, i) => (
           <circle
             key={i}

@@ -115,17 +115,18 @@ export default function CheckoutDialog({ book, onClose }) {
                 disabled={!canPay}
                 variant="contained"
                 startIcon={busy ? <CircularProgress size={16} color="inherit" /> : <ShoppingCartIcon />}
-                sx={{ 
-                  bgcolor: T.green, 
-                  borderRadius: 50, 
-                  px: 4,
+                sx={{
+                  bgcolor: T.green,
+                  borderRadius: 50,
+                  px: { xs: 2.5, sm: 4 },
                   py: 1.5,
                   fontSize: '1rem',
                   textTransform: 'none',
                   fontWeight: 'bold',
+                  whiteSpace: 'nowrap',
                   boxShadow: '0 10px 25px rgba(10, 79, 34, 0.3)',
                   transition: 'background-color 0.3s ease',
-                  '&:hover': { bgcolor: T.blue, boxShadow: '0 15px 35px rgba(23, 74, 114, 0.4)' } 
+                  '&:hover': { bgcolor: T.blue, boxShadow: '0 15px 35px rgba(23, 74, 114, 0.4)' }
                 }}
               >
                 {busy ? 'Opening…' : 'Pay ₹' + book.price}
