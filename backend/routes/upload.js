@@ -1,56 +1,73 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
-const { authenticate } = require('../middleware/auth'); // Require admin auth if we want, but let's just use authenticate for now
+const mongoose = require('mongoose');
+const Upload = require('../models/Upload');
+const { authenticate } = require('../middleware/auth');
 
-// Configure multer storage
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads/'));
+// Keep the file in memory — it goes straight into MongoDB, never to disk.
+// Render wipes the disk on every deploy, so a disk-backed upload becomes a
+// broken image within hours.
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB — well under MongoDB's 16MB doc cap
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) return cb(null, true);
+    cb(new Error('Only image files are allowed.'));
   },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
 });
 
-// File filter for images
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Not an image! Please upload an image.'), false);
-  }
-};
-
-const upload = multer({ 
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
-  }
-});
-
-// POST /api/upload
-// Only authenticated users can upload
-router.post('/', authenticate, upload.single('image'), (req, res) => {
-  try {
+// POST /api/upload — store an image, return the URL to reference it by.
+router.post('/', authenticate, (req, res) => {
+  upload.single('image')(req, res, async (err) => {
+    if (err) {
+      const message =
+        err.code === 'LIMIT_FILE_SIZE'
+          ? 'Image is larger than the 5MB limit.'
+          : err.message || 'Upload failed.';
+      return res.status(400).json({ success: false, message });
+    }
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
-    
-    // The server serves this directory at /uploads
-    const fileUrl = `/uploads/${req.file.filename}`;
-    
-    res.json({
-      success: true,
-      url: fileUrl,
-      message: 'Image uploaded successfully'
-    });
-  } catch (error) {
-    console.error('Upload error:', error);
-    res.status(500).json({ success: false, message: 'Server error during upload' });
+
+    try {
+      const doc = await Upload.create({
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+        originalName: req.file.originalname,
+        size: req.file.size,
+      });
+
+      // Same shape callers already expect: { url }.
+      res.json({
+        success: true,
+        url: `/api/upload/${doc._id}`,
+        message: 'Image uploaded successfully',
+      });
+    } catch (e) {
+      console.error('Upload error:', e);
+      res.status(500).json({ success: false, message: 'Server error during upload' });
+    }
+  });
+});
+
+// GET /api/upload/:id — serve a stored image.
+router.get('/:id', async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return res.status(404).json({ success: false, message: 'Not found' });
+  }
+  try {
+    const doc = await Upload.findById(req.params.id);
+    if (!doc) {
+      return res.status(404).json({ success: false, message: 'Not found' });
+    }
+    res.set('Content-Type', doc.contentType);
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    res.send(Buffer.from(doc.data)); // normalise MongooseBuffer / Binary → Buffer
+  } catch (e) {
+    console.error('Upload fetch error:', e);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 

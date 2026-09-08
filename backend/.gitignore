@@ -2,6 +2,8 @@ node_modules/
 .env
 .env.local
 .env.*.local
-uploads/
+# Runtime uploads live in MongoDB now; only the committed seed images stay here.
+uploads/*
+!uploads/seed/
 npm-debug.log*
 .DS_Store

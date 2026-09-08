@@ -10,7 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
-import { adminRequest } from '../../lib/api';
+import { adminRequest, mediaUrl } from '../../lib/api';
 
 const darkTextFieldStyle = {
   '& .MuiOutlinedInput-root': {
@@ -240,7 +240,7 @@ export default function AuthorsManagement() {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       {author.image ? (
                         <Avatar
-                          src={author.image}
+                          src={mediaUrl(author.image)}
                           alt={author.name}
                           sx={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)' }}
                         />
@@ -364,7 +364,7 @@ export default function AuthorsManagement() {
               {formData.image && (
                 <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Avatar
-                    src={formData.image}
+                    src={mediaUrl(formData.image)}
                     alt="Preview"
                     sx={{ width: 48, height: 48, border: '2px solid rgba(232, 184, 109, 0.4)' }}
                   />

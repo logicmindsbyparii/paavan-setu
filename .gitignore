@@ -1,5 +1,10 @@
 node_modules/
 .env
-uploads/
 *.log
 .DS_Store
+
+# Runtime uploads now live in MongoDB (see backend/routes/upload.js), so the
+# uploads directory holds only the committed seed images the catalogue ships
+# with. Ignore everything under it except that seed set.
+/backend/uploads/*
+!/backend/uploads/seed/
