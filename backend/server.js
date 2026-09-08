@@ -109,12 +109,14 @@ const rateLimitSweep = setInterval(() => {
 }, 5 * 60 * 1000);
 rateLimitSweep.unref?.(); // Never hold the process open for this timer.
 
-// ─── Uploaded Media ───────────────────────────────────────────────────────────
-// Book covers, logos and author photos live here so the admin panel can replace
-// them without a redeploy.
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
-  maxAge: '7d',
-}));
+// ─── Seed Media ───────────────────────────────────────────────────────────────
+// The catalogue's shipped art lives in uploads/seed/ (committed). Served at
+// both /uploads/seed/foo.png and /uploads/foo.png so older database rows that
+// still store the pre-seed path keep resolving without a re-seed. Runtime
+// uploads no longer touch disk — they are in MongoDB (routes/upload.js).
+const uploadsDir = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsDir, { maxAge: '7d' }));
+app.use('/uploads', express.static(path.join(uploadsDir, 'seed'), { maxAge: '7d' }));
 
 // ─── Database Availability Guard ──────────────────────────────────────────────
 // When Atlas is unreachable, Mongoose queues every query and each one rejects
