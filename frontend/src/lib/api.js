@@ -185,7 +185,7 @@ export const adminDeleteTestimonial = (id) =>
 
 // ─── SEO ──────────────────────────────────────────────────────────────────────
 
-export const getSeoSettings = () => request('/api/seo');
+export const getSeoSettings = () => request(`${API.base}/api/seo`);
 
 export const adminUpdateSeoSetting = (payload) =>
   adminRequest('/api/seo', { method: 'PUT', body: JSON.stringify(payload) });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const fs = require('fs');
 const connectDB = require('./config/db');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
@@ -160,11 +161,15 @@ app.get('/api/health', (req, res) => {
 app.use('/api', notFound);
 
 // ─── Serve Static Files (Production) ─────────────────────────────────────────
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Only when a co-located frontend build actually exists. When the frontend is
+// deployed separately (Vercel), this directory is absent and sendFile would
+// answer every non-API route with a 500.
+const frontendBuild = path.join(__dirname, '../frontend/build');
+if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(frontendBuild, 'index.html'))) {
+  app.use(express.static(frontendBuild));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    res.sendFile(path.join(frontendBuild, 'index.html'));
   });
 }
 
@@ -184,16 +189,12 @@ const startServer = async () => {
   }
 
   if (process.env.MONGODB_URI) {
-    try {
-      await connectDB();
-    } catch (error) {
-      // In development a missing database should not take the whole API down —
-      // the public site falls back to bundled content and stays workable.
-      // db.js already exits the process in production.
-      console.warn('⚠️  Starting without a database connection:', error.message);
-    }
+    // Never blocks startup and never crashes the process: db.js retries in the
+    // background with backoff. Until it connects, the /api guard returns 503s
+    // and the public site falls back to its bundled content.
+    connectDB();
   } else {
-    console.log('⚠️  No MONGODB_URI found. Running without database.');
+    console.warn('⚠️  MONGODB_URI is not set. The API will run without a database.');
   }
 
   app.listen(PORT, () => {
