@@ -1,0 +1,665 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+--- Page 1 ---
+Situational Exploration
+Read each situation carefully and select the response that best describes what you would do.
+1
+Do you find it thrilling to see the satellite view of Earth?
+Yes, satellite view of earth looks awesome
+It hardly matters
+No, earth looks good from land
+2
+Do you often read about the preservatives of packed food items as ketchup toppings jams jellies etc, and also be cautious about their utility?
+Yes definitely one must do that
+I read if it smells bad
+I don’t waste time on that
+3
+Would you like to make a gadget to replace women, that can work like her in the kitchen?
+Yes I want to make a woman robot
+May be but women are better cooks
+Gadgets can never replace humans
+4
+You have come to visit Delhi with your friends. You have three options to spend the day which one would you pick?
+--- Page 2 ---
+Go for a historical site scene
+Depends, wherever my friends will go
+Go to a movie
+5
+When there is a major power cut in the city what do you do?
+Think about alternate of renewable energy
+Think about the source of fault
+Dial up electricity department to complain
+6
+You have gone to a village where the students of 9th class don’t have a science teacher in their school. What kind of step would you like to take to improve the situation?
+Make a website explaining all science chapters
+Teach the students on your laptop about the subject
+Meet village panchayat to request for teachers appointment
+7
+On a Sunday evening there are three programs running on television. Which one would you like to see?
+Programs which are made with many ocean survival equipments
+Programs which are made about solar system and planetary bodies
+Program based on impact of fertilizers on food crops
+8
+Will you be comfortable to work in rotational shifts in an underground set up like coal mines?
+--- Page 3 ---
+Yes I can dare to do that
+May be but not at night
+No I will feel discomfort
+9
+When you go out for shopping clothes on what parameters do you lay stress
+On the material quality and durability
+On the color and pattern
+On the latest fashion and wearer comfort
+10
+You and your friend were working in the school chemistry lab. Suddenly there was an explosion in the beaker which your friend was handling. The teacher has told you to find the reason. Which of the following chemical was probably mixed by your friend?
+Potassium + water
+Magnesium + water
+Water + water
+​Interest Inventory - Part 1
+Indicate your level of interest in each of the following activities.
+11
+In an entertainment park which one will you choose?
+Riding on a roller coaster
+On a merry go round
+--- Page 4 ---
+I am scared
+12
+Do you think about the quality of nutritional values of food, the purity of water and impact of edibles on your health?
+Yes that is my prime concern
+May be at times
+I never thought about it
+13
+You are visiting your grandmother’s village where there is supply of unhygienic drinking water. What would you like to do for benefits of villagers?
+Help them purify water with chemicals
+Tell them to boil water before use
+Educate them about ill effects of unhygienic water
+14
+In a workshop where there is odor of spirit, petroleum, paint etc will you be able to spend a day?
+Yes, I can spend easily
+May be for few hours
+No I feel nausea
+15
+If you are the DM of the city which one of the following would you like to do for traffic control?
+Build good roads and flyways
+--- Page 5 ---
+Promote use of public transport
+Promote traffic rules and regulations
+16
+You are fed up of frequent fuse faults in your society building during exams. As an alternative measure what would you like to do?
+Make a fuse free lighting device
+Find a permanent solution to mend the fuse
+Have a permanent electrician in the society
+17
+There is frequent power cut in your city. When you work on your PC whatever work you do gets deleted because you forget to save it. What will you do?
+Install a UPS
+Remember to save in equal intervals
+Complain to the electricity dept
+18
+Imagine that you are on an adventure camp with your friends and go for river rafting in a gushing water body; suddenly you realize that there is a hole in the raft. None of you knows swimming and you are far from the coast guard. What will you do?
+Will you try to repair the raft with the emergency material given for this
+Call the coast guard by phone
+Call your family and ask for help
+19
+--- Page 6 ---
+Will you be comfortable to work on heavy machines in summer season that make lot of noise and are placed amidst heavy dust?
+Yes I can
+May be for some time
+No I will not prefer that
+20
+Ten varieties of cloth material such as silk, cotton, wool, chiffon, georgette, marble, satin, jute, nylon and rayon are been given to you. How many would you be able to name by looking at their texture.
+Probably all of them
+Probably four to five
+Probably one or two
+Interest Inventory - Part 2
+Indicate your level of interest in each of the following activities.
+21
+Which one sounds more thrilling to you?
+Paragliding
+Cycling
+Running
+22
+--- Page 7 ---
+When a TV or Fridge or Washing Machine gets damaged in your home, someone comes to repair it; do you closely watch the mechanic working on it?
+Yes I keenly observe
+Yes at times I do
+No I don’t like it
+23
+If given an option How comfortable you are to spend a day in a brick furnace in normal weather conditions?
+Yes, I can spend easily
+May be for few hours
+No I feel nausea
+24
+What do you think was the reason of Hiroshima Nagasaki mishap after it was bombarded in 1945?
+Nuclear explosion
+Chemical explosion
+World war II
+25
+There are frequent earthquakes in your city and the Mayor has asked to draft proposals to be sent to the government. What agenda would you choose out of these options?
+Proposal for building light weight houses
+Proposal for a disaster management team
+Proposal as per my parent’s suggestion
+--- Page 8 ---
+26
+If ever You have an opportunity to understand the function of smoke detector What will you do?
+I will open to see it
+I will take a incense stick close to it
+I don’t want to get into trouble by handling it
+27
+You have to participate in the college project of making a touch screen device. There are three kinds of work which one would you prefer to choose?
+Designing and developing touch screen technology
+Documenting the concept of touch screen technology
+Presenting the touch screen device to audience
+28
+The great Titanic Ship is being created once more if given a chance will you like to join the crew. How?
+Work with technical team so that this time the ship does not sink
+Help in coordinating the entire crew
+I will not like to participate
+29
+Which one is the original source of Diamond out of these three?
+Coal
+Crystals
+Precious stones
+--- Page 9 ---
+30
+How comfortable will you feel to work in a compact area with lot of humidity and bad odor of animal hides as Cow, Snake, Crocodile and camel?
+I will be habitual in few days
+May be I can work for some days
+No I cannot tolerate dead animal smell
+​Aptitude Assessment - Part 1
+Answer each question to the best of your ability.
+31
+Do you find inspiration from the colony of ants? What kind of thoughts do they provoke in your mind?
+Ants work in a team with equal weight distribution on each ones head
+Ants are very laborious
+Ants fall and again climb up
+32
+Do you think on a Diwali night the earth would look much more beautiful and magnificent from the sky than on the earth?
+Wow! This sounds amazing
+What is the difference
+I am not interested to see
+33
+--- Page 10 ---
+Given a Botanical laboratory will you like to grow pink brinjals and red potatoes?
+Oh yes I will love to grow them
+I don’t know how to grow them
+Brinjals and potatoes are good with their natural colors
+34
+Do you read all the technical manuals of the new electronic products, kitchen gadgets, vehicles etc to know how they have been made?
+Yes I want to understand the product technically
+Only if I am told to operate
+No I don’t like it
+35
+If given a chance to study Egyptian pyramids what would you like to study?
+About the structure of pyramids
+About mummy graves of pyramids
+About mythologies of Pyramids
+36
+When you buy a vegetables, milk or grocery products, apart from the pricing per Kg / Liter, on what else do you lay stress?
+Weighing machine, and its quality or usage standard parameters
+On the product weight being measured by the vendor
+On the calorific and nutritional value
+--- Page 11 ---
+37
+Would you prefer to work for long hours sitting on chair with concentration and work on complex project for a whole year?
+Yes I would love to do that
+May be for some hours per day
+Not more than two hours per day
+38
+Would you feel comfortable to sail for six months, where you get to see beautiful water bodies and clear sky?
+Yes I will find it thrilling
+May be once in my life time
+I don’t like traveling so much
+39
+In a summer camp you have been provided with three trays which contain some materials. Your task is to make a necklace choosing one of these materials given in a tray.
+Tray 1 – metal chain and beads
+Tray 2 – Thread and cotton beads
+Tray 3 – Plastic thread and pearls
+40
+Leather is a costly and fashionable commodity; which of the following do you find more closer to your opinion in this regard
+Develop artificial and better alternate as rexene
+Those who can afford may buy it
+--- Page 12 ---
+I would prefer to join NGO against killing animals for leather
+Aptitude Assessment - Part 2
+Answer each question to the best of your ability.
+41
+How comfortable will you be to work in rotational shifts, handling teams of people, working on different production machines to accomplish their tasks on time?
+Will feel comfortable
+May feel confused
+Can monitor them but not sure about timely production
+42
+If a toy helicopter is given to you as a gift and it breaks its hover wings what will you do?
+You try to repair it immediately
+Give it to a mechanic for repair
+You buy a new one
+43
+Do you often think to make a family car which is less expensive in fuel usage like a Solar Rickshaw?
+Yes it would be a big innovation
+May be but don’t know how
+CNG cars are already available
+44
+--- Page 13 ---
+You are on a school trip and have been given the responsibility of medical first aid box. Will you study before this trip that which medicine contains what chemicals and what is the first aid use of it as for e.g. Paracetamole, penicillin, streptomycin etc?
+Oh yes I must
+I will ask my ma’am
+I don’t like such responsibilities
+45
+Your Class teacher gave three science prototypes to be made, which one will you choose?
+Construction of Dam
+Construction of Park
+Construction of Tent
+46
+As a child when someone gifted you an electronic motor car or piano or watch, did you ever try to mend it on your own and open its parts to understand the inside mechanism?
+Yes I always open it
+May be when it is broken
+Never I kept my toys safe
+47
+You are in your college if you are given an option to pick a computer related subject what would you like to study?
+Learning software programs
+Learning about world’s great programmers
+--- Page 14 ---
+Learning about history of computers
+48
+During winters if a scooter does starts but doesn’t run smoothly although its battery is fully charged what else could be the reason?
+May be there is no lubricant oil
+May be the plug is choked
+I don’t know
+49
+There are three international seminars in your college. Which one would you like to attend?
+Seminar on volcanic activities around the world
+Seminar on world geography
+Seminar on world economy
+50
+In a Trade fair there all artifact stalls of all Indian states. You visit the Kashmir stall where three kinds of artifacts manufacturing is being taught. Which one will you choose?
+Kashmiri paper mash
+Kashmiri woolen shawls
+Kashmiri wooden toys
+Work Style Preferences
+Select the work environment and style that best suits you.
+--- Page 15 ---
+51
+Are you amazed by the variety and colors of bird and startled by the way they fly, perch on the trees and dive in the lakes to catch fishes?
+Yes they look like airplanes
+Only when you are free
+You never noticed
+52
+Do you ever think that there should be more production of grains in India and you want to do something in this direction?
+Yes I want to increase grain production
+We can import from other countries
+Never thought about it
+53
+Would you like to make some other medical equipment which is as useful as an injection but not painful like it?
+Yes a needle free injection
+Injections cannot be replaced
+Never thought of
+54
+Your neighbor is constructing a new house on the first floor of the building, suddenly the balcony he made has fallen down. What will you do?
+Will find out the reason for poor quality of cement
+--- Page 16 ---
+Will call a construction specialist
+Will show sympathy to your neighbor
+55
+Do you like to read about telephone, mobile, fax, internet etc and want to improvise the technology of the same for even faster communication than the current one?
+Yes I am keen to know that
+May be at times
+Communication is at its best level now
+56
+In the computer laboratory of your school during the exams, suddenly your PC shuts down and doesn’t re start. What will you do?
+Will try to check the wiring of the system
+Take help from IT teacher
+Ask for another PC
+57
+In a public poll a question is asked what should be done to solve the problem of petrol price hike. What would your opinion be in this regard?
+Find other renewable fuel sources
+Extract more petroleum in India
+Raise the issue in media
+58
+--- Page 17 ---
+You have gone to a museum just 10 minutes before it closes, there are three rooms which have different articles, since you have less time so now you can visit only one of the three rooms. Which room would you visit?
+Room with precious stones
+Room with ancient weapons
+Remains of dead animals
+59
+Deforestation is happening due to increased consumption of paper. Which of the following do you find more closer to your opinion in this regard.
+More recycling industries should be encouraged
+More forestation should be encouraged
+Paper free work should be encouraged
+60
+You have to work on a school project in which you have to assemble some materials to make a very light weight body of a scooter. Which material will you choose?
+Polymer or fiber
+Plastic
+Aluminium sheets
+Physical Concepts
+Answer questions about physical concepts and engineering fundamentals.
+--- Page 18 ---
+61
+You are a site supervisor and the masons have to mix cement in this mixer. Help them by assembling the pictures in a right combination and make a Cement mixer.
+
+BAC
+ACB
+CBA
+62
+Reorder vertically the pieces of a Ceramic tile to make a beautiful image
+
+CAB
+[IMAGE: page18_img1.jpeg]
+[IMAGE: page18_img2.jpeg]
+--- Page 19 ---
+CBA
+BAC
+63
+Suppose that you went to IG International Airport and a senior pilot asked you a question that:
+If drive wheel X rotates clockwise then how does wheel Y turn?
+
+
+Clockwise faster
+Clockwise slower
+Anticlockwise faster
+64
+Assemble the parts of a computer CPU
+
+CBA
+[IMAGE: page19_img1.jpeg]
+[IMAGE: page19_img2.jpeg]
+--- Page 20 ---
+BAC
+CAB
+65
+Assemble the parts of a Stone crusher by choosing the correct option
+
+CAB
+BAC
+CBA
+66
+You are making a new vehicle which moves on the following mechanics. Explain the answer to the following question to your team. If bar Y moves left at a constant speed of 10 rpm how does bar X move
+
+Faster
+Same
+[IMAGE: page20_img1.jpeg]
+[IMAGE: page20_img2.jpeg]
+--- Page 21 ---
+Slower
+67
+Assemble the parts of a submarine by choosing the correct option
+
+ACB
+BAC
+CBA
+68
+Paper production roller
+
+ABC
+CBA
+[IMAGE: page21_img1.jpeg]
+[IMAGE: page21_img2.jpeg]
+--- Page 22 ---
+BCA
+69
+Imagine that you are in a science laboratory where you have to make pictures of Beaker Petri-dish Burner and Test tube from the jumbled pieces of pictures. How will you make?
+
+BCA
+CBA
+BAC
+70
+Suppose you are the Electrical Engineer of a company X and you have to manage the whole circuit system for the IT department. The IT head has asked you a question kindly solve it to help him. In the circuit shown how many switches need to be closed to light up one bulb?
+[IMAGE: page22_img1.jpeg]
+--- Page 23 ---
+
+None
+One
+Two
+Technical Preferences - Part 1
+Choose your technical preferences and inclinations.
+71
+Match the correct option:
+
+Vecsel
+Vessle
+Vessel
+72
+Match the correct option:
+
+[IMAGE: page23_img1.jpeg]
+[IMAGE: page23_img2.jpeg]
+[IMAGE: page23_img3.jpeg]
+--- Page 24 ---
+Ariation
+Aviation
+Aviatoin
+73
+Match the correct option:
+
+Genetic feed
+Generic food
+Genetic food
+74
+Match the correct option:
+
+Alioy
+Alloy
+Allay
+75
+Match the correct option:
+
+Ristructuring
+Restructuring
+Restracturing
+[IMAGE: page24_img1.jpeg]
+[IMAGE: page24_img2.jpeg]
+[IMAGE: page24_img3.jpeg]
+--- Page 25 ---
+76
+Match the correct option:
+
+Landecape
+Landscape
+Landgrape
+77
+Match the correct option:
+
+Bemlconductor
+Femiconductor
+Semiconductor
+78
+Match the correct option:
+
+Program
+Progrem
+Progrmm
+79
+Match the correct option:
+[IMAGE: page25_img1.jpeg]
+[IMAGE: page25_img2.jpeg]
+[IMAGE: page25_img3.jpeg]
+--- Page 26 ---
+
+Assemble line
+Assembly line
+Assembly link
+80
+Match the correct option:
+
+Fusion
+Pission
+Fission
+Technical Preferences - Part 2
+Choose your technical preferences and inclinations.
+81
+A child is playing with some pieces of plastic and rubber given in tray X. Help him find out the identical pieces of plastic and rubber in one of the three trays given here.
+
+[IMAGE: page26_img1.jpeg]
+[IMAGE: page26_img2.jpeg]
+[IMAGE: page26_img3.jpeg]
+--- Page 27 ---
+
+
+
+82
+Imagine that you are sitting on ground and seeing an Aero plane which is not flying normally, it is reversed and the wheels are upside down. How would this plane look like?
+
+
+
+83
+There are four rooms with computer workstations. Two of them look alike. Which two are they?
+[IMAGE: page27_img1.jpeg]
+[IMAGE: page27_img2.jpeg]
+[IMAGE: page27_img3.jpeg]
+[IMAGE: page27_img4.jpeg]
+[IMAGE: page27_img5.jpeg]
+[IMAGE: page27_img6.jpeg]
+--- Page 28 ---
+
+AB
+BC
+CA
+84
+Imagine that there are three sets of chemical boxes placed on three pentagonal plates and you have to pick the two with matching placement. How will you do?
+
+
+
+
+85
+This picture X is a map of underground mine. It shows the entry and exit arrows from the mine in four sub maps. One of the four
+[IMAGE: page28_img1.jpeg]
+[IMAGE: page28_img2.jpeg]
+[IMAGE: page28_img3.jpeg]
+[IMAGE: page28_img4.jpeg]
+[IMAGE: page28_img5.jpeg]
+--- Page 29 ---
+direction sub map is missing. Pick the correct option out of the three options to complete the map.
+
+
+
+
+86
+These are prototypes of machines kept in different directions in company X. One of the machine is missing. Pick it up from the given options to complete the machine set up.
+
+[IMAGE: page29_img1.jpeg]
+[IMAGE: page29_img2.jpeg]
+[IMAGE: page29_img3.jpeg]
+[IMAGE: page29_img4.jpeg]
+[IMAGE: page29_img5.jpeg]
+--- Page 30 ---
+
+
+
+87
+You have to make a display wall to stick a painting on it. Reassemble the pieces given in X frame to make a display wall.
+
+
+
+
+88
+[IMAGE: page30_img1.jpeg]
+[IMAGE: page30_img2.jpeg]
+[IMAGE: page30_img3.jpeg]
+[IMAGE: page30_img4.jpeg]
+[IMAGE: page30_img5.jpeg]
+[IMAGE: page30_img6.jpeg]
+[IMAGE: page30_img7.jpeg]
+--- Page 31 ---
+You are an Electrician and you have been given a big board with three small boards fit into it. You have to find out which small board fits into the fourth place and completes the Board?
+
+
+
+
+89
+You are sailing in the sea in a ship and suddenly the compass stops working. The captain of the ship asks you to match the compass X with three more available compasses. Which one will you choose?
+
+[IMAGE: page31_img1.jpeg]
+[IMAGE: page31_img2.jpeg]
+[IMAGE: page31_img3.jpeg]
+[IMAGE: page31_img4.jpeg]
+[IMAGE: page31_img5.jpeg]
+--- Page 32 ---
+
+
+
+90
+In a video game a house X fell on its left side and shattered to pieces you have to combine them and make the house again. How will you make this house by assembling the pieces?
+
+
+
+
+
+[IMAGE: page32_img1.jpeg]
+[IMAGE: page32_img2.jpeg]
+[IMAGE: page32_img3.jpeg]
+[IMAGE: page32_img4.jpeg]
+[IMAGE: page32_img5.jpeg]
+[IMAGE: page32_img6.jpeg]
+[IMAGE: page32_img7.jpeg]
+--- Page 33 ---
+Visual Assembly
+Assemble the pictures in the right combination to complete the visual patterns.
+91
+John is an international commercial pilot he starts his flight at 08:45 AM and finishes at 05:15 PM. How many hours does he work in a days?
+8.5
+8
+8.25
+92
+You are the shift in charge of mine X. The masons have been allotted odd and even numbers there just like roll numbers. You have to find out which mason is not in the group given below:
+3, 5, 11, 14, 17, 21
+21
+17
+14
+93
+You are working in a ship construction company. The ship will have a cubical box placed on its terrace. You have been told to find the volume occupied by this cubical box with the particular dimensions:
+Length 20 Ft, Breadth 20Ft and Height 40 Ft
+--- Page 34 ---
+16000
+1600
+10600
+94
+You are an Architect find out the area of a room which is specified by the following length X breadth
+3 2/6 x 12 2/8 =
+6
+3
+9
+95
+You are working as the international marketing head in a motorbike manufacturing company and have to answer How many motor bikes were sold in Belgium in the month of April?
+
+14
+16
+17
+[IMAGE: page34_img1.jpeg]
+--- Page 35 ---
+96
+A canteen bill is made up of the following Rs 12.50 for starters Rs 28.55 for main course and Rs 8.95 for dessert. How much is the bill?
+49
+50
+51
+97
+You have to work on a school project in which your team has to make a model of village. You have been given the task to prepare the cardboard base as the village ground. The length of the cardboard is 8 meter and width is 12 meters. What is the area of your village ground?
+64
+96
+144
+98
+You are the System Administrator of company X. You are given a list of PC numbering. Two of them are identical. Match them.
+
+AB
+BC
+CA
+[IMAGE: page35_img1.jpeg]
+--- Page 36 ---
+99
+These are proton and neutron in an atom. Which image would be the next one in the series?
+
+
+
+
+100
+Suppose you go for an interview in a company that makes LED lights and they ask you to complete a series of LED lights on a display board. If you complete the series what would the board look like out of the options?
+
+[IMAGE: page36_img1.jpeg]
+[IMAGE: page36_img2.jpeg]
+[IMAGE: page36_img3.jpeg]
+[IMAGE: page36_img4.jpeg]
+[IMAGE: page36_img5.jpeg]
+--- Page 37 ---
+
+
+
+
+[IMAGE: page37_img1.jpeg]
+[IMAGE: page37_img2.jpeg]
+[IMAGE: page37_img3.jpeg]

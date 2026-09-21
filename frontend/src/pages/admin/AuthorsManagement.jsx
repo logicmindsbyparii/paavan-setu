@@ -1,29 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Box, Typography, Button, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, IconButton,
   Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, CircularProgress, Tooltip, Switch, Avatar
+  TextField, CircularProgress, Tooltip, Switch, Avatar,
+  InputAdornment, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
 import FormAlerts from '../../components/ui/FormAlerts';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PersonIcon from '@mui/icons-material/Person';
+import {
+  Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Person as PersonIcon,
+  Search as SearchIcon, FilterList as FilterListIcon, Sort as SortIcon
+} from '@mui/icons-material';
 import { adminRequest, mediaUrl } from '../../lib/api';
 
-const darkTextFieldStyle = {
+const lightTextFieldStyle = {
   '& .MuiOutlinedInput-root': {
-    color: '#ffffff',
-    bgcolor: 'rgba(255, 255, 255, 0.06)',
+    color: 'var(--color-ink)',
+    bgcolor: 'var(--color-snow)',
     borderRadius: '12px',
-    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.18)' },
-    '&:hover fieldset': { borderColor: '#e8b86d' },
-    '&.Mui-focused fieldset': { borderColor: '#e8b86d' },
+    transition: 'all 0.2s ease',
+    '& fieldset': { borderColor: 'rgba(0,0,0,0.08)' },
+    '&:hover fieldset': { borderColor: 'rgba(0,0,0,0.15)' },
+    '&.Mui-focused fieldset': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+    '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
   },
-  '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-  '& .MuiInputLabel-root.Mui-focused': { color: '#e8b86d' },
-  '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.55)' },
+  '& .MuiInputLabel-root': { color: '#6b7280' },
+  '& .MuiInputLabel-root.Mui-focused': { color: 'var(--color-ink)', fontWeight: 600 },
 };
 
 const emptyAuthor = {
@@ -44,6 +46,11 @@ export default function AuthorsManagement() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+  // Filter & Sort State
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [sortOrder, setSortOrder] = useState('order_asc');
 
   useEffect(() => {
     if (!success) return;
@@ -135,23 +142,72 @@ export default function AuthorsManagement() {
   };
 
   const handleToggleActive = async (id) => {
+    const author = authors.find(a => a._id === id);
+    if (!author) return;
+    const currentActive = author.isActive !== false;
+
+    // Optimistic update
+    setAuthors(prev => prev.map(a => a._id === id ? { ...a, isActive: !currentActive } : a));
+
     try {
+      const payload = {
+        name: author.name,
+        bio: author.bio || '',
+        image: author.image || '',
+        credentials: author.credentials || [],
+        order: author.order ?? 0,
+        isActive: !currentActive,
+      };
+
       await adminRequest(`/api/authors/admin/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isActive: !authors.find(a => a._id === id)?.isActive }),
+        body: JSON.stringify(payload),
       });
       fetchAuthors();
     } catch (err) {
+      setAuthors(prev => prev.map(a => a._id === id ? { ...a, isActive: currentActive } : a));
       setError('Toggle failed');
     }
   };
 
+  const filtered = useMemo(() => {
+    let result = authors;
+
+    if (search.trim()) {
+      const lowerQuery = search.toLowerCase();
+      result = result.filter(a =>
+        a.name.toLowerCase().includes(lowerQuery) ||
+        (a.bio || '').toLowerCase().includes(lowerQuery) ||
+        (a.slug || '').toLowerCase().includes(lowerQuery)
+      );
+    }
+
+    if (statusFilter !== 'all') {
+      const isActiveFilter = statusFilter === 'active';
+      result = result.filter(a => (a.isActive !== false) === isActiveFilter);
+    }
+
+    return [...result].sort((a, b) => {
+      switch (sortOrder) {
+        case 'name_asc':
+          return (a.name || '').localeCompare(b.name || '');
+        case 'name_desc':
+          return (b.name || '').localeCompare(a.name || '');
+        case 'newest':
+          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        case 'order_asc':
+        default:
+          return (a.order ?? 0) - (b.order ?? 0);
+      }
+    });
+  }, [authors, search, statusFilter, sortOrder]);
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 16, gap: 2 }}>
-        <CircularProgress size={36} sx={{ color: '#e8b86d' }} />
-        <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>Loading authors…</Typography>
+        <CircularProgress size={36} sx={{ color: '#111827' }} />
+        <Typography sx={{ color: '#6b7280', fontSize: '0.9rem' }}>Loading authors…</Typography>
       </Box>
     );
   }
@@ -161,10 +217,10 @@ export default function AuthorsManagement() {
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#ffffff' }}>
+          <Typography variant="h4" sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>
             Authors
           </Typography>
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', mt: 0.5 }}>
+          <Typography sx={{ color: '#6b7280', mt: 0.5 }}>
             Manage book authors, contributors, and credentials
           </Typography>
         </Box>
@@ -173,9 +229,10 @@ export default function AuthorsManagement() {
           startIcon={<AddIcon />}
           onClick={() => handleOpen()}
           sx={{
-            bgcolor: '#e8b86d',
-            color: '#071d12',
-            '&:hover': { bgcolor: '#f5d9a0' },
+            bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease',
             borderRadius: '12px', textTransform: 'none', fontWeight: 700, px: 3, py: 1.2
           }}
         >
@@ -185,24 +242,121 @@ export default function AuthorsManagement() {
 
       <FormAlerts error={error} success={success} onDismissError={() => setError('')} onDismissSuccess={() => setSuccess('')} />
 
+      {/* Filter and Sort Toolbar */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2.5,
+          bgcolor: 'rgba(255, 255, 255, 0.03)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2
+        }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2, alignItems: 'center', justifyContent: 'space-between' }}>
+          <TextField
+            placeholder="Search authors..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            size="small"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: '#9ca3af' }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              ...lightTextFieldStyle,
+              minWidth: { xs: '100%', md: '300px' },
+              flexGrow: 1
+            }}
+          />
+
+          <Box sx={{ display: 'flex', gap: 2, width: { xs: '100%', md: 'auto' }, flexWrap: 'wrap' }}>
+            <FormControl size="small" sx={{ minWidth: 160, ...lightTextFieldStyle }}>
+              <InputLabel id="status-filter-label" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <FilterListIcon fontSize="small" /> Status
+              </InputLabel>
+              <Select
+                labelId="status-filter-label"
+                value={statusFilter}
+                label="Status"
+                onChange={(e) => setStatusFilter(e.target.value)}
+                sx={{
+                  '& .MuiSelect-icon': { color: '#6b7280' }
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      bgcolor: '#0f172a',
+                      border: '1px solid rgba(0,0,0,0.06)',
+                      '& .MuiMenuItem-root': { color: 'rgba(255,255,255,0.9)' },
+                      '& .MuiMenuItem-root:hover': { bgcolor: 'rgba(0,0,0,0.03)' },
+                      '& .Mui-selected': { bgcolor: 'rgba(232, 184, 109, 0.2) !important', color: '#111827' }
+                    }
+                  }
+                }}
+              >
+                <MenuItem value="all">All Statuses</MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 160, ...lightTextFieldStyle }}>
+              <InputLabel id="sort-order-label" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <SortIcon fontSize="small" /> Sort By
+              </InputLabel>
+              <Select
+                labelId="sort-order-label"
+                value={sortOrder}
+                label="Sort By"
+                onChange={(e) => setSortOrder(e.target.value)}
+                sx={{
+                  '& .MuiSelect-icon': { color: '#6b7280' }
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      bgcolor: '#0f172a',
+                      border: '1px solid rgba(0,0,0,0.06)',
+                      '& .MuiMenuItem-root': { color: 'rgba(255,255,255,0.9)' },
+                      '& .MuiMenuItem-root:hover': { bgcolor: 'rgba(0,0,0,0.03)' },
+                      '& .Mui-selected': { bgcolor: 'rgba(232, 184, 109, 0.2) !important', color: '#111827' }
+                    }
+                  }
+                }}
+              >
+                <MenuItem value="order_asc">Display Order</MenuItem>
+                <MenuItem value="name_asc">Name (A-Z)</MenuItem>
+                <MenuItem value="name_desc">Name (Z-A)</MenuItem>
+                <MenuItem value="newest">Newest First</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+      </Paper>
+
       {/* Cyber Glass Table */}
       <TableContainer component={Paper} elevation={0} sx={{
-        bgcolor: 'rgba(255, 255, 255, 0.04)',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '20px',
+        bgcolor: 'var(--color-paper)',
+        border: '1px solid rgba(0,0,0,0.05)',
+        borderRadius: '24px',
         overflow: 'hidden',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
       }}>
         <Table>
           <TableHead>
-            <TableRow sx={{ bgcolor: 'rgba(255, 255, 255, 0.06)' }}>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Slug</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Bio</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Order</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Active</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)', width: 100 }} align="right">Actions</TableCell>
+            <TableRow sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Slug</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Bio</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Order</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Active</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)', width: 100 }} align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -210,71 +364,91 @@ export default function AuthorsManagement() {
               <TableRow>
                 <TableCell colSpan={6} sx={{ borderBottom: 'none' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 10, gap: 2 }}>
-                    <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(232, 184, 109, 0.15)', color: '#e8b86d' }}>
+                    <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(16, 185, 129, 0.15)', color: '#111827' }}>
                       <PersonIcon sx={{ fontSize: 32 }} />
                     </Avatar>
-                    <Typography sx={{ fontWeight: 600, color: '#ffffff', fontSize: '1.1rem' }}>
+                    <Typography sx={{ fontWeight: 600, color: '#111827', fontSize: '1.1rem' }}>
                       No authors yet
                     </Typography>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', textAlign: 'center', maxWidth: 320 }}>
+                    <Typography sx={{ color: '#6b7280', fontSize: '0.9rem', textAlign: 'center', maxWidth: 320 }}>
                       Add your first author to get started. Authors appear on book detail pages.
                     </Typography>
                     <Button
                       variant="contained"
                       startIcon={<AddIcon />}
                       onClick={() => handleOpen()}
-                      sx={{ mt: 1, bgcolor: '#e8b86d', color: '#071d12', '&:hover': { bgcolor: '#f5d9a0' }, borderRadius: '10px', textTransform: 'none', fontWeight: 700 }}
+                      sx={{ mt: 1, bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease', borderRadius: '10px', textTransform: 'none', fontWeight: 700 }}
                     >
                       Add Author
                     </Button>
                   </Box>
                 </TableCell>
               </TableRow>
+            ) : filtered.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center" sx={{ py: 10, borderBottom: 0 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                    <SearchIcon sx={{ fontSize: 54, color: '#111827', opacity: 0.5 }} />
+                    <Typography variant="h6" sx={{ color: '#111827', fontWeight: 600 }}>No matching authors</Typography>
+                    <Typography variant="body2" sx={{ color: '#6b7280' }}>Try adjusting your search or filters.</Typography>
+                    <Button 
+                      variant="outlined" 
+                      onClick={() => { setSearch(''); setStatusFilter('all'); setSortOrder('order_asc'); }}
+                      sx={{ mt: 2, color: '#111827', borderColor: '#10b981', borderRadius: '8px' }}
+                    >
+                      Clear Filters
+                    </Button>
+                  </Box>
+                </TableCell>
+              </TableRow>
             ) : (
-              authors.map((author) => (
+              filtered.map((author) => (
                 <TableRow
                   key={author._id}
-                  sx={{ '&:last-child td': { borderBottom: 0 }, '&:hover': { bgcolor: 'rgba(255,255,255,0.04)' } }}
+                  sx={{ '&:last-child td': { borderBottom: 0 }, '&:hover': { bgcolor: '#ffffff' } }}
                 >
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       {author.image ? (
                         <Avatar
                           src={mediaUrl(author.image)}
                           alt={author.name}
-                          sx={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)' }}
+                          sx={{ width: 40, height: 40, border: '1px solid rgba(0,0,0,0.12)' }}
                         />
                       ) : (
-                        <Avatar sx={{ width: 40, height: 40, bgcolor: 'rgba(232, 184, 109, 0.2)', color: '#f5d9a0', fontWeight: 700 }}>
+                        <Avatar sx={{ width: 40, height: 40, bgcolor: 'rgba(16, 185, 129, 0.2)', color: '#111827', fontWeight: 700 }}>
                           {author.name?.charAt(0)?.toUpperCase() || '?'}
                         </Avatar>
                       )}
                       <Box>
-                        <Typography sx={{ fontWeight: 600, color: '#ffffff' }}>{author.name}</Typography>
+                        <Typography sx={{ fontWeight: 600, color: '#111827' }}>{author.name}</Typography>
                         {author.credentials?.length > 0 && (
-                          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                          <Typography variant="caption" sx={{ color: '#6b7280' }}>
                             {author.credentials.join(' · ')}
                           </Typography>
                         )}
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography variant="body2" sx={{ fontFamily: "monospace", color: '#e8b86d', fontSize: '0.8rem' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography variant="body2" sx={{ fontFamily: "monospace", color: '#111827', fontSize: '0.8rem' }}>
                       {author.slug || '—'}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography variant="body2" sx={{ maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'rgba(255,255,255,0.75)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography variant="body2" sx={{ maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#6b7280' }}>
                       {author.bio || '—'}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.85)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography variant="body2" sx={{ color: '#4b5563' }}>
                       {author.order ?? 0}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Switch
                       checked={author.isActive !== false}
                       onChange={() => handleToggleActive(author._id)}
@@ -285,12 +459,12 @@ export default function AuthorsManagement() {
                       }}
                     />
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} align="right">
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }} align="right">
                     <Tooltip title="Edit">
                       <IconButton
                         onClick={() => handleOpen(author)}
                         size="small"
-                        sx={{ color: '#e8b86d', '&:hover': { bgcolor: 'rgba(232, 184, 109, 0.15)' } }}
+                        sx={{ color: '#111827', '&:hover': { bgcolor: 'rgba(16, 185, 129, 0.15)' } }}
                       >
                         <EditIcon fontSize="small" />
                       </IconButton>
@@ -317,19 +491,19 @@ export default function AuthorsManagement() {
         PaperProps={{
           sx: {
             borderRadius: '24px',
-            bgcolor: '#061e12',
-            backgroundImage: 'linear-gradient(145deg, #051c11 0%, #082a3e 100%)',
-            color: '#ffffff',
+            bgcolor: '#ffffff',
+            bgcolor: '#ffffff',
+            color: '#111827',
             border: '1px solid rgba(232, 184, 109, 0.3)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
             p: 1
           }
         }}
       >
-        <DialogTitle sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#f5d9a0' }}>
+        <DialogTitle sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>
           {editingAuthor ? 'Edit Author' : 'Add New Author'}
         </DialogTitle>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+        <DialogContent dividers sx={{ borderColor: '#e5e7eb' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
             <TextField
               label="Name"
@@ -338,7 +512,7 @@ export default function AuthorsManagement() {
               onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
               fullWidth
               placeholder="e.g. Shweta Kothari"
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
 
             <TextField
@@ -349,7 +523,7 @@ export default function AuthorsManagement() {
               rows={3}
               fullWidth
               placeholder="Brief description of the author..."
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
 
             <Box>
@@ -359,7 +533,7 @@ export default function AuthorsManagement() {
                 onChange={e => setFormData(p => ({ ...p, image: e.target.value }))}
                 fullWidth
                 placeholder="https://example.com/photo.jpg"
-                sx={darkTextFieldStyle}
+                sx={lightTextFieldStyle}
               />
               {formData.image && (
                 <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -368,7 +542,7 @@ export default function AuthorsManagement() {
                     alt="Preview"
                     sx={{ width: 48, height: 48, border: '2px solid rgba(232, 184, 109, 0.4)' }}
                   />
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>Image preview</Typography>
+                  <Typography variant="caption" sx={{ color: '#6b7280' }}>Image preview</Typography>
                 </Box>
               )}
             </Box>
@@ -380,7 +554,7 @@ export default function AuthorsManagement() {
               fullWidth
               placeholder="Author, Speaker, Educator"
               helperText="Comma-separated list of credentials"
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
 
             <TextField
@@ -390,15 +564,15 @@ export default function AuthorsManagement() {
               onChange={e => setFormData(p => ({ ...p, order: e.target.value }))}
               fullWidth
               helperText="Lower numbers appear first"
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
           </Box>
         </DialogContent>
-        <DialogActions sx={{ p: 2.5, borderColor: 'rgba(255,255,255,0.12)' }}>
+        <DialogActions sx={{ p: 2.5, borderColor: '#e5e7eb' }}>
           <Button
             onClick={() => setDialogOpen(false)}
             disabled={saving}
-            sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}
+            sx={{ color: '#6b7280', fontWeight: 600 }}
           >
             Cancel
           </Button>
@@ -407,11 +581,12 @@ export default function AuthorsManagement() {
             onClick={handleSave}
             disabled={saving || !formData.name.trim()}
             sx={{
-              bgcolor: '#e8b86d',
-              color: '#071d12',
-              '&:hover': { bgcolor: '#f5d9a0' },
+              bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease',
               fontWeight: 700, borderRadius: '10px', px: 3,
-              '&.Mui-disabled': { bgcolor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.4)' }
+              '&.Mui-disabled': { bgcolor: '#e5e7eb', color: '#9ca3af' }
             }}
           >
             {saving ? 'Saving…' : editingAuthor ? 'Update Author' : 'Create Author'}
@@ -424,26 +599,26 @@ export default function AuthorsManagement() {
         PaperProps={{
           sx: {
             borderRadius: '20px',
-            bgcolor: '#061e12',
-            backgroundImage: 'linear-gradient(145deg, #051c11 0%, #082a3e 100%)',
-            color: '#ffffff',
+            bgcolor: '#ffffff',
+            bgcolor: '#ffffff',
+            color: '#111827',
             border: '1px solid rgba(244, 63, 94, 0.4)',
             p: 1
           }
         }}
       >
-        <DialogTitle sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#f43f5e' }}>
+        <DialogTitle sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#f43f5e' }}>
           Delete Author
         </DialogTitle>
         <DialogContent>
-          <Typography sx={{ color: 'rgba(255,255,255,0.85)' }}>
-            Are you sure you want to delete <strong className="text-white">{deleteConfirm?.name}</strong>? This action cannot be undone.
+          <Typography sx={{ color: '#4b5563' }}>
+            Are you sure you want to delete <strong className="text-gray-900">{deleteConfirm?.name}</strong>? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button
             onClick={() => setDeleteConfirm(null)}
-            sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}
+            sx={{ color: '#6b7280', fontWeight: 600 }}
           >
             Cancel
           </Button>

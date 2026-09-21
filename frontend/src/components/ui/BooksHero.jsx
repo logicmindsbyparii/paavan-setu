@@ -84,7 +84,9 @@ export default function BooksHero() {
         .fromTo(fades, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.95, stagger: 0.09 }, 0.45)
         .fromTo(cards, { opacity: 0, y: 80, rotationX: 15 }, { opacity: 1, y: 0, rotationX: 0, duration: 1.4, stagger: 0.1 }, 0.35);
 
-      if (rule) {
+      // Decorative rule; skip it where SVGGeometryElement is unavailable
+      // rather than letting the measurement blank the page.
+      if (rule && typeof rule.getTotalLength === 'function') {
         const length = rule.getTotalLength();
         gsap.set(rule, { strokeDasharray: length, strokeDashoffset: length });
         tl.to(rule, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, 0.95);

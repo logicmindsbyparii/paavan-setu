@@ -61,6 +61,9 @@ function InteractiveContactCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    // Null when the browser cannot hand out a 2D context; the draws below would
+    // throw and unmount the page. Skip the background instead.
+    if (!ctx) return;
     let animationFrameId;
 
     let width = (canvas.width = canvas.offsetWidth);

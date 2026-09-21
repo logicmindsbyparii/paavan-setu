@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const adminController = require('../controllers/adminController');
+const testController = require('../controllers/testController');
 const Admin = require('../models/Admin');
 
 // Public routes
@@ -33,6 +34,22 @@ router.post('/create', authenticate, authorize('super-admin'), adminController.c
 
 // Test Analytics
 router.get('/test-results', authenticate, adminController.getAllTestResults);
+router.get('/test-results/:testSlug', authenticate, adminController.getTestResultsBySlug);
+router.get('/test-analytics', authenticate, adminController.getTestAnalytics);
+// Per-test analytics lives in testController: it is the enriched implementation
+// (drop-off, item analysis, pass/fail, timing) that the dashboard renders. The
+// route previously pointed at a thinner duplicate, so those panels never
+// received data and silently rendered nothing.
+router.get('/test-analytics/:testSlug', authenticate, testController.getTestAnalyticsBySlug);
+router.delete('/test-results/:id', authenticate, adminController.deleteTestResult);
+
+// Coupon Management
+router.get('/coupons', authenticate, adminController.getAllCoupons);
+router.post('/coupons', authenticate, adminController.createCoupon);
+router.put('/coupons/bulk', authenticate, adminController.bulkUpdateCoupons);
+router.get('/coupons/:id', authenticate, adminController.getCouponById);
+router.put('/coupons/:id', authenticate, adminController.updateCoupon);
+router.delete('/coupons/:id', authenticate, adminController.deleteCoupon);
 
 // Users Management
 router.get('/users', authenticate, adminController.getAllUsers);

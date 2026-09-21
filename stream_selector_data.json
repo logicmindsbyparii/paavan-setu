@@ -1,0 +1,2238 @@
+{
+  "categories": [
+    "Science (Medical)",
+    "Science (Non-Medical)",
+    "Commerce",
+    "Arts & Humanities"
+  ],
+  "questions": [
+    {
+      "question": "Do you like to participate in community services and/or volunteering?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Are you a good listener and can make friends with different kinds of people?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you find it difficult to deal with huge set of numbers and data?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Commerce": 2
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Commerce": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you feel confident in handling other people's money?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Commerce": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Commerce": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you enjoy reading technical materials and solve technical problems?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you enjoy working in a laboratory and experimenting?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Medical)": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you find it’s exciting to learn how things grow and stay alive?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Medical)": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you think working in a hospital or other medical facilities is a bad idea?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Medical)": 2
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Can you analyze financial information and interpret it to others?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Commerce": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Commerce": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you find new technologies exciting and you think they are fun?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you like to spend time in library collecting information about world history, evolution etc?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you find it boring to learn chemical formulas and physics theory?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you like to read business newspapers?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Commerce": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Commerce": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "Do you show strong interest in how law and regulations are designed and passed?",
+      "options": [
+        {
+          "text": "Yes",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        },
+        {
+          "text": "No",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "Not Sure",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Discussing better governing methods",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Giving students advice about their education",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Writing plays for a small theater or giving dance lessons",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Typing business letters",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Commerce": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Commerce": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Deciding on investments in share markets",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Commerce": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Commerce": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: To work on computers and write programs and logical codes",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Designing telephone equipment",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Provide care and medical help to patients and animals",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Protecting wildlife from illegal hunting",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Giving medicine with a needle and cleaning a patient's teeth",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Taking care of new born in intensive care unit",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Analyze crop yield produced from different soil and fertilizers",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Culture a tissue in a laboratory and write a research report on it",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Giving polio medicine to patient in government camps",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Conducting educational camps to eradicate polio",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Taking survey to improve sanitation in an area",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Talking to an individual who is depressed",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Arts & Humanities": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Arts & Humanities": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Arts & Humanities": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Formulate mathematical model or other methods of an analysis to design a device",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Conduct laboratory experiments to prove a theorem or theory",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Read dials and meters to determine amperage, voltage, electrical output and input",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Science (Non-Medical)": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Science (Non-Medical)": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Science (Non-Medical)": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Meeting with executives, clients and representatives",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Commerce": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Commerce": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "If ever given an option would you choose given work to make a living: Taking decisions related to tax and money",
+      "options": [
+        {
+          "text": "Never",
+          "points": {
+            "Commerce": 0
+          }
+        },
+        {
+          "text": "May be",
+          "points": {
+            "Commerce": 1
+          }
+        },
+        {
+          "text": "Yes, Will love to",
+          "points": {
+            "Commerce": 2
+          }
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-000.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes DE match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "DE",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes DE match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "DC",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "DB",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "DA",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-001.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes BE match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "text": "BA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BC",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BD",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BE",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes BE match exactly; the rest differ by at least one character."
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-002.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes CD match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "CB",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CE",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CD",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes CD match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "CA",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-003.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes CE match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "CE",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes CE match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "CB",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CD",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-004.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes BD match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "BA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BD",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes BD match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "BE",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BC",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-005.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes BD match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "text": "BA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BC",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BE",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BD",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes BD match exactly; the rest differ by at least one character."
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-006.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes BC match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "BA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BE",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "BC",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes BC match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "BD",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-007.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes CE match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "CE",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes CE match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "CA",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CB",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "CD",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-008.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes AD match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "text": "AE",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "AB",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "AC",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "AD",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes AD match exactly; the rest differ by at least one character."
+        }
+      ]
+    },
+    {
+      "question": "Find the two identical codes from A, B, C, D or E and choose the right option.",
+      "scenario": "Identical Codes — compare the five codes in the table image carefully.",
+      "imageUrl": "/images/stream-selector/img-009.png",
+      "difficulty": "beginner",
+      "tags": [
+        "identical-codes",
+        "attention-to-detail"
+      ],
+      "explanation": "Codes AB match exactly; the rest differ by at least one character.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "BD",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "AB",
+          "points": {
+            "Commerce": 1
+          },
+          "explanation": "Codes AB match exactly; the rest differ by at least one character."
+        },
+        {
+          "text": "AD",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "DE",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "You are the manager of a company which publishes books. You have been given the total cost of a new publication in the table. How much is spent on advertisement and how much is given to the author respectively?",
+      "scenario": "Number Game — Promotion cost = advertisement; Royalty = author share.",
+      "imageUrl": "/images/stream-selector/img-010.png",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "data-interpretation"
+      ],
+      "explanation": "Promotion cost is 10,000 and Royalty is 15,000 — so 10000, 15000.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "20000, 15000",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "15000, 10000",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "10000, 15000",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "Promotion cost is 10,000 and Royalty is 15,000 — so 10000, 15000."
+        },
+        {
+          "text": "None of the above",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "You have come as an Auditor to a Company that prepares students for competitive exams. It refunds tuition fees of all students not selected. In which two years does the refunded number NOT match the refund policy?",
+      "scenario": "Number Game — refunded count must equal Students Not Selected.",
+      "imageUrl": "/images/stream-selector/img-011.png",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "data-interpretation"
+      ],
+      "explanation": "2009 refunded 2500 vs 3000 not selected; 2011 refunded 2700 vs 2650. All other years match.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "2009, 2011",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "2009 refunded 2500 vs 3000 not selected; 2011 refunded 2700 vs 2650. All other years match."
+        },
+        {
+          "text": "2009, 2012",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "2008, 2010",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "None of the above",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "A shopkeeper purchased a set of 400 pencils for Rs 600. He sold each pencil for Rs 2. How much does he earn on each pencil?",
+      "scenario": "",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "profit-loss"
+      ],
+      "explanation": "Cost each = 600/400 = 1.5. Sold at 2, so profit = 0.5 per pencil.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "1",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "0.5",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "Cost each = 600/400 = 1.5. Sold at 2, so profit = 0.5 per pencil."
+        },
+        {
+          "text": "1.5",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "2.5",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Atul purchased 5 kg apples for Rs 300 and 5 kg bananas for Rs 270. He sold the apples for Rs 560 and bananas for Rs 320. What was the total profit?",
+      "scenario": "",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "profit-loss"
+      ],
+      "explanation": "Cost 570, sold 880. Profit = 880 - 570 = 310.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "text": "320",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "300",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "370",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "310",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "Cost 570, sold 880. Profit = 880 - 570 = 310."
+        }
+      ]
+    },
+    {
+      "question": "Ajay went to bank to get change of Rs 500. He gave the cashier a 500 Rupee note and asked for all Rs 10 notes in return. How many 10 rupee notes will he get?",
+      "scenario": "",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "arithmetic"
+      ],
+      "explanation": "500 / 10 = 50 notes.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "500",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "10",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "50",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "500 / 10 = 50 notes."
+        },
+        {
+          "text": "20",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Suppose you went to IG International Airport and a senior pilot asked: if drive wheel X rotates clockwise then how does wheel Y turn?",
+      "scenario": "Number Game — study the belt drive in the image (open belt, Y is the small wheel).",
+      "imageUrl": "/images/stream-selector/img-012.png",
+      "difficulty": "advanced",
+      "tags": [
+        "number-game",
+        "mechanical-reasoning"
+      ],
+      "explanation": "An open belt keeps the same direction, and the smaller wheel Y spins faster than X.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "Clockwise faster",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "An open belt keeps the same direction, and the smaller wheel Y spins faster than X."
+        },
+        {
+          "text": "Clockwise slower",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Anticlockwise faster",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "None of the above",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Find 1/9 as a percentage =",
+      "scenario": "",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "percentages"
+      ],
+      "explanation": "1/9 = 0.1111… = 11.11%.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "0.09",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "11.11",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "1/9 = 0.1111… = 11.11%."
+        },
+        {
+          "text": "1.11",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "0.9",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "You are making a new vehicle which moves on the mechanics in the image. If bar Y moves left at a constant speed of 10 rpm, how does bar X move?",
+      "scenario": "Number Game — Y drives the small gear, which drives the big gear, which drives X.",
+      "imageUrl": "/images/stream-selector/img-013.png",
+      "difficulty": "advanced",
+      "tags": [
+        "number-game",
+        "mechanical-reasoning"
+      ],
+      "explanation": "The small gear drives the bigger gear, so X moves the opposite way at a slower speed.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "Faster",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Same",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Slower",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "The small gear drives the bigger gear, so X moves the opposite way at a slower speed."
+        },
+        {
+          "text": "None of the above",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Suppose you are the Electrical Engineer of a company X. In the circuit shown, how many switches need to be closed to light up one bulb?",
+      "scenario": "Number Game — four parallel branches, each with one bulb and one switch.",
+      "imageUrl": "/images/stream-selector/img-014.png",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "electrical"
+      ],
+      "explanation": "Each bulb has its own parallel branch, so closing one switch lights exactly one bulb.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "None",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "One",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "Each bulb has its own parallel branch, so closing one switch lights exactly one bulb."
+        },
+        {
+          "text": "Two",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Three",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "A man sold 1 Kg of rice for Rs 40 and made a profit of Rs 10 on it. The next day he sold 2 Kgs of rice for Rs 60 and made a profit of Rs 10. At what cost did he buy rice on Day 1 and Day 2?",
+      "scenario": "",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "number-game",
+        "profit-loss"
+      ],
+      "explanation": "Day 1: 40 - 10 = 30/kg. Day 2: (60 - 10)/2 = 25/kg.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "Rs. 30, Rs. 25 Respectively",
+          "points": {
+            "Science (Non-Medical)": 1
+          },
+          "explanation": "Day 1: 40 - 10 = 30/kg. Day 2: (60 - 10)/2 = 25/kg."
+        },
+        {
+          "text": "Rs. 30, Rs. 30 Respectively",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Rs. 35, Rs. 30 Respectively",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Rs. 35, Rs. 25 Respectively",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Civilization began in the continent of Asia.",
+      "scenario": "Asia is the world’s largest continent and stretches from the Baring Sea in the east to Turkey and Europe in the west. Its southern border comprises many islands, including those that make up Indonesia. Since independence of colonial powers Asian economies have boomed. First were Japan, Singapore, Taiwan, South Korea and later Malaysia, Thailand and Indonesia. More recently China and India have enjoyed rapid economic growth. The south west central part of the continent are deserts. The people of Asia make up over two-thirds of the world’s population and they live in the birthplace of the world’s earliest civilizations. Asia varies greatly across and within its regions with regard to ethnic groups, cultures, environments, economics, historical ties and government systems. It also has a mix of many different climates ranging from the equatorial south via the hot desert in the Middle East, temperate areas in the east and the extremely continental centre to vast subarctic and polar areas in Siberia.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "The passage says Asia’s people live in the birthplace of the world’s earliest civilizations.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "True",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "The passage says Asia’s people live in the birthplace of the world’s earliest civilizations."
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "The colonial era was a disaster for Asia.",
+      "scenario": "Answer based on the Asia passage shown in Q57.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "The passage only says economies boomed after independence; it never judges the colonial era.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "The passage only says economies boomed after independence; it never judges the colonial era."
+        }
+      ]
+    },
+    {
+      "question": "Is Siberia coldest place in Asia?",
+      "scenario": "Answer based on the Asia passage shown in Q57.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "Siberia is described as subarctic and polar, but no coldest-place claim is made.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Siberia is described as subarctic and polar, but no coldest-place claim is made."
+        }
+      ]
+    },
+    {
+      "question": "Post-colonial growth first occurred in Singapore.",
+      "scenario": "Answer based on the Asia passage shown in Q57.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "Japan is listed first among the early growers, not Singapore alone.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Japan is listed first among the early growers, not Singapore alone."
+        },
+        {
+          "text": "Cannot tell",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Asia has the largest diversity in the world in terms of culture and climate?",
+      "scenario": "Answer based on the Asia passage shown in Q57.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "Great variety is described, but no world-largest comparison is stated.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Great variety is described, but no world-largest comparison is stated."
+        }
+      ]
+    },
+    {
+      "question": "Light is known as electromagnetic radiation because it has two complementary components called magnetic field wave and electric field wave.",
+      "scenario": "Electromagnetic radiation is one of the many ways that energy travels through space. The heat from a burning fire, the light from the sun, the X-rays used by your doctor, as well as the energy used to cook food in a microwave are all forms of electromagnetic radiation. While these forms of energy might seem quite different from one another, they are related in that they all exhibit wavelike properties. Light from the sun is also made up of these electromagnetic waves. These vary in length and it is these differences that we perceive as different colours. White light has all the wavelengths of the light spectrum mixed up together. An object looks coloured because light falls on it and it reflects only certain parts of the spectrum. The rest of the spectrum is absorbed by the object. An object that looks white reflects the red part of the spectrum and absorbs the rest. Our eyes detect these different reflected waves and we see them as different colours.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "The passage never gives this reason; it only says the forms exhibit wavelike properties.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "The passage never gives this reason; it only says the forms exhibit wavelike properties."
+        }
+      ]
+    },
+    {
+      "question": "The colour we perceive an object to be is determined by the electromagnetic waves that it absorbs or reflects.",
+      "scenario": "Answer based on the electromagnetic-radiation passage shown in Q62.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "Stated directly: an object looks coloured because it reflects only certain parts of the spectrum.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "True",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Stated directly: an object looks coloured because it reflects only certain parts of the spectrum."
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Radio waves, Light waves, thermal radiation, X ray, visible light, microwave, infrared, gamma rays etc. are the example of",
+      "scenario": "Answer based on the electromagnetic-radiation passage shown in Q62.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "The passage calls them electromagnetic radiation and says they all exhibit wavelike properties.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "Electromagnetic waves",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Electromagnetic Radiations",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Both",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "The passage calls them electromagnetic radiation and says they all exhibit wavelike properties."
+        }
+      ]
+    },
+    {
+      "question": "The passage states that an object that looks blue absorbs all but the blue wavelengths of light.",
+      "scenario": "Answer based on the electromagnetic-radiation passage shown in Q62.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "Blue is never mentioned; only a white-object example is given.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Blue is never mentioned; only a white-object example is given."
+        }
+      ]
+    },
+    {
+      "question": "White paint reflects more light than red paint.",
+      "scenario": "Answer based on the electromagnetic-radiation passage shown in Q62.",
+      "imageUrl": "",
+      "difficulty": "intermediate",
+      "tags": [
+        "reading-comprehension"
+      ],
+      "explanation": "No white-vs-red comparison appears in the passage.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "True",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "False",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Cannot tell",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "No white-vs-red comparison appears in the passage."
+        }
+      ]
+    },
+    {
+      "question": "Which of the following words are preposition?",
+      "scenario": "Words Game",
+      "imageUrl": "",
+      "difficulty": "beginner",
+      "tags": [
+        "vocabulary",
+        "grammar"
+      ],
+      "explanation": "In is a preposition; the rest are nouns/particles.",
+      "correctOptionIndex": 2,
+      "options": [
+        {
+          "text": "Location",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "No",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "In",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "In is a preposition; the rest are nouns/particles."
+        },
+        {
+          "text": "Position",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Choose the one with right spelling.",
+      "scenario": "Words Game",
+      "imageUrl": "",
+      "difficulty": "beginner",
+      "tags": [
+        "vocabulary",
+        "spelling"
+      ],
+      "explanation": "The correct spelling is P-E-R-M-I-S-S-I-B-L-E.",
+      "correctOptionIndex": 1,
+      "options": [
+        {
+          "text": "Permisible",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Permissible",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "The correct spelling is P-E-R-M-I-S-S-I-B-L-E."
+        },
+        {
+          "text": "Permissable",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Permisable",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Dog is to Hair as Fish is to:",
+      "scenario": "Words Game — analogy.",
+      "imageUrl": "",
+      "difficulty": "beginner",
+      "tags": [
+        "vocabulary",
+        "analogy"
+      ],
+      "explanation": "Hair covers a dog as scales cover a fish.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "Scales",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Hair covers a dog as scales cover a fish."
+        },
+        {
+          "text": "Feathers",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Tail",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Fins",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Dawn is to Noon as Dusk is to:",
+      "scenario": "Words Game — analogy.",
+      "imageUrl": "",
+      "difficulty": "beginner",
+      "tags": [
+        "vocabulary",
+        "analogy"
+      ],
+      "explanation": "Dawn leads to noon as dusk leads to night.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "text": "Night",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "Dawn leads to noon as dusk leads to night."
+        },
+        {
+          "text": "Midnight",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Dark",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Afternoon",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Cat is to paw as Horse is to:",
+      "scenario": "Words Game — analogy.",
+      "imageUrl": "",
+      "difficulty": "beginner",
+      "tags": [
+        "vocabulary",
+        "analogy"
+      ],
+      "explanation": "A paw is the cat’s foot as a hoof is the horse’s foot (a shoe is man-made).",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "text": "Fur",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Hair",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Shoe",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "text": "Hoof",
+          "points": {
+            "Arts & Humanities": 1
+          },
+          "explanation": "A paw is the cat’s foot as a hoof is the horse’s foot (a shoe is man-made)."
+        }
+      ]
+    },
+    {
+      "question": "Choose the option which would complete the sequence.",
+      "scenario": "Incomplete Sequence — the satellite dot circuits the main shape; the grid reads TL → BL → BR → ?.",
+      "imageUrl": "/images/stream-selector/img-015.png",
+      "difficulty": "advanced",
+      "tags": [
+        "pattern-reasoning",
+        "spatial"
+      ],
+      "explanation": "The dot continues its counter-clockwise circuit back to the west side of a round disc.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "imageUrl": "/images/stream-selector/img-016.png",
+          "text": "Option A",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-017.png",
+          "text": "Option B",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-018.png",
+          "text": "Option C",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-019.png",
+          "text": "Option D",
+          "points": {
+            "Science (Non-Medical)": 2
+          },
+          "explanation": "The dot continues its counter-clockwise circuit back to the west side of a round disc."
+        }
+      ]
+    },
+    {
+      "question": "Choose the option which would complete the sequence.",
+      "scenario": "Incomplete Sequence — each column must match top to bottom.",
+      "imageUrl": "/images/stream-selector/img-020.png",
+      "difficulty": "intermediate",
+      "tags": [
+        "pattern-reasoning",
+        "spatial"
+      ],
+      "explanation": "The right column repeats top to bottom, so the left column repeats the square with the down arrow.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "imageUrl": "/images/stream-selector/img-021.png",
+          "text": "Option A",
+          "points": {
+            "Science (Non-Medical)": 2
+          },
+          "explanation": "The right column repeats top to bottom, so the left column repeats the square with the down arrow."
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-022.png",
+          "text": "Option B",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-023.png",
+          "text": "Option C",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-024.png",
+          "text": "Option D",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Choose the option which would complete the sequence.",
+      "scenario": "Incomplete Sequence — track the bold ring across the four quadrants.",
+      "imageUrl": "/images/stream-selector/img-025.png",
+      "difficulty": "advanced",
+      "tags": [
+        "pattern-reasoning",
+        "spatial"
+      ],
+      "explanation": "The ring visits each quadrant once; the missing cell needs it bottom-right with triangle, square, circle fixed.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "imageUrl": "/images/stream-selector/img-026.png",
+          "text": "Option A",
+          "points": {
+            "Science (Non-Medical)": 2
+          },
+          "explanation": "The ring visits each quadrant once; the missing cell needs it bottom-right with triangle, square, circle fixed."
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-027.png",
+          "text": "Option B",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-028.png",
+          "text": "Option C",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-029.png",
+          "text": "Option D",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Choose the option which would complete the sequence.",
+      "scenario": "Incomplete Sequence — every cell holds four shapes; count squares vs circles.",
+      "imageUrl": "/images/stream-selector/img-030.png",
+      "difficulty": "advanced",
+      "tags": [
+        "pattern-reasoning",
+        "spatial"
+      ],
+      "explanation": "Each cell totals four shapes and the missing cell balances the set with four circles.",
+      "correctOptionIndex": 0,
+      "options": [
+        {
+          "imageUrl": "/images/stream-selector/img-031.png",
+          "text": "Option A",
+          "points": {
+            "Science (Non-Medical)": 2
+          },
+          "explanation": "Each cell totals four shapes and the missing cell balances the set with four circles."
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-032.png",
+          "text": "Option B",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-033.png",
+          "text": "Option C",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-034.png",
+          "text": "Option D",
+          "points": {},
+          "explanation": ""
+        }
+      ]
+    },
+    {
+      "question": "Which comes next? Choose an option.",
+      "scenario": "Incomplete Sequence — the divider alternates horizontal/vertical while the dots travel.",
+      "imageUrl": "/images/stream-selector/img-035.png",
+      "difficulty": "advanced",
+      "tags": [
+        "pattern-reasoning",
+        "spatial"
+      ],
+      "explanation": "The next frame needs a vertical divider with the ring top-left and the solid dot top-right.",
+      "correctOptionIndex": 3,
+      "options": [
+        {
+          "imageUrl": "/images/stream-selector/img-036.png",
+          "text": "Option A",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-037.png",
+          "text": "Option B",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-038.png",
+          "text": "Option C",
+          "points": {},
+          "explanation": ""
+        },
+        {
+          "imageUrl": "/images/stream-selector/img-039.png",
+          "text": "Option D",
+          "points": {
+            "Science (Non-Medical)": 2
+          },
+          "explanation": "The next frame needs a vertical divider with the ring top-left and the solid dot top-right."
+        }
+      ]
+    }
+  ]
+}

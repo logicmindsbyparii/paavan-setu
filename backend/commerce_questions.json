@@ -1,0 +1,658 @@
+[
+  {
+    "num": 1,
+    "text": "I know a person who does a lot of reading, monitoring and evaluation work and shares his knowledge with others. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 2,
+    "text": "I know a person who knows many languages, can read, write, translate and interpret them. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 3,
+    "text": "I know a person who is very creative, can work with colors shapes and textures on a computer. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 4,
+    "text": "I know a person who is very fashionable and creative, can design variety of dresses and jewels as per demand. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 5,
+    "text": "I know a person who is a story teller, ever curious to know what is happening around and impatient to share it with others. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 6,
+    "text": "I know a person who is stage free, is creative and expressive, and travels a lot to work. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 7,
+    "text": "I know a person who studies price inflation and public opinion, analyzes and presents thoughts on the current and ancient political scenario of the country. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 8,
+    "text": "I know a person who is flexible to work round the clock, is willing to advise regarding travel destination and preparation. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 9,
+    "text": "I know a person who enjoys good food and cooking, always talks politely and in pleasing manner and willing to help and entertain his guests. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 10,
+    "text": "I know a person who is very responsible, likes working in a team, can take leadership roles and believes in time management. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 11,
+    "text": "I know a person who is driven to make money, is highly competitive, and understands financial statements. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 12,
+    "text": "I know a person who researches about costs, inflation, interest rates, exchange rates, business cycles, and taxes. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 13,
+    "text": "I know a person who is very social, and gives timely advice to the wealthy clients to expand and protect their money and assets. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 14,
+    "text": "I know a person who is very intelligent and analytical, expert at calculating what a business is worth and helps companies grow to the highest level. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 15,
+    "text": "I know a person who is a confident decision maker, has strong research and analytical skills, and can predict successful investment. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 16,
+    "text": "I know a person who is cautious, has attention to detail on minute financial data and knows the way in which business is being conducted. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 17,
+    "text": "I know a person who has a logical mind and plans every move mentally before actually doing it and has a good understanding of business law. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 18,
+    "text": "I know a person who specialized at mathematics and statistics, has keen analytical, project management, and problem solving skills. How would you compare this person with yourself?",
+    "options": [
+      "I want to be like that",
+      "I can try to be like that",
+      "I can never be like that"
+    ]
+  },
+  {
+    "num": 19,
+    "text": "Are you comfortable to work as a professional who works amidst younger group of people, sharing and imparting knowledge to them, solving their curiosities, and being a disciplinary role model for them?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 20,
+    "text": "Are you comfortable to work as a professional who learns different languages of the world, watches regional documentaries, reads the literatures written in various languages and translates some of them in your own mother tongue?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 21,
+    "text": "Are you comfortable as a professional to manipulate with fonts, colors and textures, to design different landscapes and characters on computers and work for long hours with concentration?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 22,
+    "text": "Are you comfortable to work as a professional with various materials, colors and designs, to create every time a new style of dress or jewel according to the latest trends?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 23,
+    "text": "Are you comfortable as a professional to cover any recent news, event, innovation or development and write or broadcast it to the world?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 24,
+    "text": "Are you comfortable as a professional to conceptualize creative ideas and present them to public in various creative formats such as Video, Audio, Photograph or an article?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 25,
+    "text": "Are you comfortable as a professional to research about the socio economic and political situation of your country or the world?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 26,
+    "text": "Are you comfortable as a professional in traveling frequently, managing ticket transportation or hotel booking as per clients budget and time and always be willing to help travelers with a smile?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 27,
+    "text": "Are you comfortable as a professional to walk around smiling all the time, always ready to please people, demonstrate high energy and enthusiasm, to serve and take care of guests?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 28,
+    "text": "Are you comfortable to be in a role where you have to take responsibilities of your own working as well as the work of others, direct a group of people so that they reach to some common goals?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 29,
+    "text": "Are you comfortable to keep track of share prices on a daily basis and advise people to invest in buying shares or disinvest by selling shares accordingly?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 30,
+    "text": "Are you comfortable to be responsible for the arrangement of money and advise business houses and companies for its maximum utilization?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 31,
+    "text": "Are you comfortable to work on a position where you will be the care taker of other’s money and also its growth in a fixed time period as per market trends?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 32,
+    "text": "Are you comfortable to work on a position where top management professionals will ask you to make strategies to grow the wealth in their companies?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 33,
+    "text": "Are you comfortable to work as a professional who reviews the accounts of companies and organizations to ensure the validity and legality of their financial records?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 34,
+    "text": "Are you comfortable to work as a professional who prepares accounting records, processes taxes and reports to management regarding the expenses of the company.",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 35,
+    "text": "Are you comfortable in dealing with govt. rules and regulations, policies, acts and laws and incorporate them in your work place?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 36,
+    "text": "Are you comfortable to work as a professional who uses Mathematical and statistical skills to make financial concepts easily understandable by common people?",
+    "options": [
+      "Very comfortable",
+      "May not be comfortable",
+      "Not comfortable at all"
+    ]
+  },
+  {
+    "num": 37,
+    "text": "These are private centers where students can come to study after school to understand the subject better. Which centers are these?",
+    "options": [
+      "Tutorial",
+      "Extra classes in school",
+      "Parlors"
+    ]
+  },
+  {
+    "num": 38,
+    "text": "These professionals are language specialists. They interpret pronunciation and understand the meaning of multiple languages and can translate them too. Who are they?",
+    "options": [
+      "Teacher",
+      "Translator",
+      "Linguist"
+    ]
+  },
+  {
+    "num": 39,
+    "text": "This professional makes moving characters for movies, online tutorials, TV advertisements. Who is he?",
+    "options": [
+      "Designer",
+      "Animator",
+      "Programmer"
+    ]
+  },
+  {
+    "num": 40,
+    "text": "These professionals work for giving people a feel good factor in their own houses. They give the best options for room colors, placing furniture etc. Who are they?",
+    "options": [
+      "Architect",
+      "Interior Designer",
+      "Home Maker"
+    ]
+  },
+  {
+    "num": 41,
+    "text": "The professional who reads events or happenings all around the world daily on TV channels are known as",
+    "options": [
+      "News Reader",
+      "Reporter",
+      "Anchor"
+    ]
+  },
+  {
+    "num": 42,
+    "text": "A professional who makes interesting advertisements which you see on TV or hear on radio are known as",
+    "options": [
+      "Ad Maker",
+      "Film Maker",
+      "Artist"
+    ]
+  },
+  {
+    "num": 43,
+    "text": "A professional who listens to people’s problems and motivates them to solve them with courage and confidence to lead a better life is known as",
+    "options": [
+      "Psychologist",
+      "Social worker",
+      "Teacher"
+    ]
+  },
+  {
+    "num": 44,
+    "text": "A person working in this profile in an organization books tickets, hotels and manages all the logistics of any event. Do you know who this person is",
+    "options": [
+      "Receptionist",
+      "Travel desk manager",
+      "Human Resource manager"
+    ]
+  },
+  {
+    "num": 45,
+    "text": "These agencies provide services of cooking and serving meals on festive events. Do you know which agency is this?",
+    "options": [
+      "Restaurant",
+      "Hospital",
+      "Catering"
+    ]
+  },
+  {
+    "num": 46,
+    "text": "These professionals head a team to lead a group of people and achieve company’s targets for profit. Who are they?",
+    "options": [
+      "Team leaders",
+      "Managers",
+      "Teachers"
+    ]
+  },
+  {
+    "num": 47,
+    "text": "A professional who sells and buys shares of companies and finds their position or value in market is known as",
+    "options": [
+      "Stock broker",
+      "Trader",
+      "Insurance agent"
+    ]
+  },
+  {
+    "num": 48,
+    "text": "A professional who plans, forecasts and prepares budget reports and monitors institutional spending is known as",
+    "options": [
+      "Chartered Accountant",
+      "Finance minister",
+      "Budget Analyst"
+    ]
+  },
+  {
+    "num": 49,
+    "text": "Many banks lend money to its clients to buy car or home. This process of giving money to buy car or home is called",
+    "options": [
+      "Financing",
+      "Loaning",
+      "Sponsoring"
+    ]
+  },
+  {
+    "num": 50,
+    "text": "A professional in a financial institute who takes care of all invested money of the customers is known as",
+    "options": [
+      "Banker",
+      "Treasurer",
+      "Officer"
+    ]
+  },
+  {
+    "num": 51,
+    "text": "The professional who does the yearly inspection of financial records and transactions is known as",
+    "options": [
+      "Chartered Accountant",
+      "Cost Accountant",
+      "Cashier"
+    ]
+  },
+  {
+    "num": 52,
+    "text": "A professional who keeps records of income and expenses on a daily basis is known as",
+    "options": [
+      "Chartered Accountant",
+      "Accountant",
+      "Banker"
+    ]
+  },
+  {
+    "num": 53,
+    "text": "A professional who advises about the rules and regulations of a company’s law is known as",
+    "options": [
+      "Lawyer",
+      "Manager",
+      "Company secretary"
+    ]
+  },
+  {
+    "num": 54,
+    "text": "A professional who works on statistical data of an insurance company for estimation of the value of money is known as",
+    "options": [
+      "Insurance agent",
+      "Statistician",
+      "Analyst"
+    ]
+  },
+  {
+    "num": 55,
+    "text": "You are the manager of a company which publishes books. You have been given the total cost of a new publication in the below mentioned chart. You have to answer two queries i.e. How much is spent on advertisement and how much is given to the author respectively?",
+    "options": [
+      "20000,15000",
+      "15000,10000",
+      "10000, 15000"
+    ],
+    "imageUrl": "/commerce-test/img-000.jpg"
+  },
+  {
+    "num": 56,
+    "text": "You are handling the stock exchange department in Mumbai. You have been given the following graphical report on the basis of which you have to interpret some figures for the computer manufacturing companies. Answer the following two questions for the same. a)Which Computer company holds the largest share in Market? b) Which two companies are growing together at the lowest level in the market?",
+    "options": [
+      "IBM, Acer and Phillips",
+      "Apple, Acer and Lenovo",
+      "IBM, Acer and Lenovo"
+    ],
+    "imageUrl": "/commerce-test/img-001.jpg"
+  },
+  {
+    "num": 57,
+    "text": "You have joined as the CFO of a company. You received the following data of expenditure and sales in crores for last five years between 2008 to 2012. You have to analyze about the profit and loss status of the company and answer some questions. Two of the questions are: a) In which year the sales were doubled from the second year and How much was the profit in the fifth year?",
+    "options": [
+      "75 Crores,5th year",
+      "70 crores,4th year",
+      "75 crores,2nd year"
+    ],
+    "imageUrl": "/commerce-test/img-002.jpg"
+  },
+  {
+    "num": 58,
+    "text": "You are the new Financial manager of a company. You have been given a chart from the HR department about the staff who are working and those who left in the last five years. You have to answer certain questions before deciding Diwali Bonus, which is Rs 2000 for Managers and 1000 for the staff. How many managers will get the Bonus in year 2012 and What amount will be spent as Diwali Bonus for the Staff?",
+    "options": [
+      "160, 256000",
+      "72,100000",
+      "72,256000"
+    ],
+    "imageUrl": "/commerce-test/img-003.jpg"
+  },
+  {
+    "num": 59,
+    "text": "You are an Investment Banker. You have compared Bank A and B in terms of their rate of interest offered. Answer the two questions asked by Management. In the first year what was the common rate of interest offered by both the Banks and by what percentage is the Rate of interest of Bank A higher than Bank B in the fifth year?",
+    "options": [
+      "8.5,5",
+      "8,5",
+      "8,0.5"
+    ],
+    "imageUrl": "/commerce-test/img-004.jpg"
+  },
+  {
+    "num": 60,
+    "text": "You have come as an Auditor to a Company that prepares students for competitive exams. This company refunds the tuition fees of all those students who were not selected in the exams. There are some errors found in their refund data presented below. Please find the two years where the data of fees refunded does not match with the refund policy?",
+    "options": [
+      "2009,2011",
+      "2009,2012",
+      "2008,2010"
+    ],
+    "imageUrl": "/commerce-test/img-005.jpg"
+  },
+  {
+    "num": 61,
+    "text": "You are working in the Government Income Tax department. You have to keep an account of the percentage of Tax paid by different categories of payers in the year 2009. Answer the following questions by understanding the chart. Which category of population paid the highest tax in 2009 and what was the tax paid by those who are not residing in India?",
+    "options": [
+      "Banks,12%",
+      "Indian citizens,15%",
+      "Corporates,15%"
+    ],
+    "imageUrl": "/commerce-test/img-006.jpg"
+  },
+  {
+    "num": 62,
+    "text": "You are the Corporate advisor of a startup company. You find that the company is not following government rules and regulations and running down with loss. There are two reasons for this, what according to you could be the reasons?",
+    "options": [
+      "Infrastructure expenditure, Salary is very high",
+      "Tax paid is zero, salary paid is very high",
+      "Tax paid is zero, Interest paid very high"
+    ],
+    "imageUrl": "/commerce-test/img-007.jpg"
+  },
+  {
+    "num": 63,
+    "text": "You are working in an IT company in the accounts section. The 10 computers that were purchased in 2005 required 6000 Rs each. Now these computers will be sold off on a depreciation rate and laptops will be purchased instead of them. If the company receives an amount of Rs 30000. What was the depreciation rate and How much was the amount spent for buying the computers in 2005? 30%,30000",
+    "options": [
+      "45%,60000",
+      "50%,60000",
+      "situations."
+    ]
+  },
+  {
+    "num": 64,
+    "text": "In the month of Dec your school engages the students with social services. You have to participate in one of the activity. Which one will you choose?",
+    "options": [
+      "You will help a doctor who is running a Polio Drops campaign",
+      "You will go to the slums for elderly education under Teach all campaign",
+      "You will supervise the sweepers cleaning the road for Clean and green city campaign"
+    ]
+  },
+  {
+    "num": 65,
+    "text": "Your School is sending you to a foreign country Russia, on six month school exchange program where you will not understand a lot of things spoken by people and vice versa. To survive there what will you do first?",
+    "options": [
+      "Make a friend who can translate for you",
+      "Learn to speak Russian",
+      "Buy a Translation Dictionary"
+    ]
+  },
+  {
+    "num": 66,
+    "text": "There are three workshops conducted in your school. You have to participate in one of them. Which one will you prefer to join?",
+    "options": [
+      "A workshop on how to design a beautiful pattern using computer software",
+      "A workshop on how to make animated characters",
+      "A workshop on global warming"
+    ]
+  },
+  {
+    "num": 67,
+    "text": "Your sister is participating in a fancy dress competition, in the school. But your parents are out of station. She would need some help for preparation. How would you like to help her?",
+    "options": [
+      "I will prefer to design the dress and accessory for my sister",
+      "I will prefer to buy a dress for her and help her to get ready",
+      "I will panic and call someone elder for help"
+    ]
+  },
+  {
+    "num": 68,
+    "text": "There is an open main hole on the way to school, your friend fell in that main hole while you both were riding bicycle and coming to the school. What will be your first important step after taking him to hospital?",
+    "options": [
+      "Write in your local newspaper requesting to PWD for covering the open main hole",
+      "Talking about it to your friends and warn them about open main hole",
+      "Post it on your school’s Bulletin Board to inform others about open main hole"
+    ]
+  },
+  {
+    "num": 69,
+    "text": "Your cousin is getting married so all her close relatives are actively participating to make her musical night a gala event. In which activity would you prefer to participate?",
+    "options": [
+      "Making a guest list for Inviting the guests",
+      "Videography and photography for the event",
+      "Coordinating and Anchoring the event on stage"
+    ]
+  },
+  {
+    "num": 70,
+    "text": "Since lot of natural calamities keep occurring, your school wants to create a relief fund for the people who have been hit by such disasters. How will you contribute to it?",
+    "options": [
+      "By making a fund collection plan and ensuring its proper usage",
+      "By Maintaining a database of people who are contributing in the fund",
+      "By giving money and old clothes in the relief fund"
+    ]
+  },
+  {
+    "num": 71,
+    "text": "Your class is going for an excursion to Bangalore by bus. Your school principal expects three senior students to help the teachers in certain duties. Which one will you do?",
+    "options": [
+      "Making arrangements for the travel by bus",
+      "Helping the teacher to count the number of students twice a day",
+      "Preparing junior students for the cultural activities"
+    ]
+  },
+  {
+    "num": 72,
+    "text": "You have gone for a school camp to Rishikesh. The teachers have grouped students in different teams who will take responsibilities of different types of work. Which one will you like to join?",
+    "options": [
+      "Supervise the arrangement of food and water",
+      "Supervise the Tent set up for camp stay",
+      "I would prefer to enjoy the camp and not take responsibilities"
+    ]
+  }
+]

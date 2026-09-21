@@ -1,25 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip,
-  IconButton, Tooltip, Switch, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, CircularProgress
+  IconButton, Tooltip, Switch, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, CircularProgress,
+  InputAdornment, FormControl, Select, MenuItem
 } from '@mui/material';
 import FormAlerts from '../../components/ui/FormAlerts';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { adminRequest } from '../../lib/api';
+import { Search as SearchIcon, FilterList as FilterIcon } from '@mui/icons-material';
+import { adminRequest, logApiFailure } from '../../lib/api';
 
-const darkTextFieldStyle = {
+const lightSelectStyle = {
+  bgcolor: 'var(--color-snow)',
+  color: 'var(--color-ink)',
+  borderRadius: '12px',
+  transition: 'all 0.2s ease',
+  '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0,0,0,0.08)' },
+  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0,0,0,0.15)' },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+  '& .MuiSelect-icon': { color: 'var(--color-ink)' },
+  '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
+};
+
+const lightTextFieldStyle = {
   '& .MuiOutlinedInput-root': {
-    color: '#ffffff',
-    bgcolor: 'rgba(255, 255, 255, 0.06)',
+    color: 'var(--color-ink)',
+    bgcolor: 'var(--color-snow)',
     borderRadius: '12px',
-    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.18)' },
-    '&:hover fieldset': { borderColor: '#e8b86d' },
-    '&.Mui-focused fieldset': { borderColor: '#e8b86d' },
+    transition: 'all 0.2s ease',
+    '& fieldset': { borderColor: 'rgba(0,0,0,0.08)' },
+    '&:hover fieldset': { borderColor: 'rgba(0,0,0,0.15)' },
+    '&.Mui-focused fieldset': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+    '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
   },
-  '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-  '& .MuiInputLabel-root.Mui-focused': { color: '#e8b86d' },
-  '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.55)' },
+  '& .MuiInputLabel-root': { color: '#6b7280' },
+  '& .MuiInputLabel-root.Mui-focused': { color: 'var(--color-ink)', fontWeight: 600 },
 };
 
 export default function UsersManagement() {
@@ -27,6 +42,9 @@ export default function UsersManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -42,19 +60,36 @@ export default function UsersManagement() {
       const res = await adminRequest('/api/admin/users');
       setUsers(Array.isArray(res) ? res : res?.data || []);
     } catch (err) {
-      console.error('Failed to fetch users:', err);
+      logApiFailure('load users', err);
       setError('Failed to load users');
     } finally {
       setLoading(false);
     }
   };
 
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => {
+      const matchesSearch = 
+        user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const isActive = user.isActive !== false;
+      const matchesStatus = filterStatus === 'all' 
+        ? true 
+        : filterStatus === 'active' 
+          ? isActive 
+          : !isActive;
+          
+      return matchesSearch && matchesStatus;
+    });
+  }, [users, searchQuery, filterStatus]);
+
   const handleToggleStatus = async (id, currentStatus) => {
     setUsers(prev => prev.map(u => u._id === id ? { ...u, isActive: !currentStatus } : u));
     try {
       await adminRequest(`/api/admin/users/${id}/toggle`, { method: 'PUT' });
     } catch (err) {
-      setUsers(prev => prev.map(u => u._id === id ? { ...u, isActive: currentStatus } : u));
+      fetchUsers();
       setError(err.message || 'Could not update user status');
     }
   };
@@ -97,7 +132,7 @@ export default function UsersManagement() {
 
   if (loading) return (
     <Box sx={{ display: 'flex', justifyContent: 'center', py: 12 }}>
-      <CircularProgress size={32} sx={{ color: '#e8b86d' }} />
+      <CircularProgress size={32} sx={{ color: '#111827' }} />
     </Box>
   );
 
@@ -105,10 +140,10 @@ export default function UsersManagement() {
     <Box className="space-y-6">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#ffffff' }}>
+          <Typography variant="h4" sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>
             Users Management
           </Typography>
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', mt: 0.5 }}>
+          <Typography sx={{ color: '#6b7280', mt: 0.5 }}>
             Manage registered accounts, user credentials, and active permissions
           </Typography>
         </Box>
@@ -116,42 +151,103 @@ export default function UsersManagement() {
 
       <FormAlerts error={error} success={success} onDismissError={() => setError('')} onDismissSuccess={() => setSuccess('')} />
 
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' }, 
+        gap: 2, 
+        mb: 3,
+        p: 2,
+        bgcolor: 'rgba(255, 255, 255, 0.02)',
+        borderRadius: '16px',
+        border: '1px solid rgba(255, 255, 255, 0.08)'
+      }}>
+        <TextField
+          placeholder="Search by name or email..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{ ...lightTextFieldStyle, flexGrow: 1 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: '#9ca3af' }} />
+              </InputAdornment>
+            )
+          }}
+          size="small"
+        />
+        
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <Select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            sx={lightSelectStyle}
+            displayEmpty
+            startAdornment={
+              <InputAdornment position="start" sx={{ ml: 1, mr: -0.5 }}>
+                <FilterIcon sx={{ color: '#9ca3af' }} />
+              </InputAdornment>
+            }
+          >
+            <MenuItem value="all">All Statuses</MenuItem>
+            <MenuItem value="active">Active Only</MenuItem>
+            <MenuItem value="suspended">Suspended Only</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
       <TableContainer component={Paper} elevation={0} sx={{
-        bgcolor: 'rgba(255, 255, 255, 0.04)',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '20px',
+        bgcolor: 'var(--color-paper)',
+        border: '1px solid rgba(0,0,0,0.05)',
+        borderRadius: '24px',
         overflow: 'hidden',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
       }}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
-            <TableRow sx={{ bgcolor: 'rgba(255, 255, 255, 0.06)' }}>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Email</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Registered At</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Active Status</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Actions</TableCell>
+            <TableRow sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Email</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Registered At</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Active Status</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.length === 0 ? (
+            {filteredUsers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} align="center" sx={{ py: 6, color: 'rgba(255,255,255,0.6)', borderBottom: 0 }}>
-                  No registered users found.
+                <TableCell colSpan={5} align="center" sx={{ py: 8, borderBottom: 0 }}>
+                  <Typography sx={{ color: '#9ca3af', mb: 2, fontSize: '1.1rem' }}>
+                    {users.length === 0 ? 'No registered users found.' : 'No users match your search criteria.'}
+                  </Typography>
+                  {users.length > 0 && (
+                    <Button 
+                      variant="outlined" 
+                      onClick={() => { setSearchQuery(''); setFilterStatus('all'); }}
+                      sx={{ 
+                        color: '#111827', 
+                        borderColor: 'rgba(232, 184, 109, 0.5)',
+                        '&:hover': { borderColor: '#10b981', bgcolor: 'rgba(16, 185, 129, 0.1)' },
+                        borderRadius: '8px',
+                        textTransform: 'none',
+                        px: 3
+                      }}
+                    >
+                      Clear Filters
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ) : (
-              users.map((user) => (
-                <TableRow key={user._id} sx={{ '&:hover': { bgcolor: 'rgba(255,255,255,0.04)' } }}>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography sx={{ fontWeight: 600, color: '#ffffff' }}>{user.name}</Typography>
+              filteredUsers.map((user) => (
+                <TableRow key={user._id} sx={{ '&:hover': { bgcolor: '#ffffff' } }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography sx={{ fontWeight: 600, color: '#111827' }}>{user.name}</Typography>
                   </TableCell>
-                  <TableCell sx={{ color: 'rgba(255,255,255,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>{user.email}</TableCell>
-                  <TableCell sx={{ color: 'rgba(255,255,255,0.65)', borderBottom: '1px solid rgba(255,255,255,0.08)', fontSize: '0.88rem' }}>
+                  <TableCell sx={{ color: '#4b5563', borderBottom: '1px solid rgba(0,0,0,0.03)' }}>{user.email}</TableCell>
+                  <TableCell sx={{ color: 'rgba(255,255,255,0.65)', borderBottom: '1px solid rgba(0,0,0,0.03)', fontSize: '0.88rem' }}>
                     {new Date(user.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Tooltip title={user.isActive !== false ? "Suspend User" : "Activate User"}>
                       <Switch 
                         checked={user.isActive !== false} 
@@ -173,9 +269,9 @@ export default function UsersManagement() {
                       }}
                     />
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Tooltip title="Edit User">
-                      <IconButton onClick={() => handleOpenEdit(user)} size="small" sx={{ color: '#e8b86d', '&:hover': { bgcolor: 'rgba(232, 184, 109, 0.15)' } }}>
+                      <IconButton onClick={() => handleOpenEdit(user)} size="small" sx={{ color: '#111827', '&:hover': { bgcolor: 'rgba(16, 185, 129, 0.15)' } }}>
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -203,44 +299,45 @@ export default function UsersManagement() {
         PaperProps={{
           sx: {
             borderRadius: '24px',
-            bgcolor: '#061e12',
-            backgroundImage: 'linear-gradient(145deg, #051c11 0%, #082a3e 100%)',
-            color: '#ffffff',
+            bgcolor: '#ffffff',
+            bgcolor: '#ffffff',
+            color: '#111827',
             border: '1px solid rgba(232, 184, 109, 0.3)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
             p: 1
           }
         }}
       >
-        <DialogTitle sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#f5d9a0' }}>Edit User Account</DialogTitle>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+        <DialogTitle sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>Edit User Account</DialogTitle>
+        <DialogContent dividers sx={{ borderColor: '#e5e7eb' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
             <TextField 
               label="Name" 
               value={formData.name} 
               onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))} 
               fullWidth 
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
             <TextField 
               label="Email" 
               value={formData.email} 
               onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))} 
               fullWidth 
-              sx={darkTextFieldStyle}
+              sx={lightTextFieldStyle}
             />
           </Box>
         </DialogContent>
-        <DialogActions sx={{ p: 2.5, borderColor: 'rgba(255,255,255,0.12)' }}>
-          <Button onClick={() => setDialogOpen(false)} sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>Cancel</Button>
+        <DialogActions sx={{ p: 2.5, borderColor: '#e5e7eb' }}>
+          <Button onClick={() => setDialogOpen(false)} sx={{ color: '#6b7280', fontWeight: 600 }}>Cancel</Button>
           <Button
             variant="contained"
             onClick={handleSaveEdit}
             disabled={saving || !formData.name || !formData.email}
             sx={{
-              bgcolor: '#e8b86d',
-              color: '#071d12',
-              '&:hover': { bgcolor: '#f5d9a0' },
+              bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease',
               fontWeight: 700, borderRadius: '10px', px: 3
             }}
           >

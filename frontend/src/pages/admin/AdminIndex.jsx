@@ -18,6 +18,7 @@ const TestAnalytics = lazy(() => import('./TestAnalytics'));
 const TestsManagement = lazy(() => import('./TestsManagement'));
 const UsersManagement = lazy(() => import('./UsersManagement'));
 const SeoManagement = lazy(() => import('./SeoManagement'));
+const CouponManagement = lazy(() => import('./CouponManagement'));
 
 function PageLoader() {
   return (
@@ -66,6 +67,7 @@ export default function AdminIndex() {
         <Route path="testimonials" element={<TestimonialsManagement />} />
         <Route path="settings" element={<SettingsManagement />} />
         <Route path="seo" element={<SeoManagement />} />
+        <Route path="coupons" element={<CouponManagement />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/admin" replace />} />

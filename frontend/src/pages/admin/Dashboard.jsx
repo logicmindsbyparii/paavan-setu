@@ -51,27 +51,27 @@ function StatCard({ icon: Icon, title, value, color, badgeText, loading, delay =
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] shadow-xl"
+        className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-300 hover:border-gray-200 shadow-sm hover:shadow-md"
       >
         {/* Radial spotlight effect */}
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${color}25, transparent 40%)`,
+            background: `radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${color}10, transparent 40%)`,
           }}
         />
 
         <div className="relative z-10 flex items-start justify-between">
           <div
-            className="flex h-14 w-14 items-center justify-center rounded-2xl border shadow-lg transition-transform duration-300 group-hover:scale-110"
-            style={{ backgroundColor: `${color}20`, borderColor: `${color}40`, color }}
+            className="flex h-14 w-14 items-center justify-center rounded-2xl border shadow-sm transition-transform duration-300 group-hover:scale-110"
+            style={{ backgroundColor: `${color}15`, borderColor: `${color}30`, color }}
           >
             <Icon sx={{ fontSize: 30 }} />
           </div>
           {badgeText && (
             <span
               className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[0.68rem] font-bold tracking-wider uppercase border"
-              style={{ backgroundColor: `${color}15`, color, borderColor: `${color}30` }}
+              style={{ backgroundColor: `${color}10`, color, borderColor: `${color}25` }}
             >
               <TrendingUpIcon sx={{ fontSize: 12 }} />
               {badgeText}
@@ -80,11 +80,11 @@ function StatCard({ icon: Icon, title, value, color, badgeText, loading, delay =
         </div>
 
         <div className="relative z-10 mt-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-white/60">{title}</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{title}</p>
           {loading ? (
-            <div className="mt-2 h-8 w-24 rounded-lg bg-white/10 animate-pulse" />
+            <div className="mt-2 h-8 w-24 rounded-lg bg-gray-100 animate-pulse" />
           ) : (
-            <h3 className="mt-1 font-['DM_Serif_Display',Georgia,serif] text-3xl sm:text-4xl text-white tracking-tight">
+            <h3 className="mt-1 font-['DM_Serif_Display',Georgia,serif] text-3xl sm:text-4xl text-[#111d11] tracking-tight">
               {value}
             </h3>
           )}
@@ -121,24 +121,24 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-10 text-white">
+    <div className="space-y-10 text-[#111d11]">
 
       {/* ─── Hero Overview Bar ─── */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-md shadow-2xl"
+        className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
       >
         <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#e8b86d]/40 bg-[#e8b86d]/15 px-3.5 py-1 text-xs font-semibold text-[#f5d9a0] mb-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-3.5 py-1 text-xs font-semibold text-green-700 mb-3">
               <AutoAwesomeIcon sx={{ fontSize: 14 }} /> Real-Time Analytics Dashboard
             </div>
-            <h1 className="font-['DM_Serif_Display',Georgia,serif] text-3xl sm:text-4xl text-white">
+            <h1 className="font-['DM_Serif_Display',Georgia,serif] text-3xl sm:text-4xl text-[#111d11]">
               Platform Control Center
             </h1>
-            <p className="text-sm text-white/70 mt-1.5 max-w-xl">
+            <p className="text-sm text-gray-500 mt-1.5 max-w-xl">
               Welcome back to Paavan Setu's administrative console. Monitor book inventory, orders, customer contacts, and assessment statistics.
             </p>
           </div>
@@ -146,8 +146,8 @@ export default function Dashboard() {
           <div className="flex items-center gap-3">
             <Link
               to="/admin/orders"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold text-[#071d12] no-underline shadow-lg transition-all hover:scale-105"
-              style={{ background: 'linear-gradient(120deg, #f7e6bd 0%, #e8b86d 100%)' }}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold text-white no-underline shadow-md transition-all hover:scale-105 hover:shadow-lg"
+              style={{ background: 'linear-gradient(120deg, #10b981 0%, #059669 100%)' }}
             >
               <ShoppingCartIcon fontSize="small" /> Review Recent Orders
             </Link>
@@ -156,7 +156,7 @@ export default function Dashboard() {
       </motion.div>
 
       {error && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-amber-200 text-sm font-medium">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-2xl border border-red-200 bg-red-50 p-4 text-red-700 text-sm font-medium">
           ⚠️ {error} — Ensure backend API server and MongoDB database are active.
         </motion.div>
       )}
@@ -185,7 +185,7 @@ export default function Dashboard() {
           icon={AttachMoneyIcon}
           title="Revenue"
           value={`₹${(stats?.totalRevenue ?? 0).toLocaleString('en-IN')}`}
-          color="#e8b86d"
+          color="#f59e0b"
           badgeText="Processed"
           loading={loading}
           delay={0.3}
@@ -206,12 +206,12 @@ export default function Dashboard() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4 }}
-        className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-md shadow-2xl"
+        className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm"
       >
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h3 className="font-['DM_Serif_Display',Georgia,serif] text-2xl text-white">Management Shortcuts</h3>
-            <p className="text-xs text-white/60 mt-1">Direct access to primary administrative workflows.</p>
+            <h3 className="font-['DM_Serif_Display',Georgia,serif] text-2xl text-[#111d11]">Management Shortcuts</h3>
+            <p className="text-xs text-gray-500 mt-1">Direct access to primary administrative workflows.</p>
           </div>
         </div>
 
@@ -227,17 +227,17 @@ export default function Dashboard() {
               >
                 <Link
                   to={action.path}
-                  className="group flex flex-col justify-between h-full rounded-2xl border border-white/10 bg-white/[0.05] p-6 no-underline transition-all duration-300 hover:border-white/25 hover:bg-white/[0.09]"
+                  className="group flex flex-col justify-between h-full rounded-2xl border border-gray-100 bg-gray-50 p-6 no-underline transition-all duration-300 hover:border-gray-200 hover:bg-white hover:shadow-md"
                 >
                   <div>
                     <div
-                      className="flex h-12 w-12 items-center justify-center rounded-xl mb-4 transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: `${action.color}20`, color: action.color, border: `1px solid ${action.color}40` }}
+                      className="flex h-12 w-12 items-center justify-center rounded-xl mb-4 transition-transform group-hover:scale-110 shadow-sm bg-white"
+                      style={{ color: action.color, border: `1px solid ${action.color}30` }}
                     >
                       <Icon fontSize="medium" />
                     </div>
-                    <h4 className="font-bold text-base text-white group-hover:text-[#e8b86d] transition-colors">{action.label}</h4>
-                    <p className="text-xs text-white/60 mt-1.5 leading-relaxed">{action.desc}</p>
+                    <h4 className="font-bold text-base text-[#111d11] group-hover:text-[#10b981] transition-colors">{action.label}</h4>
+                    <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">{action.desc}</p>
                   </div>
 
                   <div className="mt-6 flex items-center gap-1 text-xs font-bold" style={{ color: action.color }}>

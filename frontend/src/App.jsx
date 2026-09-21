@@ -20,6 +20,7 @@ const Terms = lazy(() => import('./pages/Terms'));
 const PsychometricTests = lazy(() => import('./pages/PsychometricTests'));
 const Test = lazy(() => import('./pages/Test'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const MyResults = lazy(() => import('./pages/MyResults'));
 const AdminIndex = lazy(() => import('./pages/admin/AdminIndex'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -101,6 +102,11 @@ const ROUTE_META = [
     path: '/terms',
     title: 'Terms of Service | Paavan SETU',
     description: 'The terms governing your use of the Paavan SETU website and services.',
+  },
+  {
+    path: '/my-results',
+    title: 'My Results | Paavan SETU',
+    description: 'View your completed psychometric test results and primary career recommendations.',
   },
 ];
 
@@ -288,6 +294,7 @@ function AppContent() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/test" element={<PsychometricTests />} />
           <Route path="/test/:type" element={<Test />} />
+          <Route path="/my-results" element={<MyResults />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFound />} />

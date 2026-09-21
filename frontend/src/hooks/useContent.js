@@ -5,7 +5,7 @@
  * fallback if the API is unreachable — so the site never renders an empty page.
  */
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { getBooks, getSettings } from '../lib/api';
+import { getBooks, getSettings, isClientError } from '../lib/api';
 
 function useResource(fetcher, fallback, key) {
   const [data, setData] = useState(fallback);
@@ -32,7 +32,13 @@ function useResource(fetcher, fallback, key) {
       })
       .catch((err) => {
         if (cancelled) return;
-        console.warn('Falling back to bundled content:', err.message);
+        /* Falling back is the designed behaviour, so this is not an error. A
+           refused request (404 on an endpoint this build doesn't have yet) is
+           routine and stays silent; a server or network failure still says so,
+           because then the bundled copy is a guess and worth investigating. */
+        if (!isClientError(err)) {
+          console.warn('Content API unavailable, using bundled content:', err.message);
+        }
         setData(fallbackRef.current);
         setError(err);
       })

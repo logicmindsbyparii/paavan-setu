@@ -8,19 +8,19 @@ import FormAlerts from '../../components/ui/FormAlerts';
 import SaveIcon from '@mui/icons-material/Save';
 import { adminRequest, getSeoSettings, adminUpdateSeoSetting } from '../../lib/api';
 
-const darkTextFieldStyle = {
+const lightTextFieldStyle = {
   '& .MuiOutlinedInput-root': {
-    color: '#ffffff',
-    bgcolor: 'rgba(255, 255, 255, 0.06)',
+    color: 'var(--color-ink)',
+    bgcolor: 'var(--color-snow)',
     borderRadius: '12px',
-    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.18)' },
-    '&:hover fieldset': { borderColor: '#e8b86d' },
-    '&.Mui-focused fieldset': { borderColor: '#e8b86d' },
+    transition: 'all 0.2s ease',
+    '& fieldset': { borderColor: 'rgba(0,0,0,0.08)' },
+    '&:hover fieldset': { borderColor: 'rgba(0,0,0,0.15)' },
+    '&.Mui-focused fieldset': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+    '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
   },
-  '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-  '& .MuiInputLabel-root.Mui-focused': { color: '#e8b86d' },
-  '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.55)' },
-  '& .MuiSelect-icon': { color: 'rgba(255, 255, 255, 0.7)' }
+  '& .MuiInputLabel-root': { color: '#6b7280' },
+  '& .MuiInputLabel-root.Mui-focused': { color: 'var(--color-ink)', fontWeight: 600 },
 };
 
 const DEFAULT_PATHS = [
@@ -133,15 +133,15 @@ export default function SeoManagement() {
   const SettingsSkeleton = () => (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
       <Box sx={{ width: { xs: '100%', md: 240 }, flexShrink: 0 }}>
-        {[...Array(6)].map((_, i) => <Skeleton key={i} height={60} sx={{ mb: 1, borderRadius: 2, bgcolor: 'rgba(255,255,255,0.08)' }} />)}
+        {[...Array(6)].map((_, i) => <Skeleton key={i} height={60} sx={{ mb: 1, borderRadius: 2, bgcolor: '#f3f4f6' }} />)}
       </Box>
       <Box sx={{ flexGrow: 1 }}>
-        <Skeleton width="40%" height={40} sx={{ mb: 3, bgcolor: 'rgba(255,255,255,0.08)' }} />
+        <Skeleton width="40%" height={40} sx={{ mb: 3, bgcolor: '#f3f4f6' }} />
         <Grid container spacing={3}>
           {[...Array(4)].map((_, i) => (
             <Grid item xs={12} sm={6} key={i}>
-              <Skeleton width="30%" height={20} sx={{ mb: 1, bgcolor: 'rgba(255,255,255,0.08)' }} />
-              <Skeleton variant="rounded" height={56} sx={{ bgcolor: 'rgba(255,255,255,0.08)' }} />
+              <Skeleton width="30%" height={20} sx={{ mb: 1, bgcolor: '#f3f4f6' }} />
+              <Skeleton variant="rounded" height={56} sx={{ bgcolor: '#f3f4f6' }} />
             </Grid>
           ))}
         </Grid>
@@ -153,10 +153,10 @@ export default function SeoManagement() {
     <Box className="space-y-6">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 4 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, mb: 1, color: '#ffffff' }}>
+          <Typography variant="h4" sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, mb: 1, color: '#111827' }}>
             SEO Settings
           </Typography>
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1rem' }}>
+          <Typography sx={{ color: '#6b7280', fontSize: '1rem' }}>
             Manage page titles, descriptions, and meta tags for any route.
           </Typography>
         </Box>
@@ -167,12 +167,13 @@ export default function SeoManagement() {
             onClick={handleSave}
             disabled={saving}
             sx={{
-              bgcolor: '#e8b86d',
-              color: '#071d12',
-              '&:hover': { bgcolor: '#f5d9a0' },
+              bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease',
               px: 3, py: 1.2, borderRadius: '12px', textTransform: 'none', fontWeight: 700, fontSize: '0.95rem',
               boxShadow: '0 4px 14px rgba(232, 184, 109, 0.3)',
-              '&.Mui-disabled': { bgcolor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.4)' }
+              '&.Mui-disabled': { bgcolor: '#e5e7eb', color: '#9ca3af' }
             }}
           >
             {saving ? 'Saving...' : 'Save Settings'}
@@ -186,21 +187,20 @@ export default function SeoManagement() {
         <SettingsSkeleton />
       ) : (
         <Paper elevation={0} sx={{
-          bgcolor: 'rgba(255, 255, 255, 0.04)',
-          backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
+          bgcolor: '#ffffff',
+          border: '1px solid #e5e7eb',
           borderRadius: '24px',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
-          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         }}>
           <Box sx={{
             width: { xs: '100%', md: 240 },
             flexShrink: 0,
-            borderRight: { md: '1px solid rgba(255, 255, 255, 0.12)' },
-            borderBottom: { xs: '1px solid rgba(255, 255, 255, 0.12)', md: 'none' },
-            bgcolor: 'rgba(255, 255, 255, 0.02)'
+            borderRight: { md: '1px solid rgba(0, 0, 0, 0.08)' },
+            borderBottom: { xs: '1px solid rgba(0, 0, 0, 0.08)', md: 'none' },
+            bgcolor: '#fafafa'
           }}>
             <Tabs
               orientation={isMobile ? 'horizontal' : 'vertical'}
@@ -220,15 +220,15 @@ export default function SeoManagement() {
                   textTransform: 'none', 
                   py: { xs: 2, md: 2.5 }, 
                   px: 3,
-                  color: 'rgba(255, 255, 255, 0.65)',
-                  borderBottom: { md: '1px solid rgba(255, 255, 255, 0.05)' }
+                  color: '#4b5563',
+                  borderBottom: { md: '1px solid rgba(0,0,0,0.03)' }
                 },
-                '& .Mui-selected': { color: '#ffffff !important', bgcolor: 'rgba(232, 184, 109, 0.15)', fontWeight: 700 },
+                '& .Mui-selected': { color: '#111827 !important', bgcolor: 'rgba(16, 185, 129, 0.08)', fontWeight: 700 },
                 '& .MuiTabs-indicator': { 
                   left: isMobile ? undefined : 0, 
                   right: isMobile ? undefined : 'auto', 
                   width: isMobile ? undefined : 4,
-                  bgcolor: '#e8b86d', 
+                  bgcolor: '#111827', 
                   borderRadius: isMobile ? '4px 4px 0 0' : '0 4px 4px 0' 
                 },
               }}
@@ -240,10 +240,10 @@ export default function SeoManagement() {
           </Box>
 
           <Box sx={{ flexGrow: 1, p: { xs: 3, md: 5 } }}>
-            <Typography variant="h5" sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, mb: 1, color: '#f5d9a0' }}>
+            <Typography variant="h5" sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, mb: 1, color: '#111827' }}>
               Meta Configuration
             </Typography>
-            <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 4, fontSize: '0.95rem' }}>
+            <Typography sx={{ color: '#6b7280', mb: 4, fontSize: '0.95rem' }}>
               Define exactly what appears in search engine results and social media shares for this route.
             </Typography>
 
@@ -256,7 +256,7 @@ export default function SeoManagement() {
                   onChange={(e) => setCustomPath(e.target.value)}
                   placeholder="e.g. /my-custom-route"
                   helperText="Select from the left menu or type a custom path here."
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
 
@@ -267,7 +267,7 @@ export default function SeoManagement() {
                   value={formData.title}
                   onChange={(e) => handleChange('title', e.target.value)}
                   placeholder="e.g. Value-Education Books | Paavan SETU"
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                   required
                 />
               </Grid>
@@ -280,7 +280,7 @@ export default function SeoManagement() {
                   onChange={(e) => handleChange('description', e.target.value)}
                   multiline
                   minRows={3}
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
 
@@ -291,7 +291,7 @@ export default function SeoManagement() {
                   value={formData.keywords}
                   onChange={(e) => handleChange('keywords', e.target.value)}
                   placeholder="e.g. education, career counselling, value books"
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
               
@@ -301,7 +301,7 @@ export default function SeoManagement() {
                   label="Open Graph Title (og:title)"
                   value={formData.ogTitle}
                   onChange={(e) => handleChange('ogTitle', e.target.value)}
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
 
@@ -311,7 +311,7 @@ export default function SeoManagement() {
                   label="Open Graph Description (og:description)"
                   value={formData.ogDescription}
                   onChange={(e) => handleChange('ogDescription', e.target.value)}
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
               
@@ -322,7 +322,7 @@ export default function SeoManagement() {
                   value={formData.ogImage}
                   onChange={(e) => handleChange('ogImage', e.target.value)}
                   placeholder="https://paavansetu.com/image.jpg"
-                  sx={darkTextFieldStyle}
+                  sx={lightTextFieldStyle}
                 />
               </Grid>
             </Grid>

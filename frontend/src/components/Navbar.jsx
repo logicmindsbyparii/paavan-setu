@@ -4,17 +4,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link, useLocation } from 'react-router-dom';
 import { gsap, prefersReducedMotion } from '../lib/motion';
-import { colors } from '../constants/tokens';
+import { colors, fonts } from '../constants/tokens';
 import logo from '../assets/logo_final.png';
 
 const navLinks = [
-  { label: 'Home', path: '/' },
-  { label: 'Career Counselling', path: '/career-counselling' },
-  { label: 'Psychometric Test', path: '/test' },
-  { label: 'Books', path: '/books' },
-  { label: 'Schools & Workshops', path: '/schools-workshops' },
-  { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' },
+{ label: 'Home', path: '/', short: 'Home' },
+{ label: 'Career Coaching', path: '/career-counselling', short: 'Coaching' },
+{ label: 'Psychometric Test', path: '/test', short: 'Test' },
+{ label: 'Books', path: '/books', short: 'Books' },
+{ label: 'Schools & Workshops', path: '/schools-workshops', short: 'Schools & Workshops' },
+{ label: 'About Us', path: '/about', short: 'About' },
+{ label: 'Contact', path: '/contact', short: 'Contact' },
 ];
 
 export default function Navbar() {
@@ -119,7 +119,7 @@ export default function Navbar() {
             Seven labels plus the logo and CTA do not fit between 768px and
             ~1000px — three of them wrapped onto a second line and broke the
             pill. The inline nav starts at lg; below that the drawer handles it. */}
-        <nav aria-label="Primary" className="hidden lg:flex items-center justify-center gap-1 flex-1">
+        <nav aria-label="Primary" className="hidden lg:flex items-center justify-center gap-x-1 flex-1">
           {/* At 1024-1150px the seven labels plus the CTA run ~70px past the
               pill, clipping the Book Session button; links tighten until xl. */}
           {navLinks.map((link, i) => {
@@ -130,35 +130,17 @@ export default function Navbar() {
                 to={link.path}
                 ref={(el) => (linksRef.current[i] = el)}
                 aria-current={isActive ? 'page' : undefined}
-                className={`relative flex items-center whitespace-nowrap px-2 py-2.5 rounded-lg text-[0.8rem] tracking-wide transition-all duration-200 no-underline xl:px-3 ${
-                  isActive
-                    ? 'font-bold'
-                    : 'font-medium'
-                }`}
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: isActive ? colors.green : colors.slate,
-                  background: isActive ? `${colors.green}0a` : 'transparent',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.background = `${colors.green}0a`;
-                    e.currentTarget.style.color = colors.green;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = colors.slate;
-                  }
-                }}
+                className={`relative flex items-center whitespace-nowrap px-2 py-2.5 rounded-lg text-xs tracking-wide transition-colors duration-200 no-underline xl:px-3 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-amber/60`}
+                style={{ fontFamily: fonts.body, color: isActive ? colors.green : colors.slate }}
+                onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = colors.green; } }}
+                onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = colors.slate; } }}
               >
-                {link.label}
+                {link.short}
                 <span
                   className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-transform duration-200"
                   style={{
-                    width: '40%',
-                    background: colors.green,
+                    width: isActive ? '100%' : '40%',
+                    background: isActive ? colors.green : colors.greenLight,
                     transform: isActive
                       ? 'translateX(-50%) scaleX(1)'
                       : 'translateX(-50%) scaleX(0)',
@@ -176,6 +158,13 @@ export default function Navbar() {
               <span className="text-sm font-semibold" style={{ color: colors.ink }}>
                 Hi, {userName.split(' ')[0]}
               </span>
+              <Link
+                to="/my-results"
+                className="text-sm font-semibold hover:underline"
+                style={{ color: colors.slate }}
+              >
+                My Results
+              </Link>
               <button
                 onClick={handleLogout}
                 className="text-sm font-semibold hover:underline"
@@ -196,17 +185,13 @@ export default function Navbar() {
           
           <Link
             to="/contact"
-            className="inline-flex shrink-0 items-center px-5 py-2.5 rounded-full text-sm font-semibold text-white no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg xl:px-6"
+            className="inline-flex shrink-0 items-center px-5 py-2.5 rounded-full text-sm font-semibold text-white no-underline transition-colors duration-200 xl:px-6"
             style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: fonts.body,
               background: colors.green,
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = colors.blue;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = colors.green;
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = colors.blue; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = colors.green; }}
           >
             Book Session
           </Link>
@@ -276,7 +261,10 @@ export default function Navbar() {
           </IconButton>
         </div>
 
-        <nav aria-label="Mobile" className="px-3 mt-2 flex flex-col">
+        <nav
+          aria-label="Mobile"
+          className="px-3 mt-2 flex flex-col"
+        >
           {navLinks.map((link) => {
             const isActive = isLinkActive(link.path);
             return (
@@ -284,11 +272,11 @@ export default function Navbar() {
                 key={link.path}
                 to={link.path}
                 aria-current={isActive ? 'page' : undefined}
-                className={`block px-5 py-3.5 mb-1 rounded-r-lg no-underline transition-all duration-200 ${
+                className={`block px-5 py-3.5 mb-1 rounded-r-lg no-underline transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-amber/60 ${
                   isActive ? 'font-semibold' : 'font-normal'
                 }`}
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
+                  fontFamily: fonts.body,
                   color: isActive ? colors.green : colors.slate,
                   background: isActive ? `${colors.green}0a` : 'transparent',
                   borderLeft: isActive
@@ -296,7 +284,7 @@ export default function Navbar() {
                     : '3px solid transparent',
                 }}
               >
-                <span className="text-[0.95rem]">{link.label}</span>
+                {link.short}
               </Link>
             );
           })}
@@ -304,13 +292,23 @@ export default function Navbar() {
 
         <div className="p-5 mt-auto flex flex-col gap-3">
           {isLoggedIn ? (
-            <button
-              onClick={() => { handleLogout(); setDrawerOpen(false); }}
-              className="flex items-center justify-center w-full py-3.5 rounded-full text-[0.95rem] font-semibold transition-all duration-200 border"
-              style={{ color: colors.ink, borderColor: colors.divider }}
-            >
-              Log Out
-            </button>
+            <>
+              <Link
+                to="/my-results"
+                onClick={() => setDrawerOpen(false)}
+                className="flex items-center justify-center w-full py-3.5 rounded-full text-[0.95rem] font-semibold transition-all duration-200 border"
+                style={{ color: colors.ink, borderColor: colors.divider }}
+              >
+                My Results
+              </Link>
+              <button
+                onClick={() => { handleLogout(); setDrawerOpen(false); }}
+                className="flex items-center justify-center w-full py-3.5 rounded-full text-[0.95rem] font-semibold transition-all duration-200 border"
+                style={{ color: colors.ink, borderColor: colors.divider }}
+              >
+                Log Out
+              </button>
+            </>
           ) : (
             <Link
               to="/login"

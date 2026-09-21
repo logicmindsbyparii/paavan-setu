@@ -223,6 +223,10 @@ export default function HomeHero({ get, achievements = [] }) {
       // edge. Measured at runtime so the dash always matches the rendered path
       // length, whatever the viewport does to it.
       edges.forEach((edge) => {
+        // SVGGeometryElement.getTotalLength is not available everywhere, and
+        // this draw-on is decoration: an absent method should cost the reader a
+        // hairline, not the whole page.
+        if (typeof edge.getTotalLength !== 'function') return;
         const length = edge.getTotalLength();
         gsap.set(edge, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
         tl.to(edge, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, 0.3);

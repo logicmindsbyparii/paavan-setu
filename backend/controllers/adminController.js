@@ -226,17 +226,28 @@ exports.changePassword = async (req, res, next) => {
 };
 
 // GET /api/admin/test-results
+// Defaults to finished attempts. Abandoned ones are analytics telemetry and
+// would otherwise read as submissions in the results table; pass
+// ?status=abandoned or ?status=all to inspect them deliberately.
 exports.getAllTestResults = async (req, res, next) => {
   try {
     const TestResult = require('../models/TestResult');
-    const results = await TestResult.find()
+    const { status } = req.query;
+    const filter = status === 'all'
+      ? {}
+      : status === 'abandoned'
+        ? { status: 'abandoned' }
+        : { status: { $ne: 'abandoned' } };
+
+    // `-answers -answerDetails` drops the per-question answer map (the largest
+    // part of each document) — the results table and its detail dialog render
+    // from resultData/questionStats and never read either field.
+    const results = await TestResult.find(filter)
+      .select('-answers -answerDetails')
       .populate('user', 'name email')
       .sort('-createdAt');
 
-    res.json({
-      success: true,
-      data: results,
-    });
+    res.json({ success: true, data: results });
   } catch (error) {
     next(error);
   }
@@ -298,6 +309,206 @@ exports.deleteUser = async (req, res, next) => {
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
     
     res.json({ success: true, message: 'User deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET /api/admin/test-results/:testSlug
+exports.getTestResultsBySlug = async (req, res, next) => {
+  try {
+    const TestResult = require('../models/TestResult');
+    const { status } = req.query;
+    const filter = { testSlug: req.params.testSlug };
+    if (status !== 'all') filter.status = status === 'abandoned' ? 'abandoned' : { $ne: 'abandoned' };
+    // Same projection as the all-tests list: this list is not paginated, so
+    // shipping everyone's full answer map was the bulk of the response.
+    const results = await TestResult.find(filter)
+      .select('-answers -answerDetails')
+      .populate('user', 'name email')
+      .sort('-completedAt');
+
+    res.json({ success: true, data: results });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// DELETE /api/admin/test-results/:id
+exports.deleteTestResult = async (req, res, next) => {
+  try {
+    const TestResult = require('../models/TestResult');
+    const result = await TestResult.findByIdAndDelete(req.params.id);
+    if (!result) return res.status(404).json({ success: false, message: 'Test result not found' });
+    
+    res.json({ success: true, message: 'Test result deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET /api/admin/test-analytics — aggregate stats across all tests
+exports.getTestAnalytics = async (req, res, next) => {
+  try {
+    const TestResult = require('../models/TestResult');
+    const Test = require('../models/Test');
+
+    const finishedFilter = { status: { $ne: 'abandoned' } };
+    const totalSubmissions = await TestResult.countDocuments(finishedFilter);
+    const abandonedAttempts = await TestResult.countDocuments({ status: 'abandoned' });
+    const resultsByTest = await TestResult.aggregate([
+      { $match: finishedFilter },
+      { $group: { _id: '$testSlug', count: { $sum: 1 }, avgTime: { $avg: '$timeTaken' } } },
+      { $sort: { count: -1 } },
+    ]);
+    const abandonedByTest = await TestResult.aggregate([
+      { $match: { status: 'abandoned' } },
+      { $group: { _id: '$testSlug', count: { $sum: 1 } } },
+    ]);
+
+    const tests = await Test.find({}, 'slug name categories scoringMode').sort('name');
+
+    const analytics = {
+      totalSubmissions,
+      abandonedAttempts,
+      completionRate: (totalSubmissions + abandonedAttempts) > 0
+        ? Math.round((totalSubmissions / (totalSubmissions + abandonedAttempts)) * 100)
+        : null,
+      tests: tests.map(test => {
+        const stats = resultsByTest.find(r => r._id === test.slug);
+        const dropped = abandonedByTest.find(r => r._id === test.slug);
+        const submissions = stats ? stats.count : 0;
+        const abandoned = dropped ? dropped.count : 0;
+        return {
+          slug: test.slug,
+          name: test.name,
+          categories: test.categories,
+          scoringMode: test.scoringMode || 'profile',
+          submissions,
+          abandoned,
+          completionRate: (submissions + abandoned) > 0
+            ? Math.round((submissions / (submissions + abandoned)) * 100)
+            : null,
+          avgTimeSeconds: stats ? Math.round(stats.avgTime || 0) : 0,
+        };
+      }),
+    };
+
+    res.json({ success: true, data: analytics });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// COUPON MANAGEMENT
+// ══════════════════════════════════════════════════════════════════════
+
+const Coupon = require('../models/Coupon');
+
+// GET /api/admin/coupons — list all coupons
+exports.getAllCoupons = async (req, res, next) => {
+  try {
+    const coupons = await Coupon.find().sort('-createdAt');
+    res.json({ success: true, data: coupons });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST /api/admin/coupons — create a new coupon
+exports.createCoupon = async (req, res, next) => {
+  try {
+    const { code, description, maxUsage, expiresAt } = req.body;
+
+    if (!code) {
+      return res.status(400).json({ success: false, message: 'Coupon code is required' });
+    }
+
+    const upperCode = code.toUpperCase().trim();
+
+    const existing = await Coupon.findOne({ code: upperCode });
+    if (existing) {
+      return res.status(409).json({ success: false, message: 'A coupon with this code already exists' });
+    }
+
+    const coupon = await Coupon.create({
+      code: upperCode,
+      description: description || '',
+      maxUsage: maxUsage || 1,
+      expiresAt: expiresAt ? new Date(expiresAt) : null,
+      createdBy: req.adminId,
+    });
+
+    res.status(201).json({ success: true, data: coupon });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({ success: false, message: 'A coupon with this code already exists' });
+    }
+    next(error);
+  }
+};
+
+// PUT /api/admin/coupons/:id — update a coupon
+exports.updateCoupon = async (req, res, next) => {
+  try {
+    const { description, maxUsage, expiresAt, isActive } = req.body;
+
+    const coupon = await Coupon.findById(req.params.id);
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: 'Coupon not found' });
+    }
+
+    if (description !== undefined) coupon.description = description;
+    if (maxUsage !== undefined) coupon.maxUsage = maxUsage;
+    if (expiresAt !== undefined) coupon.expiresAt = expiresAt ? new Date(expiresAt) : null;
+    if (isActive !== undefined) coupon.isActive = isActive;
+
+    await coupon.save();
+    res.json({ success: true, data: coupon });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// DELETE /api/admin/coupons/:id
+exports.deleteCoupon = async (req, res, next) => {
+  try {
+    const coupon = await Coupon.findByIdAndDelete(req.params.id);
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: 'Coupon not found' });
+    }
+    res.json({ success: true, message: 'Coupon deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET /api/admin/coupons/:id — single coupon details
+exports.getCouponById = async (req, res, next) => {
+  try {
+    const coupon = await Coupon.findById(req.params.id);
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: 'Coupon not found' });
+    }
+    res.json({ success: true, data: coupon });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// PUT /api/admin/coupons/bulk — bulk deactivate/reactivate
+exports.bulkUpdateCoupons = async (req, res, next) => {
+  try {
+    const { ids, isActive } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, message: 'ids array is required' });
+    }
+    const updated = await Coupon.updateMany(
+      { _id: { $in: ids } },
+      { isActive, $set: { updatedAt: new Date() } }
+    );
+    res.json({ success: true, data: { modifiedCount: updated.modifiedCount } });
   } catch (error) {
     next(error);
   }

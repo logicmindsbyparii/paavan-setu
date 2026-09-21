@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, TextField, Button, Alert, Paper } from '@mui/material';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import ShieldIcon from '@mui/icons-material/Shield';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import KeyIcon from '@mui/icons-material/Key';
@@ -18,6 +18,9 @@ function InteractiveLoginCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    // Null when no 2D context is available; every draw below assumes one, so
+    // the error would otherwise escape the effect and blank the login screen.
+    if (!ctx) return;
     let animationFrameId;
 
     let width = (canvas.width = canvas.offsetWidth);
@@ -69,7 +72,7 @@ function InteractiveLoginCanvas() {
 
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(232, 184, 109, 0.45)';
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
         ctx.fill();
 
         for (let j = i + 1; j < nodeCount; j++) {
@@ -82,7 +85,7 @@ function InteractiveLoginCanvas() {
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(target.x, target.y);
-            ctx.strokeStyle = `rgba(232, 184, 109, ${0.18 * (1 - dist / 130)})`;
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 * (1 - dist / 130)})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
@@ -170,52 +173,50 @@ export default function AdminLogin() {
   };
 
   return (
-    <Box
+    <div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      component="main"
-      sx={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        background: 'radial-gradient(120% 90% at 85% 20%, rgba(23,74,114,0.3) 0%, transparent 55%), linear-gradient(165deg, #04140a 0%, #072e19 46%, #0a2942 100%)',
-        p: 3,
-      }}
+      className="min-h-[100dvh] flex items-center justify-center relative overflow-hidden bg-[#fcfcfc] p-4"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-[#f0fdf4] via-[#fcfcfc] to-[#e8f5e9] opacity-70" />
       <InteractiveLoginCanvas />
 
-      <div style={{ perspective: 1200 }}>
+      <div style={{ perspective: 1200 }} className="relative z-10 w-full max-w-md">
         <motion.div
           style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-md rounded-3xl border border-white/20 bg-gradient-to-br from-[#072516]/90 via-[#061e12]/95 to-[#0b2f4c]/90 p-8 sm:p-10 backdrop-blur-2xl shadow-2xl"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full rounded-[2rem] border border-gray-100 bg-white/90 p-8 sm:p-10 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
         >
           <div className="text-center mb-8">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e8b86d] to-[#d9ae3c] text-[#071d12] shadow-xl mb-4">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#c8e6c9] to-[#a5d6a7] text-[#111d11] shadow-sm mb-4">
               <ShieldIcon sx={{ fontSize: 34 }} />
             </div>
-            <h1 className="font-['DM_Serif_Display',Georgia,serif] text-3xl text-white">
+            <h1 className="font-['DM_Serif_Display',Georgia,serif] text-3xl text-[#111d11]">
               Paavan Setu
             </h1>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#96cead] mt-1">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#4b5563] mt-1">
               Admin Control Portal
             </p>
           </div>
 
-          {error && (
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 rounded-2xl border border-red-500/40 bg-red-500/15 p-3.5 text-xs font-medium text-red-200 text-center">
-              ⚠️ {error}
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10, height: 0 }} 
+                animate={{ opacity: 1, y: 0, height: 'auto' }} 
+                exit={{ opacity: 0, y: -10, height: 0 }}
+                className="mb-6 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs font-medium text-red-700 text-center overflow-hidden"
+              >
+                ⚠️ {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="admin-email" className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">
+              <label htmlFor="admin-email" className="block text-xs font-bold uppercase tracking-wider text-[#4b5563] mb-2">
                 Admin Email Address
               </label>
               <input
@@ -226,12 +227,12 @@ export default function AdminLogin() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="admin@paavansetu.com"
-                className="w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/40 focus:border-[#e8b86d] focus:bg-white/10 focus:outline-none transition-all"
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm text-[#111d11] placeholder-gray-400 focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] focus:bg-white focus:outline-none transition-all duration-200"
               />
             </div>
 
             <div>
-              <label htmlFor="admin-password" className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">
+              <label htmlFor="admin-password" className="block text-xs font-bold uppercase tracking-wider text-[#4b5563] mb-2">
                 Master Password
               </label>
               <input
@@ -242,21 +243,19 @@ export default function AdminLogin() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••••••"
-                className="w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/40 focus:border-[#e8b86d] focus:bg-white/10 focus:outline-none transition-all"
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm text-[#111d11] placeholder-gray-400 focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] focus:bg-white focus:outline-none transition-all duration-200"
               />
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-full py-4 text-sm font-bold text-[#071d12] shadow-xl transition-all disabled:opacity-50 mt-4"
-              style={{ background: 'linear-gradient(120deg, #f7e6bd 0%, #e8b86d 100%)' }}
+              className="w-full flex items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold text-white shadow-md transition-all disabled:opacity-50 mt-4 bg-gradient-to-br from-[#10b981] to-[#059669] hover:shadow-lg"
             >
               {loading ? (
                 <>
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#071d12]/30 border-t-[#071d12]" />
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                   Authenticating...
                 </>
               ) : (
@@ -267,11 +266,11 @@ export default function AdminLogin() {
             </motion.button>
           </form>
 
-          <p className="text-center text-[0.72rem] text-white/50 mt-6">
+          <p className="text-center text-[0.72rem] text-gray-400 mt-6 font-medium">
             Protected Administrator System • Authorized Access Only
           </p>
         </motion.div>
       </div>
-    </Box>
+    </div>
   );
 }

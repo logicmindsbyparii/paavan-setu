@@ -239,6 +239,9 @@ function InteractiveNeuralCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    // Null when no 2D context is available; every draw below assumes one, so
+    // the error would otherwise escape the effect and blank the page.
+    if (!ctx) return;
     let animationFrameId;
 
     let width = (canvas.width = canvas.parentElement.clientWidth);

@@ -189,6 +189,11 @@ function InteractiveConstellationCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    // getContext returns null instead of throwing when a context cannot be
+    // created (context lost, out of memory, canvas disabled). Every draw below
+    // dereferences it, so without this the error escapes the effect and React
+    // unmounts the entire page over a decorative background.
+    if (!ctx) return;
     let animationFrameId;
 
     let width = (canvas.width = canvas.offsetWidth);
@@ -302,7 +307,7 @@ function CredentialModal({ cred, onClose }) {
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, y: 20, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-lg rounded-3xl border border-gray-200 bg-white p-6 sm:p-8 text-[#111d11] shadow-2xl"
+        className="relative w-full max-w-lg rounded-3xl border border-gray-200/50 bg-white/85 backdrop-blur-2xl p-6 sm:p-8 text-[#111d11] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -568,8 +573,8 @@ export default function About() {
               transition={{ duration: 0.8 }}
               className="lg:col-span-5"
             >
-              <div className="relative rounded-3xl overflow-hidden border border-[#0a5c2c]/15 bg-white p-4 shadow-[0_20px_50px_-15px_rgba(10,92,44,0.1)]">
-                <div className="relative rounded-2xl overflow-hidden bg-[#fdfaf3]">
+              <div className="relative rounded-3xl overflow-hidden border border-[#0a5c2c]/15 bg-white/70 backdrop-blur-xl p-4 shadow-[0_20px_50px_-15px_rgba(10,92,44,0.15)]">
+                <div className="relative rounded-2xl overflow-hidden bg-[#fdfaf3]/80 backdrop-blur-md">
                   <img src={founderImage} alt="Shweta Kothari" className="w-full h-auto max-h-[540px] object-contain block mx-auto" />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#111d11]/80 via-transparent to-transparent opacity-85" />
                   <div className="absolute bottom-6 left-6 right-6 text-white">
@@ -618,7 +623,7 @@ export default function About() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedCred(cred)}
-                      className="rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-colors hover:border-[#0a5c2c]/40 hover:bg-[#fdfaf3]"
+                      className="rounded-2xl border border-gray-200/60 bg-white/70 backdrop-blur-md p-4 text-left shadow-sm transition-all duration-300 hover:border-[#0a5c2c]/40 hover:bg-white/95 hover:shadow-md hover:-translate-y-0.5"
                     >
                       <p className="text-xs font-bold text-[#111d11] flex items-center justify-between">
                         <span>{cred.title}</span>
@@ -656,7 +661,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               onMouseMove={handleSpotlightMove}
-              className="group relative overflow-hidden rounded-3xl border border-[#0a5c2c]/15 bg-white p-8 shadow-sm transition-all duration-300 hover:border-[#0a5c2c]/35 hover:shadow-md"
+              className="group relative overflow-hidden rounded-3xl border border-[#0a5c2c]/15 bg-white/70 backdrop-blur-xl p-8 shadow-sm transition-all duration-500 hover:border-[#0a5c2c]/40 hover:shadow-2xl hover:-translate-y-1"
               style={{
                 background: 'radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(10, 92, 44, 0.08), transparent 40%)',
               }}
@@ -691,7 +696,7 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.15 }}
               onMouseMove={handleSpotlightMove}
-              className="group relative overflow-hidden rounded-3xl border border-[#174a72]/15 bg-white p-8 shadow-sm transition-all duration-300 hover:border-[#174a72]/35 hover:shadow-md"
+              className="group relative overflow-hidden rounded-3xl border border-[#174a72]/15 bg-white/70 backdrop-blur-xl p-8 shadow-sm transition-all duration-500 hover:border-[#174a72]/40 hover:shadow-2xl hover:-translate-y-1"
               style={{
                 background: 'radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(23, 74, 114, 0.08), transparent 40%)',
               }}
@@ -799,7 +804,7 @@ export default function About() {
                         <span className="block h-4 w-4 rounded-full bg-white border-4 border-[#0a5c2c] shadow-[0_0_0_4px_rgba(244,248,244,1)]" />
                       </div>
 
-                      <article className="group relative overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white p-7 sm:p-9 shadow-sm transition-all duration-500 hover:border-[#0a5c2c]/30 hover:shadow-[0_24px_60px_-15px_rgba(10,92,44,0.12)] hover:-translate-y-1">
+                      <article className="group relative overflow-hidden rounded-[2rem] border border-gray-200/60 bg-white/70 backdrop-blur-xl p-7 sm:p-9 shadow-sm transition-all duration-500 hover:border-[#0a5c2c]/40 hover:bg-white/95 hover:shadow-[0_24px_60px_-15px_rgba(10,92,44,0.18)] hover:-translate-y-1">
                         
                         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
                           <div className="flex items-center gap-4">
@@ -865,7 +870,7 @@ export default function About() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.5 }}
                   onMouseMove={handleSpotlightMove}
-                  className="group relative overflow-hidden rounded-3xl border border-gray-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:border-[#0a5c2c]/30 hover:shadow-md"
+                  className="group relative overflow-hidden rounded-3xl border border-gray-200/60 bg-white/70 backdrop-blur-xl p-7 shadow-sm transition-all duration-500 hover:border-gray-300 hover:bg-white/95 hover:shadow-xl hover:-translate-y-1"
                   style={{
                     background: `radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${v.tone}0c, transparent 40%)`,
                   }}

@@ -1,30 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Chip, Select, MenuItem,
   CircularProgress, Dialog, DialogTitle, DialogContent,
-  DialogActions, Button, IconButton, Tooltip
+  DialogActions, Button, IconButton, Tooltip, TextField, InputAdornment, FormControl, InputLabel
 } from '@mui/material';
 import FormAlerts from '../../components/ui/FormAlerts';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import { Search, Clear, Info } from '@mui/icons-material';
 import { adminRequest } from '../../lib/api';
 
 const statusColors = {
-  new: { bg: 'rgba(59, 130, 246, 0.2)', col: '#60a5fa', border: 'rgba(59, 130, 246, 0.4)', label: 'New' },
-  read: { bg: 'rgba(245, 158, 11, 0.2)', col: '#fbbf24', border: 'rgba(245, 158, 11, 0.4)', label: 'Read' },
-  replied: { bg: 'rgba(16, 185, 129, 0.2)', col: '#34d399', border: 'rgba(16, 185, 129, 0.4)', label: 'Replied' },
+  new: { bg: 'rgba(59, 130, 246, 0.2)', col: '#1d4ed8', border: 'rgba(59, 130, 246, 0.4)', label: 'New' },
+  read: { bg: 'rgba(245, 158, 11, 0.2)', col: '#b45309', border: 'rgba(245, 158, 11, 0.4)', label: 'Read' },
+  replied: { bg: 'rgba(16, 185, 129, 0.2)', col: '#047857', border: 'rgba(16, 185, 129, 0.4)', label: 'Replied' },
 };
 
-const darkSelectStyle = {
-  bgcolor: 'rgba(255, 255, 255, 0.06)',
-  color: '#ffffff',
+const lightSelectStyle = {
+  bgcolor: 'var(--color-snow)',
+  color: 'var(--color-ink)',
   borderRadius: '12px',
-  '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#e8b86d' },
-  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#e8b86d' },
-  '& .MuiSelect-icon': { color: '#e8b86d' },
+  transition: 'all 0.2s ease',
+  '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0,0,0,0.08)' },
+  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0,0,0,0.15)' },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+  '& .MuiSelect-icon': { color: 'var(--color-ink)' },
+  '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
+};
+
+const lightTextFieldStyle = {
+  '& .MuiOutlinedInput-root': {
+    color: 'var(--color-ink)',
+    bgcolor: 'var(--color-snow)',
+    borderRadius: '12px',
+    transition: 'all 0.2s ease',
+    '& fieldset': { borderColor: 'rgba(0,0,0,0.08)' },
+    '&:hover fieldset': { borderColor: 'rgba(0,0,0,0.15)' },
+    '&.Mui-focused fieldset': { borderColor: 'var(--color-green)', borderWidth: '2px' },
+    '&.Mui-focused': { bgcolor: '#ffffff', boxShadow: '0 4px 12px rgba(10, 79, 34, 0.05)' }
+  },
+  '& .MuiInputLabel-root': { color: '#6b7280' },
+  '& .MuiInputLabel-root.Mui-focused': { color: 'var(--color-ink)', fontWeight: 600 },
 };
 
 export default function ContactsManagement() {
@@ -33,14 +51,23 @@ export default function ContactsManagement() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [filter, setFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [sortBy, setSortBy] = useState('dateDesc');
   const [selectedContact, setSelectedContact] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState(null);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   const fetchContacts = useCallback(async () => {
     setLoading(true);
     try {
-      const query = filter ? `?status=${encodeURIComponent(filter)}` : '';
-      const data = await adminRequest(`/api/contact${query}`);
+      const data = await adminRequest(`/api/contact`);
       setContacts(Array.isArray(data) ? data : data?.data || []);
       setError('');
     } catch (err) {
@@ -48,11 +75,36 @@ export default function ContactsManagement() {
     } finally {
       setLoading(false);
     }
-  }, [filter]);
+  }, []);
 
   useEffect(() => {
     fetchContacts();
   }, [fetchContacts]);
+
+  const processedContacts = useMemo(() => {
+    let result = [...contacts];
+
+    if (debouncedSearch) {
+      const query = debouncedSearch.toLowerCase();
+      result = result.filter(c => 
+        (c.name || '').toLowerCase().includes(query) ||
+        (c.email || '').toLowerCase().includes(query)
+      );
+    }
+
+    if (filter) {
+      result = result.filter(c => c.status === filter);
+    }
+
+    result.sort((a, b) => {
+      if (sortBy === 'dateDesc') return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortBy === 'dateAsc') return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortBy === 'status') return a.status.localeCompare(b.status);
+      return 0;
+    });
+
+    return result;
+  }, [contacts, debouncedSearch, filter, sortBy]);
 
   useEffect(() => {
     if (success) {
@@ -108,101 +160,145 @@ export default function ContactsManagement() {
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 12 }}>
-        <CircularProgress sx={{ color: '#e8b86d' }} />
+        <CircularProgress sx={{ color: '#111827' }} />
       </Box>
     );
   }
 
   return (
     <Box className="space-y-6">
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', md: 'flex-end' }, mb: 4, gap: 2 }}>
         <Box>
-          <Typography
-            variant="h4"
-            sx={{ fontFamily: "'DM Serif Display', Georgia, serif", fontWeight: 700, color: '#ffffff' }}
-          >
+          <Typography variant="h4" sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>
             Contacts Inquiries
           </Typography>
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+          <Typography sx={{ color: '#6b7280' }}>
             Manage user inquiries and consultation requests ({contacts.length})
           </Typography>
         </Box>
-        <Select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          size="small"
-          sx={{ minWidth: 160, ...darkSelectStyle }}
-        >
-          <MenuItem value="" sx={{ bgcolor: '#061e12', color: '#fff' }}>All Contacts</MenuItem>
-          <MenuItem value="new" sx={{ bgcolor: '#061e12', color: '#fff' }}>New</MenuItem>
-          <MenuItem value="read" sx={{ bgcolor: '#061e12', color: '#fff' }}>Read</MenuItem>
-          <MenuItem value="replied" sx={{ bgcolor: '#061e12', color: '#fff' }}>Replied</MenuItem>
-        </Select>
+        <Box sx={{ display: 'flex', gap: 2, width: { xs: '100%', md: 'auto' } }}>
+          <TextField
+            size="small"
+            placeholder="Search name/email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{ minWidth: 200, ...lightTextFieldStyle }}
+            InputProps={{
+              startAdornment: <InputAdornment position="start"><Search sx={{ color: '#9ca3af' }} /></InputAdornment>,
+              endAdornment: searchQuery ? (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={() => setSearchQuery('')} sx={{ color: '#9ca3af' }}>
+                    <Clear fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ) : null
+            }}
+          />
+          <FormControl size="small" sx={{ minWidth: 140 }}>
+            <InputLabel sx={{ color: '#6b7280' }}>Status</InputLabel>
+            <Select
+              value={filter}
+              label="Status"
+              onChange={(e) => setFilter(e.target.value)}
+              sx={lightSelectStyle}
+            >
+              <MenuItem value="" sx={{ bgcolor: '#ffffff', color: '#111827' }}>All Contacts</MenuItem>
+              <MenuItem value="new" sx={{ bgcolor: '#ffffff', color: '#111827' }}>New</MenuItem>
+              <MenuItem value="read" sx={{ bgcolor: '#ffffff', color: '#111827' }}>Read</MenuItem>
+              <MenuItem value="replied" sx={{ bgcolor: '#ffffff', color: '#111827' }}>Replied</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl size="small" sx={{ minWidth: 140 }}>
+            <InputLabel sx={{ color: '#6b7280' }}>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => setSortBy(e.target.value)}
+              sx={lightSelectStyle}
+            >
+              <MenuItem value="dateDesc" sx={{ bgcolor: '#ffffff', color: '#111827' }}>Newest First</MenuItem>
+              <MenuItem value="dateAsc" sx={{ bgcolor: '#ffffff', color: '#111827' }}>Oldest First</MenuItem>
+              <MenuItem value="status" sx={{ bgcolor: '#ffffff', color: '#111827' }}>By Status</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
 
       <FormAlerts error={error} success={success} onDismissError={() => setError('')} onDismissSuccess={() => setSuccess('')} />
 
       <TableContainer component={Paper} elevation={0} sx={{
-        bgcolor: 'rgba(255, 255, 255, 0.04)',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '20px',
+        bgcolor: 'var(--color-paper)',
+        border: '1px solid rgba(0,0,0,0.05)',
+        borderRadius: '24px',
         overflow: 'hidden',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
       }}>
         <Table>
           <TableHead>
-            <TableRow sx={{ bgcolor: 'rgba(255, 255, 255, 0.06)' }}>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Email</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Phone</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Service</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Status</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Date</TableCell>
-              <TableCell sx={{ fontWeight: 700, color: '#e8b86d', borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>Actions</TableCell>
+            <TableRow sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Email</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Phone</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Service</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Date</TableCell>
+              <TableCell sx={{ fontWeight: 700, color: '#111827', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {contacts.length === 0 ? (
+            {processedContacts.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} sx={{ textAlign: 'center', py: 8, color: 'rgba(255,255,255,0.6)', borderBottom: 0 }}>
-                  No contact inquiries found.
+                <TableCell colSpan={7} sx={{ borderBottom: 0 }}>
+                  <Box sx={{ textAlign: 'center', py: 8 }}>
+                    <Info sx={{ color: '#d1d5db', fontSize: 48 }} />
+                    <Typography sx={{ color: '#6b7280', mt: 2, fontSize: '1.1rem' }}>
+                      No contacts found matching your filters.
+                    </Typography>
+                    {(searchQuery || filter !== '') && (
+                      <Button
+                        onClick={() => { setSearchQuery(''); setFilter(''); }}
+                        sx={{ mt: 2, color: '#111827', textTransform: 'none' }}
+                      >
+                        Clear filters
+                      </Button>
+                    )}
+                  </Box>
                 </TableCell>
               </TableRow>
             ) : (
-              contacts.map((contact) => (
+              processedContacts.map((contact) => (
                 <TableRow
                   key={contact._id}
                   sx={{
                     cursor: 'pointer',
                     bgcolor: contact.status === 'new' ? 'rgba(59, 130, 246, 0.08)' : 'inherit',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.04)' }
+                    '&:hover': { bgcolor: '#ffffff' }
                   }}
                 >
-                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography sx={{ fontWeight: 600, color: '#ffffff' }}>{contact.name}</Typography>
+                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography sx={{ fontWeight: 600, color: '#111827' }}>{contact.name}</Typography>
                   </TableCell>
-                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography sx={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.85)' }}>{contact.email}</Typography>
+                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography sx={{ fontSize: '0.9rem', color: '#4b5563' }}>{contact.email}</Typography>
                   </TableCell>
-                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography sx={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', fontFamily: 'monospace' }}>{contact.phone || '—'}</Typography>
+                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography sx={{ fontSize: '0.9rem', color: '#6b7280', fontFamily: 'monospace' }}>{contact.phone || '—'}</Typography>
                   </TableCell>
-                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     {contact.service && (
                       <Chip
                         label={contact.service}
                         size="small"
                         sx={{
-                          bgcolor: 'rgba(232, 184, 109, 0.15)',
-                          color: '#f5d9a0',
+                          bgcolor: 'rgba(16, 185, 129, 0.15)',
+                          color: '#111827',
                           border: '1px solid rgba(232, 184, 109, 0.3)',
                           fontWeight: 600,
                         }}
                       />
                     )}
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Select
                       value={contact.status}
                       onChange={(e) => {
@@ -211,10 +307,10 @@ export default function ContactsManagement() {
                       }}
                       onClick={(e) => e.stopPropagation()}
                       size="small"
-                      sx={{ ...darkSelectStyle, minWidth: 120 }}
+                      sx={{ ...lightSelectStyle, minWidth: 120 }}
                     >
                       {Object.keys(statusColors).map((s) => (
-                        <MenuItem key={s} value={s} sx={{ bgcolor: '#061e12', color: '#fff' }}>
+                        <MenuItem key={s} value={s} sx={{ bgcolor: '#ffffff', color: '#111827' }}>
                           <Chip
                             label={statusColors[s].label}
                             size="small"
@@ -230,12 +326,12 @@ export default function ContactsManagement() {
                       ))}
                     </Select>
                   </TableCell>
-                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Typography sx={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+                  <TableCell onClick={() => handleViewDetail(contact)} sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Typography sx={{ fontSize: '0.85rem', color: '#6b7280' }}>
                       {formatDate(contact.createdAt)}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
                     <Box sx={{ display: 'flex', gap: 0.5 }}>
                       <Tooltip title="View details">
                         <IconButton
@@ -244,7 +340,7 @@ export default function ContactsManagement() {
                             e.stopPropagation();
                             handleViewDetail(contact);
                           }}
-                          sx={{ color: '#e8b86d', '&:hover': { bgcolor: 'rgba(232, 184, 109, 0.15)' } }}
+                          sx={{ color: '#111827', '&:hover': { bgcolor: 'rgba(16, 185, 129, 0.15)' } }}
                         >
                           <VisibilityIcon fontSize="small" />
                         </IconButton>
@@ -293,11 +389,11 @@ export default function ContactsManagement() {
         PaperProps={{
           sx: {
             borderRadius: '24px',
-            bgcolor: '#061e12',
-            backgroundImage: 'linear-gradient(145deg, #051c11 0%, #082a3e 100%)',
-            color: '#ffffff',
+            bgcolor: '#ffffff',
+            bgcolor: '#ffffff',
+            color: '#111827',
             border: '1px solid rgba(232, 184, 109, 0.3)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
             p: 1
           }
         }}
@@ -306,11 +402,11 @@ export default function ContactsManagement() {
           <>
             <DialogTitle
               sx={{
-                fontFamily: "'DM Serif Display', Georgia, serif",
+                fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)',
                 display: 'flex',
                 justify: 'space-between',
                 alignItems: 'center',
-                color: '#f5d9a0'
+                color: '#111827'
               }}
             >
               <span>Contact Inquiry Details</span>
@@ -326,39 +422,39 @@ export default function ContactsManagement() {
                 size="small"
               />
             </DialogTitle>
-            <DialogContent dividers sx={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+            <DialogContent dividers sx={{ borderColor: '#e5e7eb' }}>
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Name</Typography>
-                <Typography sx={{ fontWeight: 600, color: '#ffffff' }}>{selectedContact.name}</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Name</Typography>
+                <Typography sx={{ fontWeight: 600, color: '#111827' }}>{selectedContact.name}</Typography>
               </Box>
 
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Email</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Email</Typography>
                 <Typography sx={{ fontWeight: 500, color: 'rgba(255,255,255,0.9)' }}>{selectedContact.email}</Typography>
               </Box>
 
               {selectedContact.phone && (
                 <Box sx={{ mb: 3 }}>
-                  <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Phone</Typography>
+                  <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Phone</Typography>
                   <Typography sx={{ fontWeight: 500, color: 'rgba(255,255,255,0.9)', fontFamily: 'monospace' }}>{selectedContact.phone}</Typography>
                 </Box>
               )}
 
               {selectedContact.service && (
                 <Box sx={{ mb: 3 }}>
-                  <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Service Requested</Typography>
+                  <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Service Requested</Typography>
                   <Chip
                     label={selectedContact.service}
-                    sx={{ bgcolor: 'rgba(232, 184, 109, 0.15)', color: '#f5d9a0', border: '1px solid rgba(232, 184, 109, 0.3)', fontWeight: 600 }}
+                    sx={{ bgcolor: 'rgba(16, 185, 129, 0.15)', color: '#111827', border: '1px solid rgba(232, 184, 109, 0.3)', fontWeight: 600 }}
                   />
                 </Box>
               )}
 
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Message</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Message</Typography>
                 <Paper
                   elevation={0}
-                  sx={{ p: 2.5, borderRadius: 2.5, bgcolor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                  sx={{ p: 2.5, borderRadius: 2.5, bgcolor: 'rgba(0,0,0,0.02)', border: '1px solid #e5e7eb' }}
                 >
                   <Typography sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.7, color: 'rgba(255,255,255,0.9)' }}>
                     {selectedContact.message}
@@ -367,7 +463,7 @@ export default function ContactsManagement() {
               </Box>
 
               <Box>
-                <Typography variant="subtitle2" sx={{ color: '#e8b86d', mb: 0.5, fontWeight: 700 }}>Submitted On</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', mb: 0.5, fontWeight: 700 }}>Submitted On</Typography>
                 <Typography sx={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.65)' }}>
                   {new Date(selectedContact.createdAt).toLocaleString('en-IN', {
                     day: 'numeric',
@@ -382,7 +478,7 @@ export default function ContactsManagement() {
             <DialogActions sx={{ p: 2.5 }}>
               <Button
                 onClick={() => setSelectedContact(null)}
-                sx={{ color: '#e8b86d', fontWeight: 700 }}
+                sx={{ color: '#111827', fontWeight: 700 }}
               >
                 Close Window
               </Button>
@@ -399,22 +495,22 @@ export default function ContactsManagement() {
         PaperProps={{
           sx: {
             borderRadius: '20px',
-            bgcolor: '#061e12',
-            backgroundImage: 'linear-gradient(145deg, #051c11 0%, #082a3e 100%)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7)',
+            bgcolor: '#ffffff',
+            bgcolor: '#ffffff',
+            color: '#111827',
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
           }
         }}
       >
         <DialogTitle sx={{ fontWeight: 700, color: '#f43f5e' }}>Confirm Deletion</DialogTitle>
-        <DialogContent sx={{ color: 'rgba(255,255,255,0.7)' }}>
+        <DialogContent sx={{ color: '#6b7280' }}>
           Are you sure you want to delete the contact from{' '}
-          <strong className="text-white">{deleteDialog?.name}</strong>? This action cannot be undone.
+          <strong className="text-gray-900">{deleteDialog?.name}</strong>? This action cannot be undone.
         </DialogContent>
-        <DialogActions sx={{ p: 2, borderColor: 'rgba(255,255,255,0.1)' }}>
-          <Button onClick={() => setDeleteDialog(null)} sx={{ color: '#fff', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>Cancel</Button>
-          <Button onClick={() => handleDelete(deleteDialog?._id)} sx={{ bgcolor: '#f43f5e', color: '#fff', '&:hover': { bgcolor: '#e11d48' }, borderRadius: '8px' }}>Delete</Button>
+        <DialogActions sx={{ p: 2, borderColor: 'rgba(0,0,0,0.06)' }}>
+          <Button onClick={() => setDeleteDialog(null)} sx={{ color: '#111827', '&:hover': { bgcolor: 'rgba(0,0,0,0.06)' } }}>Cancel</Button>
+          <Button onClick={() => handleDelete(deleteDialog?._id)} sx={{ bgcolor: '#f43f5e', color: '#111827', '&:hover': { bgcolor: '#e11d48' }, borderRadius: '8px' }}>Delete</Button>
         </DialogActions>
       </Dialog>
     </Box>

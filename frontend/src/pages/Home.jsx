@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings } from '../hooks/useContent';
-import { getTestimonials } from '../lib/api';
+import { getTestimonials, logApiFailure } from '../lib/api';
 import HomeHero from '../components/ui/HomeHero';
 import HomeWhy from '../components/ui/HomeWhy';
 import HomeBooks from '../components/ui/HomeBooks';
@@ -88,7 +88,8 @@ export default function Home() {
         const testims = Array.isArray(data) ? data : data?.data ?? [];
         setDynamicTestimonials(testims.filter((t) => t.isActive));
       })
-      .catch((err) => console.error('Failed to load testimonials:', err));
+      // Bundled testimonials cover this case, so it is a degradation, not a fault.
+      .catch((err) => logApiFailure('load testimonials', err));
   }, []);
 
   const services = parseJson(get('services.items'), FALLBACKS.services);

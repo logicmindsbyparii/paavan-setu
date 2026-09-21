@@ -36,6 +36,7 @@ const navItems = [
   { text: 'Contacts', icon: <EmailIcon />, path: '/admin/contacts' },
   { text: 'Manage Tests', icon: <AssignmentIcon />, path: '/admin/tests' },
   { text: 'Test Results', icon: <AssessmentIcon />, path: '/admin/test-results' },
+  { text: 'Coupon Codes', icon: <AutoAwesomeIcon />, path: '/admin/coupons' },
   { text: 'Testimonials', icon: <RecordVoiceOverIcon />, path: '/admin/testimonials' },
   { text: 'SEO Settings', icon: <SettingsIcon />, path: '/admin/seo' },
   { text: 'Settings', icon: <SettingsIcon />, path: '/admin/settings' },
@@ -73,36 +74,18 @@ export default function AdminLayout({ children }) {
   };
 
   const drawer = (
-    <Box sx={{
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'relative',
-      background: '#041008',
-      color: colors.white,
-      overflow: 'hidden',
-    }}>
-
+    <div className="h-full flex flex-col relative bg-[#fcfcfc] text-[#111d11] overflow-hidden">
       {/* Brand Header */}
-      <Box sx={{ 
-        p: 3, 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-        position: 'relative',
-        zIndex: 10,
-        flexShrink: 0,
-      }}>
-        <Box className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#e8b86d] to-[#d9ae3c] text-[#071d12] font-bold shadow-lg">
+      <div className="p-5 flex items-center justify-between border-b border-gray-200 relative z-10 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#c8e6c9] to-[#a5d6a7] text-[#111d11] font-bold shadow-sm">
             <ShieldIcon sx={{ fontSize: 22 }} />
           </div>
           <div>
             <Typography sx={{ 
               fontWeight: 800, 
               fontSize: '1.05rem',
-              color: '#f5d9a0',
+              color: '#111d11',
               fontFamily: "'DM Serif Display', Georgia, serif",
               lineHeight: 1.1,
             }}>
@@ -110,7 +93,7 @@ export default function AdminLayout({ children }) {
             </Typography>
             <Typography sx={{ 
               fontSize: '0.65rem', 
-              color: 'rgba(255,255,255,0.6)',
+              color: '#4b5563',
               letterSpacing: '1.2px',
               textTransform: 'uppercase',
               fontWeight: 600,
@@ -119,13 +102,13 @@ export default function AdminLayout({ children }) {
               Management Hub
             </Typography>
           </div>
-        </Box>
+        </div>
         {isMobile && (
-          <IconButton onClick={() => setMobileOpen(false)} sx={{ color: colors.white }}>
+          <IconButton onClick={() => setMobileOpen(false)} sx={{ color: '#111d11' }}>
             <CloseIcon />
           </IconButton>
         )}
-      </Box>
+      </div>
 
       {/* Navigation */}
       <List component="nav" aria-label="Admin sections" sx={{ 
@@ -136,43 +119,40 @@ export default function AdminLayout({ children }) {
         position: 'relative', 
         zIndex: 10,
         minHeight: 0,
-        '&::-webkit-scrollbar': { width: '4px' },
-        '&::-webkit-scrollbar-track': { background: 'transparent' },
-        '&::-webkit-scrollbar-thumb': { background: 'rgba(232, 184, 109, 0.3)', borderRadius: '4px' },
-        '&::-webkit-scrollbar-thumb:hover': { background: 'rgba(232, 184, 109, 0.5)' },
-      }}>
+      }}
+      className="scrollbar-thin scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300"
+      >
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
-            <motion.div key={item.text} whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 400, damping: 25 }}>
+            <motion.div key={item.text} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 25 }}>
               <ListItem
                 component={Link}
                 to={item.path}
                 aria-current={isActive ? 'page' : undefined}
                 sx={{
-                  borderRadius: '12px',
+                  borderRadius: '10px',
                   mb: 0.5,
-                  py: 1,
+                  py: 1.2,
                   px: 2,
                   position: 'relative',
                   overflow: 'hidden',
-                  bgcolor: isActive ? 'rgba(232, 184, 109, 0.08)' : 'transparent',
-                  border: '1px solid transparent',
-                  transition: 'all 0.2s ease',
+                  bgcolor: isActive ? '#f0fdf4' : 'transparent',
+                  transition: 'all 0.2s ease-out',
                   '&:hover': {
-                    bgcolor: isActive ? 'rgba(232, 184, 109, 0.12)' : 'rgba(255,255,255,0.04)',
+                    bgcolor: isActive ? '#f0fdf4' : '#f9fafb',
                   },
                 }}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeAdminPill"
-                    className="absolute left-0 top-0 bottom-0 w-1 bg-[#e8b86d] rounded-r-full"
+                    className="absolute left-0 top-0 bottom-0 w-1 bg-[#10b981] rounded-r-full"
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                   />
                 )}
                 <ListItemIcon sx={{ 
-                  color: isActive ? '#f5d9a0' : 'rgba(255,255,255,0.65)',
+                  color: isActive ? '#10b981' : '#6b7280',
                   minWidth: 38,
                 }}>
                   {item.icon}
@@ -180,9 +160,9 @@ export default function AdminLayout({ children }) {
                 <ListItemText 
                   primary={item.text}
                   primaryTypographyProps={{
-                    fontSize: '0.88rem',
-                    fontWeight: isActive ? 700 : 500,
-                    color: isActive ? '#ffffff' : 'rgba(255,255,255,0.75)',
+                    fontSize: '0.9rem',
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? '#111d11' : '#4b5563',
                   }}
                 />
               </ListItem>
@@ -192,143 +172,102 @@ export default function AdminLayout({ children }) {
       </List>
 
       {/* Footer Profile & Logout */}
-      <Box sx={{ p: 2.5, flexShrink: 0, position: 'relative', zIndex: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="flex items-center justify-between mb-3 px-2">
-          <div className="flex items-center gap-2.5">
-            <Avatar sx={{ bgcolor: '#e8b86d', color: '#071d12', width: 34, height: 34, fontWeight: 'bold', fontSize: '0.85rem' }}>
+      <div className="p-5 shrink-0 relative z-10 border-t border-gray-200">
+        <div className="flex items-center justify-between mb-4 px-2">
+          <div className="flex items-center gap-3">
+            <Avatar sx={{ bgcolor: '#e8f5e9', color: '#111d11', width: 36, height: 36, fontWeight: 'bold', fontSize: '0.9rem' }}>
               {admin?.name?.charAt(0)?.toUpperCase() || 'A'}
             </Avatar>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-white truncate">{admin?.name || 'Administrator'}</p>
-              <p className="text-[0.65rem] text-[#96cead] font-semibold truncate">{admin?.email || 'admin@paavansetu.com'}</p>
+              <p className="text-sm font-semibold text-[#111d11] truncate">{admin?.name || 'Administrator'}</p>
+              <p className="text-xs text-[#6b7280] truncate">{admin?.email || 'admin@paavansetu.com'}</p>
             </div>
           </div>
         </div>
 
-        <ListItem
-          component="button"
-          type="button"
+        <motion.button
+          whileTap={{ scale: 0.97 }}
           onClick={handleLogout}
-          sx={{
-            width: '100%',
-            border: '1px solid transparent',
-            background: 'transparent',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            py: 1,
-            px: 2,
-            transition: 'all 0.2s',
-            '&:hover': {
-              bgcolor: 'rgba(239, 68, 68, 0.1)',
-            },
-          }}
+          className="w-full flex items-center px-4 py-2 rounded-xl text-[#ef4444] hover:bg-red-50 transition-colors"
         >
-          <ListItemIcon sx={{ color: '#ef4444', minWidth: 34 }}>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText 
-            primary="Sign Out"
-            primaryTypographyProps={{
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              color: '#fca5a5',
-            }}
-          />
-        </ListItem>
-      </Box>
-    </Box>
+          <LogoutIcon fontSize="small" className="mr-3" />
+          <span className="text-sm font-semibold">Sign Out</span>
+        </motion.button>
+      </div>
+    </div>
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100dvh', bgcolor: '#04140a', color: colors.white }}>
+    <div className="flex min-h-[100dvh] bg-white text-[#111d11]">
       {/* Sidebar Drawer */}
       {isMobile ? (
         <Drawer
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          PaperProps={{ sx: { width: DRAWER_WIDTH, borderRight: '1px solid rgba(255,255,255,0.1)' } }}
+          PaperProps={{ sx: { width: DRAWER_WIDTH, borderRight: 'none', boxShadow: '1px 0 10px rgba(0,0,0,0.05)' } }}
         >
           {drawer}
         </Drawer>
       ) : (
-        <Box sx={{ 
-          width: DRAWER_WIDTH, 
-          flexShrink: 0,
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          borderRight: '1px solid rgba(255,255,255,0.1)',
-          overflow: 'hidden',
-          zIndex: 40,
-        }}>
+        <div className="w-[270px] shrink-0 fixed top-0 left-0 bottom-0 border-r border-gray-200 overflow-hidden z-40 bg-[#fcfcfc]">
           {drawer}
-        </Box>
+        </div>
       )}
 
       {/* Main Container */}
-      <Box sx={{
-        flexGrow: 1,
-        minWidth: 0,
-        ml: isMobile ? 0 : `${DRAWER_WIDTH}px`,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100dvh',
-        background: '#06160d',
-      }}>
+      <div className={`flex-grow min-w-0 flex flex-col min-h-[100dvh] bg-white ${isMobile ? '' : 'ml-[270px]'}`}>
         {/* Top Header */}
         <AppBar
           position="sticky"
           elevation={0}
           sx={{
-            bgcolor: 'rgba(4, 20, 10, 0.85)',
+            bgcolor: 'rgba(255, 255, 255, 0.85)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            color: colors.white,
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+            color: '#111d11',
+            borderBottom: '1px solid #e5e7eb',
             zIndex: 30,
           }}
         >
-          <Toolbar className="justify-between">
+          <Toolbar className="justify-between px-4 md:px-6 py-2">
             <div className="flex items-center gap-3">
               {isMobile && (
                 <IconButton
                   edge="start"
                   onClick={() => setMobileOpen(true)}
                   aria-label="Open navigation menu"
-                  sx={{ color: '#e8b86d' }}
+                  sx={{ color: '#111d11' }}
                 >
                   <MenuIcon />
                 </IconButton>
               )}
 
               <div>
-                <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', color: '#ffffff', fontFamily: "'DM Serif Display', Georgia, serif" }}>
+                <Typography sx={{ fontWeight: 700, fontSize: '1.25rem', color: '#111d11', fontFamily: "'DM Serif Display', Georgia, serif" }}>
                   {currentSection}
                 </Typography>
-                <div className="hidden sm:flex items-center gap-2 mt-0.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#10b981] animate-pulse" />
-                  <span className="text-[0.68rem] text-white/60 font-semibold tracking-wider uppercase">System Operational</span>
+                <div className="hidden sm:flex items-center gap-2 mt-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" />
+                  <span className="text-xs text-[#6b7280] font-medium tracking-wide">System Operational</span>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 text-xs text-white/80">
-                <AutoAwesomeIcon sx={{ fontSize: 14, color: '#e8b86d' }} />
+              <div className="hidden md:flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-1.5 text-xs font-medium text-[#4b5563]">
+                <AutoAwesomeIcon sx={{ fontSize: 16, color: '#10b981' }} />
                 <span>Control Center</span>
               </div>
 
               <Tooltip title={admin?.name || 'Admin Profile'}>
                 <Avatar sx={{
-                  bgcolor: 'linear-gradient(135deg, #e8b86d, #d9ae3c)',
-                  color: '#071d12',
-                  width: 38,
-                  height: 38,
-                  fontWeight: 'bold',
-                  fontSize: '0.9rem',
-                  border: '2px solid rgba(232, 184, 109, 0.4)',
-                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.3)',
+                  bgcolor: '#e8f5e9',
+                  color: '#111d11',
+                  width: 40,
+                  height: 40,
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  border: '1px solid #c8e6c9',
                 }}>
                   {admin?.name?.charAt(0)?.toUpperCase() || 'A'}
                 </Avatar>
@@ -338,7 +277,7 @@ export default function AdminLayout({ children }) {
         </AppBar>
 
         {/* Dynamic Page Outlet Container */}
-        <Box component="main" sx={{ p: { xs: 2.5, md: 4 }, flexGrow: 1, minWidth: 0 }}>
+        <main className="flex-grow min-w-0 p-5 md:p-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -350,8 +289,8 @@ export default function AdminLayout({ children }) {
               {children}
             </motion.div>
           </AnimatePresence>
-        </Box>
-      </Box>
-    </Box>
+        </main>
+      </div>
+    </div>
   );
 }
