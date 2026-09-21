@@ -179,6 +179,9 @@ export const registerUser = (payload) =>
 export const loginUser = (payload) =>
   request(`${API.users}/login`, { method: 'POST', body: JSON.stringify(payload) });
 
+export const forgotPassword = (payload) =>
+  request(`${API.users}/forgot-password`, { method: 'POST', body: JSON.stringify(payload) });
+
 export const getMe = () => userRequest(`${API.users}/me`);
 
 // ─── Tests ────────────────────────────────────────────────────────────────────

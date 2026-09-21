@@ -49,6 +49,7 @@ export default function Login() {
       footerText="Don't have an account?"
       footerLink="Sign up here"
       footerTo="/register"
+      forgotPasswordTo="/forgot-password"
     />
   );
 }

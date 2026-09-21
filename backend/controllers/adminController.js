@@ -301,6 +301,29 @@ exports.toggleUserStatus = async (req, res, next) => {
   }
 };
 
+// PUT /api/admin/users/:id/reset-password
+exports.resetUserPassword = async (req, res, next) => {
+  try {
+    const User = require('../models/User');
+    const { newPassword } = req.body;
+    
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+    }
+
+    const user = await User.findById(req.params.id).select('+password');
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    
+    user.password = newPassword;
+    user.resetPasswordRequested = false;
+    await user.save();
+    
+    res.json({ success: true, message: 'Password updated successfully', data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // DELETE /api/admin/users/:id
 exports.deleteUser = async (req, res, next) => {
   try {

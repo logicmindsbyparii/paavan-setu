@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  resetPasswordRequested: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

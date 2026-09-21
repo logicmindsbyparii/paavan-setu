@@ -55,6 +55,7 @@ router.delete('/coupons/:id', authenticate, adminController.deleteCoupon);
 router.get('/users', authenticate, adminController.getAllUsers);
 router.put('/users/:id', authenticate, adminController.updateUser);
 router.put('/users/:id/toggle', authenticate, adminController.toggleUserStatus);
+router.put('/users/:id/reset-password', authenticate, adminController.resetUserPassword);
 router.delete('/users/:id', authenticate, adminController.deleteUser);
 
 module.exports = router;

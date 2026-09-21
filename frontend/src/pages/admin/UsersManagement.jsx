@@ -7,6 +7,7 @@ import {
 import FormAlerts from '../../components/ui/FormAlerts';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { Search as SearchIcon, FilterList as FilterIcon } from '@mui/icons-material';
 import { adminRequest, logApiFailure } from '../../lib/api';
 
@@ -50,6 +51,11 @@ export default function UsersManagement() {
   const [editingUser, setEditingUser] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [saving, setSaving] = useState(false);
+
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [resetUser, setResetUser] = useState(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -127,6 +133,31 @@ export default function UsersManagement() {
       setError(err.message || 'Update failed');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleOpenReset = (user) => {
+    setResetUser(user);
+    setNewPassword('');
+    setResetDialogOpen(true);
+  };
+
+  const handleSaveReset = async () => {
+    setResetting(true);
+    setError('');
+    try {
+      await adminRequest(`/api/admin/users/${resetUser._id}/reset-password`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword }),
+      });
+      setSuccess('Password updated successfully');
+      setResetDialogOpen(false);
+      fetchUsers();
+    } catch (err) {
+      setError(err.message || 'Password reset failed');
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -268,8 +299,24 @@ export default function UsersManagement() {
                         border: `1px solid ${user.isActive !== false ? 'rgba(16, 185, 129, 0.3)' : 'rgba(244, 63, 94, 0.3)'}`
                       }}
                     />
+                    {user.resetPasswordRequested && (
+                      <Chip 
+                        label="Reset Requested" 
+                        sx={{
+                          ml: 1, fontSize: '0.7rem', fontWeight: 700,
+                          bgcolor: 'rgba(245, 158, 11, 0.15)',
+                          color: '#f59e0b',
+                          border: '1px solid rgba(245, 158, 11, 0.3)'
+                        }}
+                      />
+                    )}
                   </TableCell>
                   <TableCell sx={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <Tooltip title="Reset Password">
+                      <IconButton onClick={() => handleOpenReset(user)} size="small" sx={{ color: '#f59e0b', '&:hover': { bgcolor: 'rgba(245, 158, 11, 0.15)' }, mr: 0.5 }}>
+                        <VpnKeyIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Edit User">
                       <IconButton onClick={() => handleOpenEdit(user)} size="small" sx={{ color: '#111827', '&:hover': { bgcolor: 'rgba(16, 185, 129, 0.15)' } }}>
                         <EditIcon fontSize="small" />
@@ -342,6 +389,60 @@ export default function UsersManagement() {
             }}
           >
             {saving ? 'Saving...' : 'Update User'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Reset Password Dialog */}
+      <Dialog 
+        open={resetDialogOpen} 
+        onClose={() => setResetDialogOpen(false)} 
+        maxWidth="sm" 
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '24px',
+            bgcolor: '#ffffff',
+            color: '#111827',
+            border: '1px solid rgba(232, 184, 109, 0.3)',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+            p: 1
+          }
+        }}
+      >
+        <DialogTitle sx={{ fontFamily: 'var(--font-display, "DM Serif Display", Georgia, serif)', fontWeight: 700, color: '#111827' }}>
+          Reset Password for {resetUser?.name}
+        </DialogTitle>
+        <DialogContent dividers sx={{ borderColor: '#e5e7eb' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
+            <Typography sx={{ color: '#6b7280', fontSize: '0.9rem', mb: 1 }}>
+              Enter a new password for this user. They will be able to log in with this new password immediately.
+            </Typography>
+            <TextField 
+              label="New Password" 
+              type="password"
+              value={newPassword} 
+              onChange={(e) => setNewPassword(e.target.value)} 
+              fullWidth 
+              sx={lightTextFieldStyle}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ p: 2.5, borderColor: '#e5e7eb' }}>
+          <Button onClick={() => setResetDialogOpen(false)} sx={{ color: '#6b7280', fontWeight: 600 }}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={handleSaveReset}
+            disabled={resetting || newPassword.length < 6}
+            sx={{
+              bgcolor: 'var(--color-ink)',
+              color: 'var(--color-snow)',
+              '&:hover': { bgcolor: 'var(--color-ink)', opacity: 0.9, transform: 'translateY(-1px)' },
+              transition: 'all 0.2s ease',
+              fontWeight: 700, borderRadius: '10px', px: 3
+            }}
+          >
+            {resetting ? 'Saving...' : 'Reset Password'}
           </Button>
         </DialogActions>
       </Dialog>

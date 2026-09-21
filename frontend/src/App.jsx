@@ -24,6 +24,7 @@ const MyResults = lazy(() => import('./pages/MyResults'));
 const AdminIndex = lazy(() => import('./pages/admin/AdminIndex'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -297,6 +298,7 @@ function AppContent() {
           <Route path="/my-results" element={<MyResults />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

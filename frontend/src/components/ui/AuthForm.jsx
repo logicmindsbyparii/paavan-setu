@@ -94,6 +94,7 @@ export default function AuthForm({
   footerText,
   footerLink,
   footerTo,
+  forgotPasswordTo,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -182,6 +183,20 @@ export default function AuthForm({
               onTogglePassword={() => setShowPassword((p) => !p)}
             />
           ))}
+
+          {forgotPasswordTo && (
+            <div className="flex justify-end -mt-2">
+              <Link
+                to={forgotPasswordTo}
+                className="text-sm font-semibold transition-colors duration-200"
+                style={{ color: colors.ash }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = colors.green; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = colors.ash; }}
+              >
+                Forgot password?
+              </Link>
+            </div>
+          )}
 
           <button
             type="submit"

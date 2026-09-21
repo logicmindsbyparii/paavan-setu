@@ -74,3 +74,25 @@ exports.getMe = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Please provide an email' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      // Return success even if not found to prevent email enumeration
+      return res.json({ success: true, message: 'If an account exists, a request has been sent.' });
+    }
+
+    user.resetPasswordRequested = true;
+    await user.save();
+
+    res.json({ success: true, message: 'Your password reset request has been sent to the administrator.' });
+  } catch (error) {
+    next(error);
+  }
+};
