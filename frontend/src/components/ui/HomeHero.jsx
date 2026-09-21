@@ -1,7 +1,7 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react';
+import React, { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { gsap, prefersReducedMotion } from '../../lib/motion';
+import { motion, useAnimate, stagger, useSpring, useReducedMotion } from 'framer-motion';
 import { brand, GRAIN } from '../../constants/brand';
 import SectionEyebrow from './SectionEyebrow';
 import { WHATSAPP_NUMBER } from '../../constants/urls';
@@ -127,9 +127,13 @@ function MaskedWords({ text, className = '', style }) {
       {words.map((word, i) => (
         <React.Fragment key={`${word}-${i}`}>
           <span className="inline-block overflow-hidden align-bottom pb-[0.2em] -mb-[0.2em]">
-            <span className={`hh-word inline-block will-change-transform ${className}`} style={style}>
+            <motion.span 
+              className={`hh-word inline-block will-change-transform ${className}`} 
+              style={style}
+              initial={{ y: "110%" }}
+            >
               {word}
-            </span>
+            </motion.span>
           </span>
           {i < words.length - 1 ? ' ' : null}
         </React.Fragment>
@@ -139,120 +143,59 @@ function MaskedWords({ text, className = '', style }) {
 }
 
 export default function HomeHero({ get, achievements = [] }) {
-  const root = useRef(null);
-  const magnet = useRef(null);
+  const [scope, animate] = useAnimate();
+  const reducedMotion = useReducedMotion();
+  const magnetRef = useRef(null);
 
   const stats = achievements.slice(0, 3).map(splitStat);
   const line1 = get('hero.title.line1');
   const line2 = get('hero.title.line2');
 
   /* ─── Entrance ─────────────────────────────────────────────────────────── */
-  useLayoutEffect(() => {
-    const el = root.current;
-    if (!el) return undefined;
-
-    const words = el.querySelectorAll('.hh-word');
-    const fades = el.querySelectorAll('.hh-fade');
-    // Two fields — the desktop one and the in-stage mobile one. Only one is
-    // ever displayed, but both must be driven: the hidden one is `display:none`
-    // rather than unmounted, so a resize across the lg breakpoint would
-    // otherwise reveal a field still parked at opacity 0.
-    const fields = el.querySelectorAll('.hh-field');
-    const edges = el.querySelectorAll('.hh-edge');
-    const swash = el.querySelector('.hh-swash');
-    const sun = el.querySelector('.hh-sun');
-
-    // GSAP does not read prefers-reduced-motion, and these elements start
-    // hidden — without this branch the hero would render blank.
-    if (prefersReducedMotion()) {
-      gsap.set([...words, ...fades], { opacity: 1, y: 0, yPercent: 0 });
-      gsap.set([...fields], { opacity: 1, xPercent: 0 });
-      gsap.set([...edges], { strokeDashoffset: 0, opacity: 1 });
-      if (swash) gsap.set(swash, { opacity: 1, scaleX: 1 });
-      if (sun) gsap.set(sun, { opacity: 1, scale: 1 });
-      return undefined;
+  useEffect(() => {
+    if (reducedMotion) {
+      // With reduced motion, we force elements to their final state instantly
+      animate([
+        [".hh-field", { opacity: 1, x: "0%" }, { duration: 0 }],
+        [".hh-word", { y: "0%" }, { duration: 0 }],
+        [".hh-fade", { opacity: 1, y: 0 }, { duration: 0 }],
+        [".hh-sun", { opacity: 1, scale: 1 }, { duration: 0 }],
+        [".hh-swash", { opacity: 1, scaleX: 1 }, { duration: 0 }],
+        [".hh-edge", { pathLength: 1, opacity: 1 }, { duration: 0 }]
+      ]);
+      return;
     }
 
-    // The words carry an inline `translateY(110%)` so they are already hidden
-    // before this effect runs. GSAP resolves that against the computed matrix
-    // and records it as ~75 *pixels* with yPercent 0 — so a percentage tween
-    // lands on top of a pixel offset that nothing ever clears, and the heading
-    // finishes its animation still a full line below its mask. Restating the
-    // offset in GSAP's own units, with y zeroed, is what keeps the two in sync.
-    gsap.set(words, { y: 0, yPercent: 110 });
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-
-      // The colour field arrives first, so the hero lays the ground before it
-      // puts anything on it. xPercent rather than a clip-path tween: a
-      // compositor-only transform, and it reads as the field sliding in from
-      // off-screen instead of being wiped into existence where it stands.
-      tl.fromTo(
-        fields,
-        { opacity: 0, xPercent: 12 },
-        { opacity: 1, xPercent: 0, duration: 1.5, ease: 'power3.out' },
-        0
-      )
-        .to(words, { yPercent: 0, duration: 1.15, stagger: 0.045 }, 0.25)
-        .fromTo(
-          fades,
-          { opacity: 0, y: 26 },
-          { opacity: 1, y: 0, duration: 0.95, stagger: 0.09 },
-          0.55
-        )
-        .fromTo(
-          sun,
-          { opacity: 0, scale: 0.82 },
-          { opacity: 1, scale: 1, duration: 1.6, ease: 'expo.out' },
-          0.35
-        );
-
-      // The gold swash under the accent word, scaled from its left edge so it
-      // reads as one pass of a brush laid down left to right.
-      if (swash) {
-        tl.fromTo(
-          swash,
-          { opacity: 0, scaleX: 0 },
-          { opacity: 1, scaleX: 1, duration: 0.9, ease: 'power2.out' },
-          1.05
-        );
-      }
-
-      // The gold hairline riding the boundary, drawn on over the field's own
-      // edge. Measured at runtime so the dash always matches the rendered path
-      // length, whatever the viewport does to it.
-      edges.forEach((edge) => {
-        // SVGGeometryElement.getTotalLength is not available everywhere, and
-        // this draw-on is decoration: an absent method should cost the reader a
-        // hairline, not the whole page.
-        if (typeof edge.getTotalLength !== 'function') return;
-        const length = edge.getTotalLength();
-        gsap.set(edge, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
-        tl.to(edge, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, 0.3);
-      });
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
+    // Sequence for normal motion
+    const sequence = [
+      [".hh-field", { opacity: [0, 1], x: ["12%", "0%"] }, { duration: 1.5, ease: "easeOut", at: 0 }],
+      [".hh-word", { y: ["110%", "0%"] }, { duration: 1.15, delay: stagger(0.045), ease: "easeOut", at: 0.25 }],
+      [".hh-edge", { pathLength: [0, 1], opacity: [0, 1] }, { duration: 1.6, ease: "easeInOut", at: 0.3 }],
+      [".hh-sun", { opacity: [0, 1], scale: [0.82, 1] }, { duration: 1.6, ease: "easeOut", at: 0.35 }],
+      [".hh-fade", { opacity: [0, 1], y: [26, 0] }, { duration: 0.95, delay: stagger(0.09), ease: "easeOut", at: 0.55 }],
+      [".hh-swash", { opacity: [0, 1], scaleX: [0, 1] }, { duration: 0.9, ease: "easeOut", at: 1.05 }]
+    ];
+    
+    animate(sequence);
+  }, [animate, reducedMotion]);
 
   /* ─── Magnetic primary CTA ─────────────────────────────────────────────── */
-  useLayoutEffect(() => {
-    const btn = magnet.current;
-    if (!btn) return undefined;
-    if (prefersReducedMotion() || window.matchMedia('(pointer: coarse)').matches) {
-      return undefined;
-    }
+  const magnetX = useSpring(0, { stiffness: 400, damping: 30 });
+  const magnetY = useSpring(0, { stiffness: 400, damping: 30 });
 
-    const toX = gsap.quickTo(btn, 'x', { duration: 0.5, ease: 'power3.out' });
-    const toY = gsap.quickTo(btn, 'y', { duration: 0.5, ease: 'power3.out' });
+  useEffect(() => {
+    const btn = magnetRef.current;
+    if (!btn || reducedMotion || window.matchMedia('(pointer: coarse)').matches) return;
 
     const onMove = (event) => {
       const rect = btn.getBoundingClientRect();
-      toX((event.clientX - rect.left - rect.width / 2) * 0.22);
-      toY((event.clientY - rect.top - rect.height / 2) * 0.35);
+      magnetX.set((event.clientX - rect.left - rect.width / 2) * 0.22);
+      magnetY.set((event.clientY - rect.top - rect.height / 2) * 0.35);
     };
-    const onLeave = () => { toX(0); toY(0); };
+    const onLeave = () => {
+      magnetX.set(0);
+      magnetY.set(0);
+    };
 
     btn.addEventListener('pointermove', onMove);
     btn.addEventListener('pointerleave', onLeave);
@@ -260,11 +203,13 @@ export default function HomeHero({ get, achievements = [] }) {
       btn.removeEventListener('pointermove', onMove);
       btn.removeEventListener('pointerleave', onLeave);
     };
-  }, []);
+  }, [magnetX, magnetY, reducedMotion]);
+
+  const MotionLink = motion(Link);
 
   return (
     <section
-      ref={root}
+      ref={scope}
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden min-h-[100svh] flex items-center
                  pt-28 pb-20 sm:pt-32 sm:pb-28 lg:pt-32 lg:pb-24"
@@ -306,13 +251,16 @@ export default function HomeHero({ get, achievements = [] }) {
               <stop offset="100%" stopColor={GOLD_LIGHT} stopOpacity="0" />
             </radialGradient>
           </defs>
-          <g className="hh-field will-change-transform">
+          <motion.g 
+            className="hh-field will-change-transform"
+            initial={{ opacity: 0, x: "12%" }}
+          >
             <path d={FIELD_DESKTOP} fill="url(#hh-field)" />
             <path d={FIELD_DESKTOP} fill="url(#hh-fieldGlow)" />
-          </g>
+          </motion.g>
           {/* A gold hairline riding the boundary. `non-scaling-stroke` keeps it
               1.5 screen pixels at every aspect ratio despite the stretch. */}
-          <path
+          <motion.path
             className="hh-edge"
             d={EDGE_DESKTOP}
             fill="none"
@@ -320,6 +268,7 @@ export default function HomeHero({ get, achievements = [] }) {
             strokeOpacity="0.6"
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
+            initial={{ pathLength: 0, opacity: 0 }}
           />
         </svg>
       </div>
@@ -338,9 +287,11 @@ export default function HomeHero({ get, achievements = [] }) {
                 when the CMS actually provides a badge, so a blank setting
                 never leaves an orphaned glyph. */}
             {get('hero.badge') && (
-              <SectionEyebrow className="hh-fade mb-7 justify-center lg:justify-start">
-                {get('hero.badge')}
-              </SectionEyebrow>
+              <motion.div initial={{ opacity: 0, y: 26 }} className="hh-fade mb-7 justify-center lg:justify-start">
+                <SectionEyebrow>
+                  {get('hero.badge')}
+                </SectionEyebrow>
+              </motion.div>
             )}
 
             {/* Two sizes rather than one block: the setup line stays quiet and
@@ -366,29 +317,31 @@ export default function HomeHero({ get, achievements = [] }) {
                 {/* One filled, tapered gold swash. A 2-3px stroke across this
                     width renders as a scribble, which is what made the double
                     arc it replaces look accidental rather than drawn. */}
-                <svg
+                <motion.svg
                   aria-hidden="true"
                   viewBox="0 0 300 20"
                   preserveAspectRatio="none"
                   className="hh-swash pointer-events-none absolute -bottom-[0.02em] left-0
                              h-[0.24em] w-[103%] -translate-x-[1.5%] origin-left"
+                  initial={{ opacity: 0, scaleX: 0 }}
                 >
                   <path
                     d="M2 11 C 60 2, 150 1, 298 5 C 250 15, 120 19, 2 11 Z"
                     fill={GOLD}
                     fillOpacity="0.9"
                   />
-                </svg>
+                </motion.svg>
               </span>
             </h1>
 
-            <p
+            <motion.p
+              initial={{ opacity: 0, y: 26 }}
               className="hh-fade mt-7 sm:mt-8 max-w-xl mx-auto lg:mx-0
                          text-base sm:text-lg leading-[1.75]"
               style={{ color: ASH }}
             >
               {get('hero.description')}
-            </p>
+            </motion.p>
 
             {/* CTAs. One filled button and one text link — two equally weighted
                 pills read as a pair of boxes and split the click. The fill is
@@ -404,10 +357,13 @@ export default function HomeHero({ get, achievements = [] }) {
                 ("Explore / Programs"). Wrapping the row instead puts the
                 WhatsApp link on its own line, which costs a row and keeps both
                 labels legible. */}
-            <div className="hh-fade mt-9 sm:mt-10 flex flex-col sm:flex-row sm:flex-wrap
-                            items-center justify-center lg:justify-start gap-5 sm:gap-8">
-              <Link
-                ref={magnet}
+            <motion.div 
+              initial={{ opacity: 0, y: 26 }}
+              className="hh-fade mt-9 sm:mt-10 flex flex-col sm:flex-row sm:flex-wrap
+                            items-center justify-center lg:justify-start gap-5 sm:gap-8"
+            >
+              <MotionLink
+                ref={magnetRef}
                 to={get('hero.ctaPrimaryLink')}
                 className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5
                            whitespace-nowrap
@@ -420,6 +376,8 @@ export default function HomeHero({ get, achievements = [] }) {
                   background: `linear-gradient(128deg, ${GOLD_LIGHT} 0%, ${GOLD} 42%, #d9ae3c 100%)`,
                   color: INK,
                   outlineColor: GREEN,
+                  x: magnetX,
+                  y: magnetY,
                 }}
               >
                 {get('hero.ctaPrimary')}
@@ -427,7 +385,7 @@ export default function HomeHero({ get, achievements = [] }) {
                   size={16}
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
-              </Link>
+              </MotionLink>
 
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -468,7 +426,7 @@ export default function HomeHero({ get, achievements = [] }) {
                   />
                 </span>
               </a>
-            </div>
+            </motion.div>
 
             {/* Proof strip. A flex row with a small gold lozenge between entries
                 rather than a three-column grid with hairline dividers: the
@@ -481,8 +439,11 @@ export default function HomeHero({ get, achievements = [] }) {
                 again in the visible span — so a screen reader announced every
                 stat as "Students Guided, 2000+, Students Guided". */}
             {stats.length > 0 && (
-              <dl className="hh-fade mt-11 sm:mt-14 flex flex-wrap
-                             justify-center lg:justify-start gap-x-9 sm:gap-x-12 gap-y-7">
+              <motion.dl 
+                initial={{ opacity: 0, y: 26 }}
+                className="hh-fade mt-11 sm:mt-14 flex flex-wrap
+                               justify-center lg:justify-start gap-x-9 sm:gap-x-12 gap-y-7"
+              >
                 {stats.map((stat, i) => (
                   <div key={stat.value + stat.label} className="flex items-center gap-9 sm:gap-12">
                     {i > 0 && (
@@ -509,7 +470,7 @@ export default function HomeHero({ get, achievements = [] }) {
                     </div>
                   </div>
                 ))}
-              </dl>
+              </motion.dl>
             )}
           </div>
 
@@ -548,6 +509,7 @@ export default function HomeHero({ get, achievements = [] }) {
                 preserveAspectRatio="none"
                 className="hh-field lg:hidden absolute left-1/2 ml-[-50vw] w-screen
                            -top-[6%] h-[142%] will-change-transform"
+                style={{ opacity: 0 }} // Intentionally hidden on initial mount
               >
                 <defs>
                   <linearGradient id="hh-fieldM" x1="0" y1="0" x2="0.9" y2="1">
@@ -572,7 +534,10 @@ export default function HomeHero({ get, achievements = [] }) {
                   Positioned with a left offset rather than -translate-x-1/2:
                   the ray ring's spin keyframe writes `transform`, which would
                   drop a centring translate on its first frame. */}
-              <div className="hh-sun absolute left-[-15%] top-[-4%] w-[130%] aspect-square">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.82 }}
+                className="hh-sun absolute left-[-15%] top-[-4%] w-[130%] aspect-square"
+              >
                 <svg viewBox="0 0 200 200" className="h-full w-full overflow-visible">
                   <defs>
                     <radialGradient id="hh-sun-core">
@@ -610,7 +575,7 @@ export default function HomeHero({ get, achievements = [] }) {
                   />
                   <circle cx="100" cy="100" r="58" fill="none" stroke={GOLD_LIGHT} strokeOpacity="0.35" strokeWidth="1" />
                 </svg>
-              </div>
+              </motion.div>
 
               {/* 3D Book Cluster */}
               <BookCluster3D />

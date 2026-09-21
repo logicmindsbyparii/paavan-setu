@@ -1,31 +1,36 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { gsap, prefersReducedMotion } from '../lib/motion';
+import { motion } from 'framer-motion';
+import { prefersReducedMotion } from '../lib/motion';
 import { colors } from '../constants/tokens';
 import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function NotFound() {
-  const scopeRef = useRef(null);
+  const reducedMotion = prefersReducedMotion();
 
-  useEffect(() => {
-    if (prefersReducedMotion()) {
-      gsap.set('.nf-anim', { opacity: 1, y: 0 });
-      return;
-    }
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.nf-anim',
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.2 }
-      );
-    });
-    return () => ctx.revert();
-  }, []);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: reducedMotion ? 0 : 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] }, // equivalent to power3.out
+    },
+  };
 
   return (
     <div
-      ref={scopeRef}
       className="min-h-dvh flex items-center justify-center px-6 relative overflow-hidden"
       style={{ backgroundColor: colors.snow }}
     >
@@ -38,9 +43,15 @@ export default function NotFound() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 text-center max-w-lg">
-        <p
-          className="nf-anim font-['DM_Serif_Display',Georgia,serif] font-bold leading-none"
+      <motion.div 
+        className="relative z-10 text-center max-w-lg"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.p
+          variants={childVariants}
+          className="font-['DM_Serif_Display',Georgia,serif] font-bold leading-none"
           style={{
             fontSize: 'clamp(5rem, 15vw, 9rem)',
             background: `linear-gradient(135deg, ${colors.green}, ${colors.blue})`,
@@ -51,23 +62,25 @@ export default function NotFound() {
           aria-hidden="true"
         >
           404
-        </p>
+        </motion.p>
 
-        <h1
-          className="nf-anim font-['DM_Serif_Display',Georgia,serif] text-2xl md:text-3xl mb-4"
+        <motion.h1
+          variants={childVariants}
+          className="font-['DM_Serif_Display',Georgia,serif] text-2xl md:text-3xl mb-4"
           style={{ color: colors.ink }}
         >
           The page you&apos;re looking for isn&apos;t here
-        </h1>
+        </motion.h1>
 
-        <p
-          className="nf-anim text-base md:text-lg mb-10 leading-relaxed"
+        <motion.p
+          variants={childVariants}
+          className="text-base md:text-lg mb-10 leading-relaxed"
           style={{ color: colors.ash }}
         >
           It may have moved, been renamed, or never existed. Let&apos;s guide you back.
-        </p>
+        </motion.p>
 
-        <div className="nf-anim flex flex-col sm:flex-row gap-4 justify-center">
+        <motion.div variants={childVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/"
             className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
@@ -84,8 +97,8 @@ export default function NotFound() {
             Contact Us
             <ArrowForwardIcon fontSize="small" />
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { gsap, prefersReducedMotion } from '../../lib/motion';
+import { motion } from 'framer-motion';
+import { prefersReducedMotion } from '../../lib/motion';
 import { brand, GRAIN } from '../../constants/brand';
 import SectionEyebrow from './SectionEyebrow';
 
@@ -17,26 +18,30 @@ import SectionEyebrow from './SectionEyebrow';
  * @param {Array}  sections Array of { title: string, body: string[] }
  */
 export default function LegalPage({ title, sections }) {
-  const rootRef = useRef(null);
+  const reducedMotion = prefersReducedMotion();
 
-  useEffect(() => {
-    if (prefersReducedMotion()) {
-      gsap.set('.legal-anim', { opacity: 1, y: 0 });
-      return undefined;
-    }
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.legal-anim',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out', delay: 0.15 }
-      );
-    }, rootRef);
-    return () => ctx.revert();
-  }, []);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.15,
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: reducedMotion ? 0 : 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
 
   return (
     <div
-      ref={rootRef}
       className="relative isolate overflow-hidden"
       style={{
         background:
@@ -48,9 +53,14 @@ export default function LegalPage({ title, sections }) {
         <div className="absolute inset-0 opacity-[0.04] mix-blend-multiply" style={{ backgroundImage: GRAIN, backgroundSize: '160px 160px' }} />
       </div>
 
-      <div className="mx-auto max-w-3xl px-6 pb-24 pt-32 md:pb-32 md:pt-40">
+      <motion.div 
+        className="mx-auto max-w-3xl px-6 pb-24 pt-32 md:pb-32 md:pt-40"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Header */}
-        <header className="legal-anim text-center">
+        <motion.header variants={childVariants} className="text-center">
           <SectionEyebrow className="justify-center">The fine print</SectionEyebrow>
 
           <h1
@@ -69,12 +79,12 @@ export default function LegalPage({ title, sections }) {
             Last updated:{' '}
             {new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long' })}
           </p>
-        </header>
+        </motion.header>
 
         {/* Body */}
         <div className="mt-14 space-y-12 md:mt-16">
           {sections.map((sec, i) => (
-            <section key={sec.title || i} aria-labelledby={`legal-sec-${i}`} className="legal-anim">
+            <motion.section variants={childVariants} key={sec.title || i} aria-labelledby={`legal-sec-${i}`}>
               <div className="flex items-center gap-4">
                 {/* Hairline + section index, the editorial detail legal pages
                     usually skip. */}
@@ -104,12 +114,12 @@ export default function LegalPage({ title, sections }) {
                   </p>
                 ))}
               </div>
-            </section>
+            </motion.section>
           ))}
         </div>
 
         {/* Quiet return path — legal pages are a dead end otherwise. */}
-        <div className="legal-anim mt-16 flex items-center justify-center gap-3 border-t pt-8" style={{ borderColor: 'rgba(168,128,31,0.25)' }}>
+        <motion.div variants={childVariants} className="mt-16 flex items-center justify-center gap-3 border-t pt-8" style={{ borderColor: 'rgba(168,128,31,0.25)' }}>
           <span className="h-px w-12" style={{ background: 'rgba(168,128,31,0.35)' }} />
           <Link
             to="/"
@@ -121,8 +131,8 @@ export default function LegalPage({ title, sections }) {
             Back to Home
           </Link>
           <span className="h-px w-12" style={{ background: 'rgba(168,128,31,0.35)' }} />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

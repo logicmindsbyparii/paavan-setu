@@ -1,18 +1,23 @@
-import React, { useRef, useLayoutEffect } from 'react';
-import { gsap, prefersReducedMotion } from '../../lib/motion';
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion';
 
 import bookRamayan from '../../assets/Ramayan2.jpeg';
 import bookClassroom from '../../assets/krishna_classroom.jpeg';
 import bookHanuman from '../../assets/Hanuman_chalisa2.jpeg';
 
-function PremiumBook({ src, alt, className, spineColor, refElement }) {
+const PremiumBook = React.forwardRef(({ src, alt, className, spineColor, custom, initial, animate, transition, style }, ref) => {
   return (
-    <div 
-      ref={refElement}
-      className={`absolute ${className} rounded-r-md rounded-l-sm overflow-hidden will-change-transform`}
+    <motion.div 
+      ref={ref}
+      custom={custom}
+      initial={initial}
+      animate={animate}
+      transition={transition}
       style={{
+        ...style,
         boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15)'
       }}
+      className={`absolute ${className} rounded-r-md rounded-l-sm overflow-hidden will-change-transform`}
     >
       {/* Spine simulation: Multiplies a deep color over the left edge to simulate a cloth binding */}
       <div 
@@ -33,21 +38,29 @@ function PremiumBook({ src, alt, className, spineColor, refElement }) {
         className="w-full h-full object-cover relative z-0" 
         style={{ imageRendering: 'high-quality', transform: 'translateZ(0)' }} 
       />
-    </div>
+    </motion.div>
   );
-}
+});
 
 export default function BookCluster3D() {
-  const containerRef = useRef(null);
-  const leftRef = useRef(null);
-  const centerRef = useRef(null);
-  const rightRef = useRef(null);
-  
-  useLayoutEffect(() => {
-    const el = containerRef.current;
-    if (!el || prefersReducedMotion()) return;
+  const reducedMotion = useReducedMotion();
 
-    // Mouse parallax for the whole cluster
+  // Mouse parallax setup
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  const rotationY = useTransform(smoothX, [-1, 1], [-8, 8]);
+  const rotationX = useTransform(smoothY, [-1, 1], [8, -8]);
+  const translateX = useTransform(smoothX, [-1, 1], [-10, 10]);
+  const translateY = useTransform(smoothY, [-1, 1], [-10, 10]);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    
     const onMouseMove = (e) => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
@@ -55,97 +68,133 @@ export default function BookCluster3D() {
       const x = (clientX / innerWidth - 0.5) * 2;
       const y = (clientY / innerHeight - 0.5) * 2;
       
-      gsap.to(el, {
-        rotationY: x * 8,
-        rotationX: -y * 8,
-        x: x * 10,
-        y: y * 10,
-        ease: 'power3.out',
-        duration: 1
-      });
+      mouseX.set(x);
+      mouseY.set(y);
     };
     
     window.addEventListener('mousemove', onMouseMove);
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  }, [mouseX, mouseY, reducedMotion]);
 
-    // Context for animations so they clean up properly
-    const ctx = gsap.context(() => {
-      const books = [centerRef.current, leftRef.current, rightRef.current];
-      
-      // 1. Initial State (hidden and clustered down)
-      gsap.set(books, { opacity: 0, y: 60, scale: 0.9, rotationZ: 0 });
+  // Entrance animations for books
+  const getInitial = () => {
+    return reducedMotion ? { opacity: 1, y: 0, scale: 1, rotateZ: 0 } : { opacity: 0, y: 60, scale: 0.9, rotateZ: 0 };
+  };
 
-      // 2. Deal-out Entrance Animation: A fresh, creative "fanning out" effect
-      const tl = gsap.timeline({ delay: 0.5 }); // wait slightly for the hero field to appear
-      
-      // Center comes up first
-      tl.to(centerRef.current, { opacity: 1, y: 0, scale: 1, rotationZ: 0, duration: 1.2, ease: 'power3.out' }, 0)
-        // Left fans out
-        .to(leftRef.current, { opacity: 1, y: 0, scale: 1, rotationZ: -14, duration: 1.2, ease: 'back.out(1.2)' }, 0.15)
-        // Right fans out
-        .to(rightRef.current, { opacity: 1, y: 0, scale: 1, rotationZ: 14, duration: 1.2, ease: 'back.out(1.2)' }, 0.25);
-
-      // 3. Continuous Breathing/Floating
-      // Added smoothly after the entrance timeline
-      tl.add(() => {
-        const float = (target, yOffset, rotOffset, duration, delay) => {
-          gsap.to(target, {
-            y: `+=${yOffset}`,
-            rotationZ: `+=${rotOffset}`,
-            duration: duration,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: delay
-          });
-        };
-        
-        // Asynchronous, gentle breathing
-        float(centerRef.current, -12, 1, 3.5, 0);
-        float(leftRef.current, -8, -1.5, 4.2, 0.5);
-        float(rightRef.current, -10, 1.5, 3.8, 1.2);
-      });
-    }, el);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      ctx.revert();
+  const getAnimate = (finalRotateZ) => {
+    if (reducedMotion) {
+      return { opacity: 1, y: 0, scale: 1, rotateZ: finalRotateZ };
+    }
+    return {
+      opacity: 1,
+      y: [null, 0],
+      scale: [null, 1],
+      rotateZ: [null, finalRotateZ],
+      // We rely on standard transition for the entry, and then CSS-like repeating animation for breathing.
     };
-  }, []);
+  };
+
+  // For the breathing floating animation we can use a separate animate definition
+  const getFloatingAnimate = (finalRotateZ, yOffset, rotOffset, duration, delay) => {
+    if (reducedMotion) return getAnimate(finalRotateZ);
+    return {
+      opacity: 1,
+      scale: 1,
+      y: [60, 0, yOffset, 0], 
+      rotateZ: [0, finalRotateZ, finalRotateZ + rotOffset, finalRotateZ],
+      transition: {
+        opacity: { duration: 1.2, delay: 0.5 },
+        scale: { duration: 1.2, delay: 0.5, ease: 'easeOut' },
+        y: { 
+          times: [0, 0.2, 0.6, 1], 
+          duration: duration + 1.2, 
+          delay: 0.5 + delay,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut"
+        },
+        rotateZ: { 
+          times: [0, 0.2, 0.6, 1], 
+          duration: duration + 1.2, 
+          delay: 0.5 + delay,
+          repeat: Infinity,
+          repeatType: "mirror",
+          ease: "easeInOut"
+        }
+      }
+    };
+  };
+
+  // Alternative simpler floating approach: animate to normal position, then use Framer Motion's repeating transitions.
+  const centerAnim = reducedMotion ? getAnimate(0) : {
+    opacity: 1, y: [60, 0, -12], scale: 1, rotateZ: [0, 0, 1],
+    transition: {
+      opacity: { duration: 1.2, delay: 0.5, ease: "easeOut" },
+      scale: { duration: 1.2, delay: 0.5, ease: "easeOut" },
+      y: { delay: 0.5, duration: 1.2, ease: "easeOut" },
+      rotateZ: { delay: 0.5, duration: 1.2, ease: "easeOut" }
+    }
+  };
 
   return (
     <div className="absolute inset-0 w-full h-full z-20 flex items-center justify-center pointer-events-none" style={{ perspective: '1000px' }}>
-      <div 
-        ref={containerRef}
+      <motion.div 
         className="relative w-full h-full" 
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{ 
+          transformStyle: 'preserve-3d',
+          rotateX: reducedMotion ? 0 : rotationX,
+          rotateY: reducedMotion ? 0 : rotationY,
+          x: reducedMotion ? 0 : translateX,
+          y: reducedMotion ? 0 : translateY
+        }}
       >
         {/* Left Book (Classroom) */}
         <PremiumBook 
-          refElement={leftRef}
           src={bookClassroom} 
           alt="Classroom Book" 
           className="left-[2%] top-[22%] w-[36%] aspect-[0.635] z-10"
           spineColor="#0a4f22"
+          initial={getInitial()}
+          animate={reducedMotion ? getAnimate(-14) : {
+            opacity: 1, y: [60, 0, -8], scale: 1, rotateZ: [0, -14, -15.5]
+          }}
+          transition={reducedMotion ? {} : {
+            opacity: { duration: 1.2, delay: 0.65, ease: [0.175, 0.885, 0.32, 1.275] },
+            scale: { duration: 1.2, delay: 0.65, ease: [0.175, 0.885, 0.32, 1.275] },
+            y: { delay: 0.65, duration: 1.2, ease: [0.175, 0.885, 0.32, 1.275] },
+            rotateZ: { delay: 0.65, duration: 1.2, ease: [0.175, 0.885, 0.32, 1.275] }
+          }}
         />
 
         {/* Right Book (Hanuman) */}
         <PremiumBook 
-          refElement={rightRef}
           src={bookHanuman} 
           alt="Hanuman Chalisa Book" 
           className="left-[62%] top-[22%] w-[36%] aspect-[0.647] z-20"
           spineColor="#8b1e15"
+          initial={getInitial()}
+          animate={reducedMotion ? getAnimate(14) : {
+            opacity: 1, y: [60, 0, -10], scale: 1, rotateZ: [0, 14, 15.5]
+          }}
+          transition={reducedMotion ? {} : {
+            opacity: { duration: 1.2, delay: 0.75, ease: [0.175, 0.885, 0.32, 1.275] },
+            scale: { duration: 1.2, delay: 0.75, ease: [0.175, 0.885, 0.32, 1.275] },
+            y: { delay: 0.75, duration: 1.2, ease: [0.175, 0.885, 0.32, 1.275] },
+            rotateZ: { delay: 0.75, duration: 1.2, ease: [0.175, 0.885, 0.32, 1.275] }
+          }}
         />
 
         {/* Center Book (Ramayan) */}
         <PremiumBook 
-          refElement={centerRef}
           src={bookRamayan} 
           alt="Ramayan Book" 
           className="left-[26%] top-[10%] w-[48%] aspect-[0.647] z-30"
           spineColor="#223a5e"
+          initial={getInitial()}
+          animate={centerAnim}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }
+

@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link, useLocation } from 'react-router-dom';
-import { gsap, prefersReducedMotion } from '../lib/motion';
+import { motion } from 'framer-motion';
+import { prefersReducedMotion } from '../lib/motion';
 import { colors, fonts } from '../constants/tokens';
 import logo from '../assets/logo_final.png';
 
@@ -20,8 +21,6 @@ const navLinks = [
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const logoRef = useRef(null);
-  const linksRef = useRef([]);
   const location = useLocation();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,33 +54,6 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const targets = [logoRef.current, ...linksRef.current].filter(Boolean);
-
-    // The nav starts at opacity-0 for the intro. GSAP ignores the CSS
-    // reduced-motion query, so without this branch the whole navbar would stay
-    // invisible for anyone who has motion turned down.
-    if (prefersReducedMotion()) {
-      gsap.set(targets, { opacity: 1, x: 0, y: 0 });
-      return undefined;
-    }
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        logoRef.current,
-        { opacity: 0, x: -30 },
-        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 }
-      );
-      gsap.fromTo(
-        linksRef.current.filter(Boolean),
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08, delay: 0.4 }
-      );
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     handleScroll(); // Restored scroll position on load must not show the wrong state.
     // Passive: this listener never calls preventDefault, and telling the browser
@@ -92,6 +64,32 @@ export default function Navbar() {
 
   // Close the mobile drawer on navigation.
   useEffect(() => { setDrawerOpen(false); }, [location.pathname]);
+
+  const reducedMotion = prefersReducedMotion();
+
+  const logoVariants = {
+    hidden: { opacity: 0, x: reducedMotion ? 0 : -30 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 } },
+  };
+
+  const navContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.4,
+      },
+    },
+  };
+
+  const linkVariants = {
+    hidden: { opacity: 0, y: reducedMotion ? 0 : -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  };
+
+  // Convert custom motion link component
+  const MotionLink = motion.create(Link);
 
   return (
     <>
@@ -107,28 +105,40 @@ export default function Navbar() {
         <div className="w-[44px] lg:hidden shrink-0" aria-hidden="true" />
 
         {/* Logo */}
-        <Link to="/" ref={logoRef} className="flex items-center justify-center shrink-0 z-10 lg:mr-auto">
+        <MotionLink
+          to="/"
+          variants={logoVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center justify-center shrink-0 z-10 lg:mr-auto"
+        >
           <img
             src={logo}
             alt="Paavan SETU"
             className="h-14 sm:h-16 lg:h-16 xl:h-20 w-auto object-contain transition-all duration-300"
           />
-        </Link>
+        </MotionLink>
 
         {/* Desktop Nav Links.
             Seven labels plus the logo and CTA do not fit between 768px and
             ~1000px — three of them wrapped onto a second line and broke the
             pill. The inline nav starts at lg; below that the drawer handles it. */}
-        <nav aria-label="Primary" className="hidden lg:flex items-center justify-center gap-x-1 flex-1">
+        <motion.nav 
+          aria-label="Primary" 
+          className="hidden lg:flex items-center justify-center gap-x-1 flex-1"
+          variants={navContainerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* At 1024-1150px the seven labels plus the CTA run ~70px past the
               pill, clipping the Book Session button; links tighten until xl. */}
           {navLinks.map((link, i) => {
             const isActive = isLinkActive(link.path);
             return (
-              <Link
+              <MotionLink
                 key={link.path}
                 to={link.path}
-                ref={(el) => (linksRef.current[i] = el)}
+                variants={linkVariants}
                 aria-current={isActive ? 'page' : undefined}
                 className={`relative flex items-center whitespace-nowrap px-2 py-2.5 rounded-lg text-xs tracking-wide transition-colors duration-200 no-underline xl:px-3 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-amber/60`}
                 style={{ fontFamily: fonts.body, color: isActive ? colors.green : colors.slate }}
@@ -146,15 +156,20 @@ export default function Navbar() {
                       : 'translateX(-50%) scaleX(0)',
                   }}
                 />
-              </Link>
+              </MotionLink>
             );
           })}
-        </nav>
+        </motion.nav>
 
         {/* Desktop CTA / Login */}
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
+        <motion.div 
+          className="hidden lg:flex items-center gap-4 shrink-0"
+          variants={navContainerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {isLoggedIn ? (
-            <div className="flex items-center gap-4">
+            <motion.div variants={linkVariants} className="flex items-center gap-4">
               <span className="text-sm font-semibold" style={{ color: colors.ink }}>
                 Hi, {userName.split(' ')[0]}
               </span>
@@ -172,18 +187,20 @@ export default function Navbar() {
               >
                 Log Out
               </button>
-            </div>
+            </motion.div>
           ) : (
-            <Link
+            <MotionLink
+              variants={linkVariants}
               to="/login"
               className="inline-flex items-center rounded-full px-3 py-2 text-sm font-semibold no-underline transition-colors duration-200 hover:bg-green/10 hover:underline-offset-2 xl:px-4"
               style={{ color: colors.slate }}
             >
               Log In
-            </Link>
+            </MotionLink>
           )}
           
-          <Link
+          <MotionLink
+            variants={linkVariants}
             to="/contact"
             className="inline-flex shrink-0 items-center px-5 py-2.5 rounded-full text-sm font-semibold text-white no-underline transition-colors duration-200 xl:px-6"
             style={{
@@ -194,8 +211,8 @@ export default function Navbar() {
             onMouseLeave={(e) => { e.currentTarget.style.background = colors.green; }}
           >
             Book Session
-          </Link>
-        </div>
+          </MotionLink>
+        </motion.div>
 
         {/* Mobile Hamburger */}
         {/* Hidden via sx, not a Tailwind `lg:hidden` class: MUI's emotion styles

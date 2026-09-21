@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gsap, useRevealAnimation } from '../lib/motion';
+import { motion } from 'framer-motion';
 
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -45,6 +45,25 @@ const BULK_FEATURES = [
 
 const ORDER_TRUST = ['Free sample on request', 'Ships across India', '50+ schools trust us'];
 
+/* ─── MOTION VARIANTS ──────────────────────────────────────────────────── */
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const childVariants = {
+  hidden: { opacity: 0, y: 34 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }, // equivalent to power3.out
+  },
+};
+
 /* ─── COMPONENTS ───────────────────────────────────────────────────────── */
 
 /**
@@ -61,8 +80,9 @@ function BookCard({ book, onBuy, whatsappNumber }) {
   const message = `I%27m%20interested%20in%20the%20book%3A%20${encodeURIComponent(book.title)}`;
 
   return (
-    <article
-      className="bk-rv-book opacity-0 group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-white transition-all duration-500 hover:-translate-y-1.5"
+    <motion.article
+      variants={childVariants}
+      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-white transition-all duration-500 hover:-translate-y-1.5"
       style={{ boxShadow: '0 0 0 1px rgba(15,35,23,0.05), 0 16px 44px -34px rgba(15,35,23,0.5)' }}
     >
       {/* Tone bloom on hover, low-right. */}
@@ -181,7 +201,7 @@ function BookCard({ book, onBuy, whatsappNumber }) {
           </a>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -195,8 +215,9 @@ function LeadCard({ book, onBuy, whatsappNumber }) {
   const message = `I%27m%20interested%20in%20the%20book%3A%20${encodeURIComponent(book.title)}`;
 
   return (
-    <article
-      className="bk-rv-book opacity-0 group relative flex flex-col overflow-hidden rounded-[2rem] bg-white transition-all duration-500 hover:-translate-y-1 md:flex-row"
+    <motion.article
+      variants={childVariants}
+      className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-white transition-all duration-500 hover:-translate-y-1 md:flex-row"
       style={{ boxShadow: '0 0 0 1px rgba(15,35,23,0.05), 0 24px 60px -40px rgba(15,35,23,0.6)' }}
     >
       {/* Cover — fills the row's height on desktop, a 3:4 panel on mobile. */}
@@ -276,7 +297,7 @@ function LeadCard({ book, onBuy, whatsappNumber }) {
           </a>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -288,58 +309,10 @@ export default function Books() {
   const books = (booksQuery.data || []).map(normalizeBook);
   const [checkoutBook, setCheckoutBook] = useState(null);
 
-  /* Swapping the bundled fallback for API data remounts every card (the keys
-     change from local-N to the database id). Keying the reveal on the list
-     identity — not its length — makes GSAP re-run against the new nodes
-     instead of animating detached ones. */
-  const booksKey = books.map((b) => b.key).join(',');
   const whatsappNumber = settings.get('contact.whatsapp', '916351113766');
 
-  /* Split contexts so independent sections don't flash when API updates booksKey */
-  const scopeStatic = useRevealAnimation(
-    () => {
-      gsap.utils.toArray('.bk-rv').forEach((el, i) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 34 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: (i % 3) * 0.08,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          }
-        );
-      });
-    },
-    [],
-    ['.bk-rv']
-  );
-
-  const scopeBooks = useRevealAnimation(
-    () => {
-      gsap.utils.toArray('.bk-rv-book').forEach((el, i) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 34 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: (i % 3) * 0.08,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          }
-        );
-      });
-    },
-    [booksKey, booksQuery.loading],
-    ['.bk-rv-book']
-  );
-
   return (
-    <div ref={scopeStatic} className="w-full max-w-full overflow-x-hidden">
+    <div className="w-full max-w-full overflow-x-hidden">
       {/* ══ HERO ══════════════════════════════════════════════════════════ */}
       <BooksHero />
 
@@ -354,8 +327,14 @@ export default function Books() {
           <div className="absolute inset-0" style={{ background: 'radial-gradient(52% 42% at 92% 4%, rgba(233,200,92,0.16) 0%, rgba(233,200,92,0) 62%)' }} />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="bk-rv opacity-0">
+        <motion.div 
+          className="relative z-10 mx-auto max-w-7xl"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+        >
+          <motion.div variants={childVariants}>
             <SectionHead
               id="bk-why-heading"
               title="Books that"
@@ -364,7 +343,7 @@ export default function Books() {
               lead="Every title is written, illustrated and reviewed with a single question in mind — will this help a child grow?"
               className="mb-14 md:mb-20"
             />
-          </div>
+          </motion.div>
 
           {/* Broken two-up grid: the even cards drop a row, so the four proofs
               read as an editorial list rather than a uniform tile farm. */}
@@ -372,7 +351,7 @@ export default function Books() {
             {PROOFS.map((p, i) => {
               const Icon = p.Icon;
               return (
-                <div key={p.title} className={`bk-rv opacity-0 ${i % 2 === 1 ? 'md:mt-16' : ''}`}>
+                <motion.div key={p.title} variants={childVariants} className={`${i % 2 === 1 ? 'md:mt-16' : ''}`}>
                   <article
                     className="group relative flex min-h-[13rem] items-start gap-6 overflow-hidden rounded-[1.75rem] bg-white p-7 transition-all duration-500 hover:-translate-y-1 sm:items-center sm:p-9"
                     style={{ boxShadow: '0 0 0 1px rgba(15,35,23,0.05), 0 18px 44px -34px rgba(15,35,23,0.5)' }}
@@ -402,16 +381,15 @@ export default function Books() {
                       </p>
                     </div>
                   </article>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ══ THE SHELF — full collection ═══════════════════════════════════ */}
       <section
-        ref={scopeBooks}
         id="books-collection"
         className="relative isolate overflow-hidden bg-white px-6 py-24 md:py-36"
         aria-labelledby="bk-collection-heading"
@@ -420,8 +398,14 @@ export default function Books() {
           <div className="absolute inset-0" style={{ background: 'radial-gradient(50% 40% at 6% 92%, rgba(233,200,92,0.12) 0%, rgba(233,200,92,0) 62%)' }} />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="bk-rv opacity-0">
+        <motion.div 
+          className="relative z-10 mx-auto max-w-7xl"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+        >
+          <motion.div variants={childVariants}>
             <SectionHead
               id="bk-collection-heading"
               title="Browse the"
@@ -430,7 +414,7 @@ export default function Books() {
               lead="Each book is available for individual purchase or bulk school orders."
               className="mb-12 md:mb-16"
             />
-          </div>
+          </motion.div>
 
           {/* Skeleton — mirrors the card grid so loading does not shift layout. */}
           {booksQuery.loading && (
@@ -452,7 +436,13 @@ export default function Books() {
 
           {!booksQuery.loading && books.length > 0 && (
             <>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+              <motion.div 
+                className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+              >
                 {books.map((book, i) =>
                   i === 0 ? (
                     /* Full-width lead row, then the shelf: 10 books becomes
@@ -469,10 +459,10 @@ export default function Books() {
                     />
                   )
                 )}
-              </div>
+              </motion.div>
 
               {/* Help choosing — the quiet ask under the shelf. */}
-              <div className="bk-rv-book opacity-0 mt-16 flex flex-col items-center gap-4 text-center">
+              <motion.div variants={childVariants} className="mt-16 flex flex-col items-center gap-4 text-center">
                 <p className="text-[1.05rem] leading-relaxed" style={{ color: brand.ash }}>
                   Not sure which book fits your child&rsquo;s age?
                 </p>
@@ -488,10 +478,10 @@ export default function Books() {
                   </span>
                   Ask us on WhatsApp
                 </a>
-              </div>
+              </motion.div>
             </>
           )}
-        </div>
+        </motion.div>
       </section>
 
       {/* ══ SCHOOL ORDERS — the field, entered through a curve ════════════ */}
@@ -509,21 +499,28 @@ export default function Books() {
         {/* Warm light from the sun's side. */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(58% 46% at 84% 8%, rgba(247,230,174,0.2) 0%, rgba(247,230,174,0) 62%)' }} />
 
-        <div className="bk-rv opacity-0 relative z-10 mx-auto max-w-4xl">
-          <h2
+        <motion.div 
+          className="relative z-10 mx-auto max-w-4xl"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+        >
+          <motion.h2
+            variants={childVariants}
             id="bk-bulk-heading"
             className="mt-6 font-['DM_Serif_Display',Georgia,serif] text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.06] tracking-[-0.015em] text-white"
           >
             Bring values to{' '}
             <em className="italic" style={{ color: brand.goldLight }}>your school</em>
-          </h2>
+          </motion.h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-[1.8]" style={{ color: 'rgba(253,250,243,0.78)' }}>
+          <motion.p variants={childVariants} className="mx-auto mt-6 max-w-2xl text-lg leading-[1.8]" style={{ color: 'rgba(253,250,243,0.78)' }}>
             We partner with educational institutions to provide specialised curriculum
             integration, sample materials, and comprehensive teacher support.
-          </p>
+          </motion.p>
 
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          <motion.div variants={childVariants} className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {BULK_FEATURES.map((f) => {
               const Icon = f.Icon;
               return (
@@ -536,9 +533,9 @@ export default function Books() {
                 </div>
               );
             })}
-          </div>
+          </motion.div>
 
-          <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
+          <motion.div variants={childVariants} className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("I'd like to request a sample book for my school.")}`}
               target="_blank"
@@ -558,8 +555,8 @@ export default function Books() {
             >
               Enquire Bulk Orders
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ══ CLOSING CTA — ivory, one ask ══════════════════════════════════ */}
@@ -573,30 +570,38 @@ export default function Books() {
           <div className="absolute inset-0" style={{ background: 'radial-gradient(54% 46% at 8% 92%, rgba(233,200,92,0.2) 0%, rgba(233,200,92,0) 62%)' }} />
         </div>
 
-        <div className="bk-rv opacity-0 relative z-10 mx-auto flex max-w-2xl flex-col items-center">
-          <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em]" style={{ color: brand.green }}>
+        <motion.div 
+          className="relative z-10 mx-auto flex max-w-2xl flex-col items-center"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+        >
+          <motion.p variants={childVariants} className="text-[0.7rem] font-bold uppercase tracking-[0.22em]" style={{ color: brand.green }}>
             Begin with a book
-          </p>
-          <h2
+          </motion.p>
+          <motion.h2
+            variants={childVariants}
             id="bk-cta-heading"
             className="mt-5 font-['DM_Serif_Display',Georgia,serif] text-[clamp(2.6rem,5.6vw,4.4rem)] leading-[1.06] tracking-[-0.015em]"
             style={{ color: brand.ink }}
           >
             Ready to{' '}
             <em className="italic" style={{ color: brand.green }}>read?</em>
-          </h2>
+          </motion.h2>
 
           {/* Gold swash — one pass of a brush under the italic word. */}
-          <svg aria-hidden="true" viewBox="0 0 300 20" preserveAspectRatio="none" className="mt-4 h-[0.3em] w-[min(18rem,64%)]">
+          <motion.svg variants={childVariants} aria-hidden="true" viewBox="0 0 300 20" preserveAspectRatio="none" className="mt-4 h-[0.3em] w-[min(18rem,64%)]">
             <path d="M2 11 C 60 2, 150 1, 298 5 C 250 15, 120 19, 2 11 Z" fill={brand.gold} fillOpacity="0.85" />
-          </svg>
+          </motion.svg>
 
-          <p className="mx-auto mt-8 max-w-xl text-lg leading-[1.8]" style={{ color: brand.ash }}>
+          <motion.p variants={childVariants} className="mx-auto mt-8 max-w-xl text-lg leading-[1.8]" style={{ color: brand.ash }}>
             Drop us a message and we will share more details, sample pages,
             or arrange a school visit.
-          </p>
+          </motion.p>
 
-          <a
+          <motion.a
+            variants={childVariants}
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noreferrer"
@@ -605,17 +610,17 @@ export default function Books() {
           >
             <WhatsAppIcon sx={{ fontSize: 20 }} aria-hidden="true" />
             Chat on WhatsApp
-          </a>
+          </motion.a>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+          <motion.div variants={childVariants} className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {ORDER_TRUST.map((t) => (
               <div key={t} className="flex items-center gap-2 text-[0.88rem] font-semibold" style={{ color: brand.ash }}>
                 <CheckCircleOutlineIcon sx={{ fontSize: 18, color: brand.green }} aria-hidden="true" />
                 {t}
               </div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <CheckoutDialog book={checkoutBook} onClose={() => setCheckoutBook(null)} />

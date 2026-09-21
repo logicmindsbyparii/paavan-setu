@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { gsap, useRevealAnimation } from '../../lib/motion';
+import { motion } from 'framer-motion';
 import SectionEyebrow from './SectionEyebrow';
 import { brand, GRAIN } from '../../constants/brand';
 
@@ -22,28 +22,30 @@ export default function HomeReels({ title = "Stories in Motion", description = "
   // We use direct iframes for the Instagram reels to prevent Facebook's embed.js 
   // from causing React StrictMode conflicts, Permissions-Policy violations, and console errors.
 
-  const scope = useRevealAnimation(
-    () => {
-      gsap.fromTo(
-        '.hr-card',
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: '.hr-grid', start: 'top 85%', once: true },
-        }
-      );
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
     },
-    [],
-    ['.hr-card']
-  );
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.9,
+        ease: [0.16, 1, 0.3, 1], // power3.out equivalent
+      },
+    },
+  };
 
   return (
     <section
-      ref={scope}
       className="relative px-6 py-24 md:py-32 overflow-hidden"
       style={{ backgroundColor: brand.ivory }}
     >
@@ -83,10 +85,17 @@ export default function HomeReels({ title = "Stories in Motion", description = "
         </div>
 
         {/* Reels Grid */}
-        <div className="hr-grid flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 scrollbar-hide">
+        <motion.div 
+          className="hr-grid flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 scrollbar-hide"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+        >
           {REELS.map((reel, i) => (
-            <div 
+            <motion.div 
               key={i} 
+              variants={cardVariants}
               className="hr-card relative min-w-[300px] flex-shrink-0 snap-center md:min-w-0 rounded-[2rem] overflow-hidden"
               style={{ 
                 boxShadow: '0 20px 40px -15px rgba(15,35,23,0.1)',
@@ -105,9 +114,9 @@ export default function HomeReels({ title = "Stories in Motion", description = "
                   style={{ background: '#FFF' }}
                 />
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

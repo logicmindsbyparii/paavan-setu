@@ -1,5 +1,5 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react';
-import { gsap, ScrollTrigger, prefersReducedMotion } from '../../lib/motion';
+import React, { useRef, useMemo } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { cn } from './BentoGrid';
 
 /**
@@ -11,51 +11,17 @@ import { cn } from './BentoGrid';
 export const AnimatedText = ({ text, className, id, as: Tag = 'h2' }) => {
   const textRef = useRef(null);
   const words = useMemo(() => String(text ?? '').split(/\s+/).filter(Boolean), [text]);
+  const reducedMotion = useReducedMotion();
 
-  useLayoutEffect(() => {
-    const root = textRef.current;
-    if (!root) return undefined;
+  const { scrollYProgress } = useScroll({
+    target: textRef,
+    offset: ['top 85%', 'bottom 60%']
+  });
 
-    const targets = root.querySelectorAll('.word');
-    if (!targets.length) return undefined;
-
-    // GSAP does not observe prefers-reduced-motion, and the words start at
-    // opacity 0.1 — without this they would stay unreadable.
-    if (prefersReducedMotion()) {
-      gsap.set(targets, { opacity: 1 });
-      return undefined;
-    }
-
-    // Scoped to this element: reverting the context kills only the triggers
-    // created here, unlike ScrollTrigger.getAll().kill() which used to wipe out
-    // every other animation on the page.
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        targets,
-        { opacity: 0.15 },
-        {
-          opacity: 1,
-          stagger: 0.05,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: root,
-            start: 'top 85%',
-            end: 'bottom 60%',
-            scrub: true,
-          },
-        }
-      );
-    }, root);
-
-    const refresh = requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => {
-      cancelAnimationFrame(refresh);
-      ctx.revert();
-    };
-  }, [words]);
+  const MotionTag = motion[Tag] || motion.h2;
 
   return (
-    <Tag
+    <MotionTag
       id={id}
       ref={textRef}
       className={cn('font-heading font-semibold text-4xl leading-snug text-ink', className)}
@@ -63,12 +29,26 @@ export const AnimatedText = ({ text, className, id, as: Tag = 'h2' }) => {
       {/* The gap between words is a real text node, not a right margin. A margin
           looks identical but leaves no whitespace in the DOM, so the heading is
           announced — and copied — as one run-on word ("MissionVision"). */}
-      {words.map((word, index) => (
-        <React.Fragment key={`${word}-${index}`}>
-          <span className="word inline-block">{word}</span>
-          {index < words.length - 1 ? ' ' : null}
-        </React.Fragment>
-      ))}
-    </Tag>
+      {words.map((word, index) => {
+        // Calculate the opacity transform for each word individually
+        const start = index / words.length;
+        const end = start + (1 / words.length);
+        
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+        
+        return (
+          <React.Fragment key={`${word}-${index}`}>
+            <motion.span 
+              className="word inline-block"
+              style={{ opacity: reducedMotion ? 1 : opacity }}
+            >
+              {word}
+            </motion.span>
+            {index < words.length - 1 ? ' ' : null}
+          </React.Fragment>
+        );
+      })}
+    </MotionTag>
   );
 };

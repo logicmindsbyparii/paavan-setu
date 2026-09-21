@@ -8,3 +8,5 @@ node_modules/
 # with. Ignore everything under it except that seed set.
 /backend/uploads/*
 !/backend/uploads/seed/
+.vercel
+.env*
